@@ -1,0 +1,248 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.doctors-directory-hero {
+  width: 100%;
+  height: 80vh;
+  background: #fff;
+  font-family: Inter;
+  padding: 8rem 3.2rem 2rem;
+}
+
+.directory-content {
+  width: 100%;
+  height: 100%;
+}
+
+.directory-tag {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.2rem;
+  color: #707070;
+  margin-bottom: 2.1rem;
+}
+
+.directory-title {
+  font-size: 4.25rem;
+  font-weight: 300;
+  color: #26384a;
+  margin-bottom: 1.7rem;
+}
+
+.directory-description {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #525252;
+  margin-bottom: 2.9rem;
+}
+
+.directory-bottom {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-box {
+  width: 41rem;
+  height: 3.6rem;
+  background: transparent;
+  border: 0.05rem solid #d1d1d1;
+  border-radius: 0.9rem;
+  padding: 0 1.4rem 0 1.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #2c2c2c;
+  font-family: Inter;
+}
+
+.search-box input::placeholder {
+  color: #7a7a7a;
+}
+
+.search-box svg {
+  color: #7a7a7a;
+  flex-shrink: 0;
+}
+
+.right-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.doctor-count {
+  font-size: 0.8rem;
+  color: #707070;
+}
+
+.sort-btn {
+  height: 2.7rem;
+  padding: 0 0.9rem;
+  border-radius: 0.8rem;
+  border: 0.05rem solid #d1d1d1;
+  background: transparent;
+  font-size: 0.8rem;
+  color: #404040;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-family: Inter;
+}
+
+.sort-btn svg {
+  color: #707070;
+}
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 64rem) {
+  .doctors-directory-hero {
+    height: auto;
+    padding: 7rem 2rem 2rem;
+  }
+
+  .directory-title {
+    font-size: 3.2rem;
+  }
+
+  .directory-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.2rem;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .right-controls {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 48rem) {
+  .doctors-directory-hero {
+    padding: 6.5rem 1.4rem 1.8rem;
+  }
+
+  .directory-title {
+    font-size: 2.3rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .directory-description {
+    font-size: 0.95rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .search-box {
+    height: 3.1rem;
+  }
+
+  .right-controls {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .directory-title {
+    font-size: 1.8rem;
+  }
+
+  .directory-tag {
+    margin-bottom: 1.2rem;
+  }
+
+  .search-box {
+    padding: 0 1rem;
+  }
+
+  .doctor-count {
+    width: 100%;
+  }
+
+  .sort-btn {
+    height: 2.4rem;
+    font-size: 0.75rem;
+  }
+}
+.sort-dropdown {
+  position: relative;
+}
+
+.sort-btn {
+  position: relative;
+  transition: 0.25s;
+}
+
+.sort-btn strong {
+  font-weight: 600;
+}
+
+.sort-btn svg {
+  transition: transform 0.25s ease;
+}
+
+.sort-btn svg.rotate {
+  transform: rotate(180deg);
+}
+
+.sort-menu {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  right: 0;
+  width: 13rem;
+  background: #fff;
+  border: 0.05rem solid #e2e2e2;
+  border-radius: 0.9rem;
+  box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  z-index: 100;
+  animation: dropdownFade 0.2s ease;
+}
+
+.sort-item {
+  padding: 1rem 1.25rem;
+  font-size: 0.8rem;
+  color: #555;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sort-item:hover {
+  background: #f6f6f6;
+}
+
+.sort-item.active {
+  color: #303030;
+  font-weight: 500;
+}
+
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

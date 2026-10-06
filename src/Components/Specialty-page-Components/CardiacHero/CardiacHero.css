@@ -1,0 +1,140 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.cardiac-section {
+  width: 100%;
+  height: 75vh;
+  background: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.cardiac-content {
+  max-width: 45rem;
+  margin-left: 3.2rem;
+}
+
+.cardiac-title {
+  font-size: 4.6rem;
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.1rem;
+  color: #25384a;
+  margin-bottom: 1.4rem;
+  font-family: Inter;
+}
+
+.cardiac-description {
+  max-width: 42.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #555555;
+  margin-bottom: 3.6rem;
+  font-family: Inter;
+}
+
+.cardiac-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.7rem;
+}
+
+.find-btn {
+  background: #24384a;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.8rem;
+  height: 2.8rem;
+  padding: 0 1.3rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: Inter;
+   transition: all 0.3s ease;
+}
+
+.find-btn:hover {
+  box-shadow: 0 0.55rem 0.5rem #364656a3,
+    0 -0.35rem 0rem #ffffff61;
+}
+.heroarrow {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.packages-link {
+  color: #4a4a4a;
+  text-decoration: none;
+  font-size: 0.9rem;
+  border-bottom: 0.05rem solid #4a4a4a;
+  padding-bottom: 0.2rem;
+  font-family: Inter;
+   transition: all 0.3s ease;
+}
+
+.packages-link:hover {
+  border-bottom: none;
+}
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 64rem) {
+  .cardiac-section {
+    height: auto;
+    padding: 6rem 0 3rem;
+  }
+
+  .cardiac-content {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    max-width: 100%;
+  }
+
+  .cardiac-title {
+    font-size: 3.2rem;
+  }
+
+  .cardiac-description {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 48rem) {
+  .cardiac-content {
+    margin-left: 1.2rem;
+    margin-right: 1.2rem;
+  }
+
+  .cardiac-title {
+    font-size: 2.3rem;
+  }
+
+  .cardiac-description {
+    font-size: 0.9rem;
+    margin-bottom: 2.2rem;
+  }
+
+  .cardiac-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .find-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 30rem) {
+  .cardiac-title {
+    font-size: 1.8rem;
+  }
+}

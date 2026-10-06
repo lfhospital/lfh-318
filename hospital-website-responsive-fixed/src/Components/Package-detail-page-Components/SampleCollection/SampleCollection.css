@@ -1,0 +1,177 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.sample-collection {
+  width: 100%;
+  height: 62vh;
+  background: #fff;
+  padding: 3rem 1.55rem;
+  font-family: Inter, sans-serif;
+}
+
+.sample-header {
+  width: 59rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2.4rem;
+}
+
+.sample-header h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1;
+  color: #26384a;
+  letter-spacing: -0.05rem;
+}
+
+.sample-header span {
+  font-size: 0.9rem;
+  color: #7f7f7f;
+  margin-top: 0.9rem;
+}
+
+.collection-grid {
+  width: 55.25rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.collection-card {
+  height: 21rem;
+  border: 0.05rem solid #d6d6d6;
+  border-radius: 0.2rem;
+  background: transparent;
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  width: 28.5rem;
+  transition: all 0.3s ease;
+}
+
+/* Hover State */
+
+.collection-card:hover {
+  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.12);
+  border-color: transparent;
+}
+
+.collection-card:hover .icon-wrapper {
+  background: #26384a;
+  color: #ffffff;
+}
+
+/* Active State */
+
+.active-card {
+  border-color: #d8a58f;
+}
+
+.active-card .icon-wrapper {
+  background: #26384a;
+  color: #ffffff;
+}
+
+.icon-wrapper {
+  width: 2.3rem;
+  height: 2.3rem;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5.25rem;
+  transition: all 0.3s ease;
+}
+
+.inactive-icon {
+  background: #ececec;
+  color: #7d7d7d;
+}
+
+.active-icon {
+  background: #26384a;
+  color: #ffffff;
+}
+
+.card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-content h3 {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #26384a;
+  margin-bottom: 0.7rem;
+}
+
+.card-content p {
+  max-width: 20rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #7b7b7b;
+  margin-bottom: 0.8rem;
+}
+
+.card-content span {
+  font-size: 0.75rem;
+  color: #8b8b8b;
+  margin-top: auto;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 64rem) {
+  .sample-collection {
+    height: auto;
+    padding: 1.8rem 1.5rem 2rem;
+  }
+
+  .sample-header {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .collection-grid {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .collection-card {
+    height: auto;
+    min-height: 14rem;
+  }
+
+  .card-content p {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 48rem) {
+  .sample-header h1 {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .sample-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .icon-wrapper {
+    margin-bottom: 3rem;
+  }
+}

@@ -1,0 +1,461 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter, Arial, Helvetica, sans-serif;
+}
+
+.slot-taken-page {
+    width: 100%;
+    height: 14 0vh;
+    padding: 6rem 3rem;
+    background: #ffffff;
+    color: #4a4a4a;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.slot-taken-header {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.slot-taken-header h1 {
+    color: #4A4A4A;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.75rem;
+}
+
+.slot-taken-header p {
+    margin-top: 0.25rem;
+    color: #7A7D80;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+/* =====================================================
+   MAIN CARD
+===================================================== */
+
+.slot-taken-card {
+    width: 55rem;
+    min-height: 45rem;
+    padding: 0.875rem 0.875rem 1rem;
+    border: 0.0625rem solid #d8d8d8;
+    border-radius: 0.5rem;
+    background: #ffffff;
+}
+
+/* =====================================================
+   ALERT
+===================================================== */
+
+.slot-alert {
+    display: flex;
+    align-items: center;
+    width: 52rem;
+    height: 3.5rem;
+    padding: 0 0.8125rem;
+    border-radius: 0.5625rem;
+    background: #faf4f4;
+    border-radius: 0.75rem;
+    background: rgba(139, 46, 46, 0.05);
+}
+
+.slot-alert-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    color: #a52424;
+    font-size: 0.75rem;
+    font-weight: 500;
+    fill: rgba(139, 46, 46, 0.10);
+    stroke-width: 2px;
+    stroke: var(--Emergency-final, #8B2E2E);
+
+}
+
+.slot-alert-content {
+    margin-left: 0.5625rem;
+}
+
+.slot-alert-title {
+    color: #4A4A4A;
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5rem;
+}
+
+.slot-alert-description {
+    margin-top: 0.0625rem;
+    color: #7A7D80;
+    font-size: 0.6875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 0.9375rem;
+}
+
+/* =====================================================
+   SECTION HEADERS
+===================================================== */
+.alternative-section {
+    margin-top: 1rem;
+}
+
+.section-title-row,
+.month-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.section-title-row>span,
+.date-heading-row>span {
+    color: #4A4A4A;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.225rem;
+}
+
+.navigation-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.navigation-buttons button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.875rem;
+    height: 1.875rem;
+    padding: 0;
+    border: 0.0625rem solid #dedede;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #555555;
+    font-size: 1.125rem;
+    line-height: 1;
+    font-weight: 300;
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   ALTERNATIVES
+===================================================== */
+
+.alternative-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+    margin-top: 1rem;
+}
+
+.alternative-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 9rem;
+    height: 3rem;
+    padding: 0;
+    border: 0.0625rem solid transparent;
+    border-radius: 0.25rem;
+    background: #f3f3f3;
+    color: #273d4d;
+    cursor: pointer;
+}
+
+.alternative-slot span {
+    color: #253746;
+    text-align: center;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+.alternative-slot small {
+    margin-top: -0.5rem;
+    color:  #7A7D80;
+    text-align: center;
+    font-size: 0.6875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+    text-transform: uppercase;
+}
+
+.alternative-slot.selected {
+    border-color: #273d4d;
+    background: #F7F5F0;
+}
+
+
+/* =====================================================
+   DATE SECTION
+===================================================== */
+
+.date-section {
+    margin-top: 1.5rem;
+}
+
+.month-row {
+    margin-top: 1.5rem;
+}
+
+.month-row>span {
+    color: #4a4a4a;
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+}
+
+.date-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+    margin-top: 1.75rem;
+}
+
+.date-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 9rem;
+    height: 3rem;
+    border: 0.0625rem solid transparent;
+    border-radius: 0.25rem;
+    background: #f3f3f3;
+    color: #555555;
+    cursor: pointer;
+}
+
+.date-option span {
+    font-size: 0.6875rem;
+    line-height: 0.875rem;
+    font-weight: 400;
+}
+
+.date-option strong {
+    margin-top: 0.125rem;
+    font-size: 1rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+}
+
+.date-option.selected {
+    border-color: #273d4d;
+    background: #F7F5F0;
+}
+
+.date-option.disabled {
+    opacity: 0.42;
+    cursor: not-allowed;
+}
+
+
+/* =====================================================
+   TIME SLOTS
+===================================================== */
+
+.time-section {
+    margin-top: 2rem;
+}
+
+.time-group {
+    margin-bottom: 1.25rem;
+}
+
+.time-group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 0.25rem 0.5rem;
+}
+
+.time-group-header span {
+    color: #858585;
+    font-size: 0.6875rem;
+    line-height: 0.875rem;
+    letter-spacing: 0.1rem;
+    font-weight: 400;
+}
+
+.time-group-header small {
+    color: #858585;
+    font-size: 0.6875rem;
+    line-height: 0.875rem;
+}
+
+.time-grid {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.four-columns {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.five-columns {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.five-columns .time-slot{
+    width: 10rem;
+    height: 2rem;
+}
+
+.time-slot {
+    width: 12rem;
+    height: 2rem;
+    padding: 0;
+    border: 0.0625rem solid transparent;
+    border-radius: 0.25rem;
+    background: #f3f3f3;
+    color: #555555;
+    font-size: 1rem;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.time-slot.selected {
+    border-color: #273d4d;
+    background: #F7F5F0;
+    color: #273d4d;
+}
+
+.time-slot.disabled {
+    background: #fafafa;
+    color: #d2d2d2;
+    border-color: #eeeeee;
+    cursor: not-allowed;
+}
+
+
+/* =====================================================
+   BOTTOM ACTIONS
+===================================================== */
+
+.slot-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2.75rem;
+}
+
+.slot-back-button {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0 0 0.1875rem 0.5rem;
+    border: none;
+    background: transparent;
+    color: #333333;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    cursor: pointer;
+}
+
+.slot-back-button span {
+    font-size: 1.5rem;
+    line-height: 0.75rem;
+    font-weight: 300;
+}
+
+.slot-back-button u {
+    text-underline-offset: 0.3rem;
+    text-decoration-thickness: 0.0625rem;
+}
+
+.continue-confirm-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.875rem;
+    width: 17.2rem;
+    height: 3.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    background: #273d4d;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.continue-arrow {
+    font-size: 1.5rem;
+    line-height: 1;
+    font-weight: 300;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 700px) {
+    .slot-taken-page {
+        padding: 1.5rem 1rem 3rem;
+    }
+
+    .slot-taken-card {
+        width: 100%;
+        height: auto;
+    }
+
+    .alternative-grid,
+    .date-grid {
+        gap: 0.5rem;
+    }
+
+    .alternative-slot,
+    .date-option {
+        min-width: 0;
+    }
+
+    .continue-confirm-button {
+        width: 9rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .slot-taken-header h1 {
+        font-size: 1rem;
+    }
+
+    .slot-taken-header p {
+        font-size: 0.6875rem;
+    }
+
+    .slot-alert-description {
+        display: none;
+    }
+
+    .alternative-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .date-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .four-columns,
+    .five-columns {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .slot-actions {
+        gap: 1rem;
+    }
+}

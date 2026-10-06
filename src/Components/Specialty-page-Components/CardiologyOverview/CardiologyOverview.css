@@ -1,0 +1,267 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.overview-section {
+  width: 100%;
+  height: 82vh;
+  background: #fff;
+  font-family: Inter, Arial, sans-serif;
+  overflow: hidden;
+}
+
+.top-nav {
+  height: 5.75rem;
+  border-top: 0.05rem solid #d8d8d8;
+  border-bottom: 0.05rem solid #d8d8d8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3.2rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 3.5rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #a5a5a5;
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-item span:last-child {
+  transition: color 0.3s ease;
+}
+
+.nav-number {
+  font-size: 0.9rem;
+  color: #a5a5a5;
+  transition: color 0.3s ease;
+}
+
+/* Hover State */
+.nav-item:hover {
+  color: #444444;
+}
+
+.nav-item:hover .nav-number {
+  color: #a5a5a5;
+}
+
+/* Active State */
+.nav-item.active {
+  color: #24384a;
+}
+
+.nav-item.active .nav-number {
+  color: #c39b84;
+}
+
+.call-btn {
+  height: 2.5rem;
+  padding: 0 1.2rem;
+  border-radius: 49.95rem;
+  border: 0.05rem solid #d3d3d3;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #3c3c3c;
+}
+
+.overview-content {
+  display: flex;
+  justify-content: space-between;
+  padding: 3.1rem 3.2rem 3rem;
+}
+
+.overview-label {
+  width: 40%;
+  font-size: 0.9rem;
+  color: #757575;
+  letter-spacing: 0.025rem;
+}
+
+.overview-text {
+  width: 55%;
+}
+
+.overview-text h1 {
+  font-size: 2.9rem;
+  line-height: 1.05;
+  font-weight: 300;
+  color: #24384a;
+  margin-bottom: 1.8rem;
+  letter-spacing: -0.075rem;
+}
+
+.overview-text p {
+  max-width: 38rem;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  color: #787878;
+  font-weight: 300;
+}
+
+.cards-grid {
+  margin: 0 3.2rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 0.05rem solid #d5d5d5;
+}
+
+.info-card {
+  min-height: 14.5rem;
+  padding: 1.1rem 1.2rem 1.5rem;
+  border-right: 0.05rem solid #d5d5d5;
+  background: #fff;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.35s ease;
+}
+
+.info-card:last-child {
+  border-right: none;
+}
+
+.card-number {
+  display: block;
+  color: #8f8f8f;
+  font-size: 0.8rem;
+  margin-bottom: 3.1rem;
+  transition: color 0.35s ease;
+}
+
+.info-card h3 {
+  font-size: 1.4rem;
+  line-height: 1.25;
+  font-weight: 600;
+  color: #24384a;
+  margin-bottom: 0.5rem;
+  transition: color 0.35s ease;
+}
+
+.info-card p {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #787878;
+  transition: color 0.35s ease;
+}
+
+/* Arrow */
+/* .info-card::after {
+  content: "↗";
+  position: absolute;
+  right: 1.2rem;
+  bottom: 1.2rem;
+  font-size: 1.3rem;
+  color: #d4a28d;
+  opacity: 0;
+  transform: translateY(0.5rem);
+  transition: all 0.35s ease;
+} */
+
+/* Hover State */
+/* .info-card:hover {
+  background: #24384a;
+} */
+
+/* .info-card:hover h3 {
+  color: #ffffff;
+} */
+
+/* .info-card:hover p {
+  color: rgba(255, 255, 255, 0.85);
+} */
+
+/* .info-card:hover::after {
+  opacity: 1;
+  transform: translateY(0);
+} */
+.overview-section {
+  width: 100%;
+  background: #fff;
+  font-family: Inter, Arial, sans-serif;
+}
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 64rem) {
+  .overview-section {
+    height: auto;
+  }
+
+  .top-nav {
+    height: auto;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+  }
+
+  .nav-links {
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .overview-content {
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .overview-label,
+  .overview-text {
+    width: 100%;
+  }
+
+  .cards-grid {
+    margin: 0 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 48rem) {
+  .overview-text h1 {
+    font-size: 2.1rem;
+  }
+
+  .overview-text p {
+    max-width: 100%;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .info-card {
+    border-right: none;
+    border-bottom: 0.05rem solid #d5d5d5;
+  }
+
+  .info-card:last-child {
+    border-bottom: none;
+  }
+}
+
+@media (max-width: 30rem) {
+  .overview-text h1 {
+    font-size: 1.7rem;
+  }
+
+  .nav-item {
+    font-size: 0.85rem;
+  }
+}

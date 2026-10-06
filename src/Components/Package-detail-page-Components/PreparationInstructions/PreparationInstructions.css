@@ -1,0 +1,164 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.preparation-section {
+  width: 100%;
+  height: 60vh;
+  background: #fff;
+  padding: 0rem 3.1rem;
+  font-family: Inter, sans-serif;
+}
+
+.preparation-header {
+  width: 55.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2.4rem;
+}
+
+.preparation-header h1 {
+  font-size: 3.1rem;
+  font-weight: 300;
+  line-height: 1;
+  color: #26384a;
+  letter-spacing: -0.05rem;
+}
+
+.preparation-header span {
+  font-size: 0.9rem;
+  color: #7d7d7d;
+  margin-top: 0.8rem;
+}
+
+.steps-grid {
+  width: 55.25rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 0.05rem solid #d2d2d2;
+}
+
+.step-card {
+  height: 25rem;
+  padding: 1.1rem 1.2rem 1.4rem;
+  border-right: 0.05rem solid #d2d2d2;
+  background: transparent;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.35s ease;
+}
+
+.step-card:last-child {
+  border-right: none;
+}
+
+/* Hover State */
+
+/* .step-card:hover {
+  background: #26384a;
+} */
+
+.step-card:hover .step-number {
+  color: #7f8d9b;
+}
+
+/* .step-card:hover h3 {
+  color: #ffffff;
+} */
+
+/* .step-card:hover p {
+  color: rgba(255, 255, 255, 0.85);
+} */
+/* 
+.step-card:hover::after {
+  content: "↗";
+  position: absolute;
+  right: 1.2rem;
+  bottom: 1.4rem;
+  font-size: 1.2rem;
+  color: #d0a08b;
+} */
+
+.step-number {
+  display: block;
+  font-size: 0.8rem;
+  color: #7d7d7d;
+  margin-bottom: 3.4rem;
+  font-weight: 400;
+  transition: color 0.35s ease;
+}
+
+.step-card h3 {
+  font-size: 1.4rem;
+  line-height: 1.25;
+  font-weight: 400;
+  color: #26384a;
+  margin-bottom: 1.1rem;
+  max-width: 10.5rem;
+  transition: color 0.35s ease;
+}
+
+.step-card p {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: #7a7a7a;
+  max-width: 10.5rem;
+  transition: color 0.35s ease;
+  font-weight: 300;
+}
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 64rem) {
+  .preparation-section {
+    height: auto;
+    padding: 1.6rem 1.5rem 2.5rem;
+  }
+
+  .preparation-header {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .steps-grid {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .step-card {
+    height: auto;
+    min-height: 14rem;
+    border-bottom: 0.05rem solid #d2d2d2;
+  }
+
+  .step-card h3,
+  .step-card p {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 48rem) {
+  .preparation-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .steps-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .step-card {
+    border-right: none;
+  }
+}
+
+@media (max-width: 30rem) {
+  .preparation-header h1 {
+    font-size: 1.8rem;
+  }
+}

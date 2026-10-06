@@ -1,0 +1,780 @@
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.as-reschedule-page {
+    width: 100%;
+    min-height: 100vh;
+    background: #ffffff;
+    color: #4a4a4a;
+    font-family: "Inter", Arial, sans-serif;
+    padding: 6rem 3rem;
+}
+
+
+/* =========================================================
+   PROGRESS BAR
+========================================================= */
+
+.as-progress-wrapper {
+    width: 100%;
+    height: 4.55rem;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+}
+
+.as-progress-line {
+    position: absolute;
+    top: 0.3rem;
+    height: 0.08rem;
+    background: #dedede;
+    z-index: 0;
+}
+
+.as-progress-line-one {
+    left: 8rem;
+    width: 36rem;
+}
+
+.as-progress-line-two {
+    left: 45rem;
+    width: 36rem;
+}
+
+.as-progress-line-active {
+    left: 2.65rem;
+    width: calc(50% - 3rem);
+    background: #d6a38e;
+}
+
+.as-progress-line-inactive {
+    left: 50%;
+    width: calc(50% - 2.65rem);
+    background: #dedede;
+}
+
+.as-progress-step {
+    width: 15rem;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+
+.as-progress-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: #d8d8d8;
+}
+
+.as-progress-step.as-completed .as-progress-dot,
+.as-progress-step.as-active .as-progress-dot,
+.as-progress-line-one {
+    background: #d9a88a;
+}
+
+.as-progress-step h4 {
+    margin-top: 0.55rem;
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    font-weight: 500;
+    color: #253746;
+}
+
+.as-progress-step p {
+    margin-top: 0.18rem;
+    font-size: 0.6875rem;
+    line-height: 0.9375rem;
+    font-weight: 400;
+    color: #4A4A4A;
+}
+
+.as-review-step h4 {
+    color: #303030;
+    font-weight: 600;
+}
+
+.as-done-step h4 {
+    color: #858585;
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.as-confirmation-content {
+    width: 100%;
+    max-width: 83.7rem;
+
+    margin: 3.25rem auto 0;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(25rem, 0.9fr);
+
+    gap: 2rem;
+
+    align-items: stretch;
+}
+
+
+/* =========================================================
+   LEFT VISIT CARD
+========================================================= */
+
+.as-visit-card {
+    width: 100%;
+
+    border: 0.0625rem solid #d6d4d2;
+    border-radius: 0.9rem;
+
+    padding: 2rem 1.4rem 1.55rem;
+
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   VISIT HEADER
+========================================================= */
+
+.as-visit-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 0 1.9rem;
+}
+
+.as-visit-header h1 {
+    color: #4a4a4a;
+
+    font-size: 1.5rem;
+    line-height: 1.9rem;
+    font-weight: 500;
+}
+
+.as-visit-header span {
+    color: #858585;
+
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+
+/* =========================================================
+   APPOINTMENT COMPARISON
+========================================================= */
+
+.as-appointment-comparison {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 2.7rem 1fr;
+
+    align-items: center;
+
+    gap: 0.85rem;
+}
+
+.as-appointment-box {
+    min-height: 12.2rem;
+
+    border-radius: 0.9rem;
+
+    padding: 1.45rem 1.25rem 1.15rem;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.as-original-box {
+    background: #f2f2f2;
+}
+
+.as-new-box {
+    border: 0.0625rem solid #d6d4d2;
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   APPOINTMENT HEADER
+========================================================= */
+
+.as-appointment-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    color: #858585;
+
+    font-size: 0.75rem;
+    line-height: 1rem;
+
+    letter-spacing: 0.14rem;
+}
+
+.as-confirmed {
+    color: #d6a38e;
+}
+
+
+/* =========================================================
+   APPOINTMENT DATE
+========================================================= */
+
+.as-appointment-date {
+    margin-top: 1.55rem;
+
+    color: #a5a5a5;
+
+    font-size: 2.7rem;
+    line-height: 2.7rem;
+    font-weight: 300;
+}
+
+.as-new-date {
+    color: #253746;
+}
+
+
+/* =========================================================
+   APPOINTMENT MONTH
+========================================================= */
+
+.as-appointment-month {
+    margin-top: 0.35rem;
+
+    color: #a1a1a1;
+
+    font-size: 0.9rem;
+    line-height: 1.2rem;
+}
+
+.as-new-box .as-appointment-month {
+    color: #7f7f7f;
+}
+
+
+/* =========================================================
+   APPOINTMENT TIME
+========================================================= */
+
+.as-appointment-time {
+    margin-top: auto;
+
+    color: #9b9b9b;
+
+    font-size: 1.15rem;
+    line-height: 1.4rem;
+}
+
+.as-new-time {
+    color: #4a4a4a;
+}
+
+
+/* =========================================================
+   CHANGE ARROW
+========================================================= */
+
+.as-change-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #d6a38e;
+
+    font-size: 1.7rem;
+    font-weight: 300;
+}
+
+
+/* =========================================================
+   PRICE INFORMATION
+========================================================= */
+
+.as-price-information {
+    width: 100%;
+
+    margin-top: 2.45rem;
+
+    min-height: 4.75rem;
+
+    padding: 1rem 1.35rem;
+
+    border: 0.0625rem solid #d6d4d2;
+    border-radius: 0.9rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.as-price-information strong {
+    color: #4a4a4a;
+
+    font-size: 0.95rem;
+    line-height: 1.25rem;
+
+    font-weight: 500;
+}
+
+.as-price-information span {
+    margin-top: 0.4rem;
+
+    color: #999999;
+
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+
+/* =========================================================
+   RELEASE INFORMATION
+========================================================= */
+
+.as-release-information {
+    display: flex;
+    align-items: center;
+
+    gap: 0.65rem;
+
+    margin-top: 1.25rem;
+    padding-left: 0.45rem;
+}
+
+.as-info-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+
+    border: 0.0625rem solid #8b8b8b;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #777777;
+
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.as-release-information p {
+    color: #858585;
+
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+
+/* =========================================================
+   VISIT FOOTER
+========================================================= */
+
+.as-visit-footer {
+    width: 100%;
+
+    margin-top: 1.55rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.as-different-slot-button {
+    border: none;
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+
+    gap: 0.65rem;
+
+    color: #4a4a4a;
+
+    font-size: 0.8rem;
+
+    cursor: pointer;
+}
+
+.as-back-arrow {
+    font-size: 1.6rem;
+    line-height: 1rem;
+    font-weight: 300;
+}
+
+.as-underlined {
+    text-decoration: underline;
+    text-underline-offset: 0.35rem;
+}
+
+
+/* =========================================================
+   CONFIRM BUTTON
+========================================================= */
+
+.as-confirm-button {
+    width: 16.45rem;
+    height: 3.3rem;
+
+    border: none;
+    border-radius: 0.6rem;
+
+    background: #253b4c;
+
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.65rem;
+
+    font-size: 0.95rem;
+    font-weight: 400;
+
+    
+    cursor: pointer;
+}
+
+.as-button-arrow {
+    font-size: 1.5rem;
+    line-height: 1rem;
+}
+
+
+/* =========================================================
+   RIGHT BOOKING CARD
+========================================================= */
+
+.as-booking-card {
+    display: flex;
+    padding: 1.25rem 1.25rem 1.75rem 1.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.6875rem;
+    flex: 1 0 0;
+    border-radius: 0.25rem;
+    border: 1px solid #D6D4D2;
+}
+
+
+/* =========================================================
+   BOOKING TITLE
+========================================================= */
+
+.as-booking-title {
+    color: #4A4A4A;
+    font-size: 0.6875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+    letter-spacing: 0.13063rem;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   DOCTOR SECTION
+========================================================= */
+
+.as-doctor-section {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.as-doctor-image {
+    width: 5.9375rem;
+    height: 6.125rem;
+    object-fit: cover;
+    border-radius: 0.45rem;
+}
+
+.as-doctor-details h2 {
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.75rem;
+    color: #4A4A4A;
+}
+
+.as-doctor-details p {
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.225rem;
+    color: #4A4A4A;
+}
+
+
+/* =========================================================
+   BOOKING DIVIDER
+========================================================= */
+
+.as-booking-divider {
+    width: 100%;
+    height: 0.0625rem;
+    background: #dddddd;
+    margin: 1rem 0;
+}
+
+/* =========================================================
+   BOOKING DETAIL ROWS
+========================================================= */
+
+.as-booking-detail-row {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    align-items: start;
+
+    width: 100%;
+    margin-bottom: 0.1rem;
+    min-height: 2.4rem;
+}
+
+.as-detail-label {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+    color: #808080;
+    text-align: left;
+}
+
+.as-detail-value {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+
+    color: #666666;
+    text-align: right;
+}
+
+.as-old-value {
+    color: #777777;
+}
+
+.as-new-value {
+    color: #d6a38e;
+}
+
+.as-visit-value {
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   BOOKING ID
+========================================================= */
+
+.as-booking-id {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    padding: 0.55rem 0.75rem;
+    background: #f9f6f1;
+    border-radius: 0.15rem;
+    color: #7A7D80;
+    font-size: 0.6875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.1875rem;
+}
+
+.as-star-icon {
+    color: #c99c7d;
+    font-size: 0.7rem;
+    line-height: 1rem;
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.as-confirm-button:hover {
+    background: #1f3444;
+}
+
+.as-different-slot-button:hover {
+    color: #253b4c;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 75rem) {
+
+    .as-reschedule-page {
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
+
+    .as-confirmation-content {
+        grid-template-columns: minmax(0, 1.45fr) minmax(22rem, 0.9fr);
+    }
+
+    .as-doctor-details h2 {
+        font-size: 1.25rem;
+    }
+
+    .as-doctor-details p {
+        font-size: 0.85rem;
+    }
+
+    .as-visit-type-row {
+        grid-template-columns: 6rem 1fr;
+    }
+
+}
+
+
+@media (max-width: 62.5rem) {
+
+    .as-reschedule-page {
+        padding: 2rem;
+    }
+
+    .as-confirmation-content {
+        grid-template-columns: 1fr;
+    }
+
+    .as-booking-card {
+        margin-top: 1rem;
+    }
+
+}
+
+
+@media (max-width: 43.75rem) {
+
+    .as-progress-wrapper {
+        height: 6.5rem;
+    }
+
+    .as-progress-step {
+        width: 7rem;
+    }
+
+    .as-progress-step h4 {
+        font-size: 0.85rem;
+    }
+
+    .as-progress-step p {
+        font-size: 0.65rem;
+    }
+
+    .as-appointment-comparison {
+        grid-template-columns: 1fr;
+    }
+
+    .as-change-arrow {
+        transform: rotate(90deg);
+        height: 1rem;
+    }
+
+    .as-visit-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.25rem;
+    }
+
+    .as-confirm-button {
+        width: 100%;
+    }
+
+    .as-different-slot-button {
+        justify-content: flex-start;
+    }
+
+}
+
+
+@media (max-width: 31.25rem) {
+
+    .as-reschedule-page {
+        padding: 1.25rem;
+    }
+
+    .as-progress-wrapper {
+        height: 6rem;
+    }
+
+    .as-progress-line {
+        display: none;
+    }
+
+    .as-progress-step {
+        width: 5.5rem;
+    }
+
+    .as-progress-step p {
+        display: none;
+    }
+
+    .as-visit-card {
+        padding: 1.25rem;
+    }
+
+    .as-visit-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .as-visit-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .as-appointment-box {
+        min-height: 11rem;
+    }
+
+    .as-booking-card {
+        padding: 1.25rem;
+    }
+
+    .as-doctor-section {
+        align-items: flex-start;
+    }
+
+    .as-doctor-image {
+        width: 5rem;
+        height: 5rem;
+    }
+
+    .as-doctor-details h2 {
+        font-size: 1.05rem;
+        white-space: normal;
+    }
+
+    .as-doctor-details p {
+        font-size: 0.75rem;
+    }
+
+    .as-booking-detail-row {
+        grid-template-columns: 5rem 1fr;
+    }
+
+    .as-visit-value {
+        white-space: normal;
+    }
+}

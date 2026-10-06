@@ -1,0 +1,382 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.doctors-help-section {
+  width: 100%;
+  height: 110vh;
+  background: #fff;
+  padding: 2.1rem 3.1rem 0;
+  font-family: Inter, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.doctors-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.doctors-content {
+  max-width: 38rem;
+}
+
+.section-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #7c7c7c;
+  margin-bottom: 1.3rem;
+}
+
+.doctors-content h1 {
+  font-size: 2.9rem;
+  line-height: 1.02;
+  font-weight: 300;
+  color: #24384a;
+  margin-bottom: 1.4rem;
+  letter-spacing: -0.08rem;
+}
+
+.doctors-content p {
+  max-width: 36rem;
+  font-size: 1.05rem;
+  font-weight: 300;
+  line-height: 1.45;
+  color: #787878;
+}
+
+.speview-all-btn {
+  width: 6.5rem;
+  height: 2.4rem;
+  border: 0.05rem solid #d0d0d0;
+  border-radius: 50rem;
+  background: transparent;
+  font-size: 0.8rem;
+  color: #303030;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.speview-all-btn:hover {
+  border-color: #243746;
+}
+
+/* ==========================
+   DOCTOR GRID
+========================== */
+
+.doctors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(26rem, 1fr));
+  gap: 1.8rem;
+  margin-top: 2.8rem;
+}
+
+/* ==========================
+   DOCTOR CARD
+========================== */
+
+.specdoctor-card {
+  border: 0.05rem solid #d8d8d8;
+  border-radius: 1.2rem;
+  background: #fff;
+  padding: 1.6rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.specdoctor-card:hover {
+  transform: translateY(-0.2rem);
+  border-color: #d6a38f;
+  box-shadow: 0 0.6rem 1.4rem rgba(0, 0, 0, 0.08);
+}
+
+.doctor-top {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.doctor-top img {
+  width: 8.2rem;
+  height: 9.7rem;
+  object-fit: cover;
+  border-radius: 1rem;
+  flex-shrink: 0;
+}
+
+.doctor-info {
+  flex: 1;
+  padding-top: 0.4rem;
+}
+
+.doctor-info h2 {
+  color: #2E2E2E;
+  /* BODY/26 */
+  font-family: Inter;
+  font-size: 1.625rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 2.25rem;
+  /* 138.462% */
+}
+
+.doctor-info h4 {
+  color: #D3A693;
+  /* BODY 16 */
+  font-family: Inter;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem;
+  /* 150% */
+  margin-bottom: 2rem;
+}
+
+.doctor-info span {
+  color: #7A7D80;
+  /* CAPTION/13 */
+  font-family: Inter;
+  font-size: 0.8125rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem;
+  /* 184.615% */
+}
+
+/* ==========================
+   STATS
+========================== */
+
+.stats-section {
+  margin-top: 1.8rem;
+  padding: 1.15rem 0;
+  border-top: 0.05rem solid #e2e2e2;
+  border-bottom: 0.05rem solid #e2e2e2;
+  display: flex;
+  padding: 0.625rem 0;
+  justify-content: center;
+  align-items: center;
+  gap: 3.8125rem;
+  align-self: stretch;
+}
+
+.stat-item {
+  flex: 1;
+}
+
+.stat-item h3 {
+  margin-bottom: 0.25rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.stat-item h3 span {
+  color: #d6a38f;
+}
+
+.stat-item p {
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: #808080;
+}
+
+/* ==========================
+   FOOTER
+========================== */
+
+.card-footer {
+  margin-top: 1.35rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fee-box {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+
+.docprice {
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #243746;
+}
+
+.visit-text {
+  font-size: 0.95rem;
+  color: #7a7a7a;
+  margin-bottom: 0.2rem;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-btn {
+  border: none;
+  background: transparent;
+  color: #243746;
+  font-size: 1rem;
+  border-bottom: 0.125rem solid #243746;
+  padding-bottom: 0.15rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.profile-btn:hover {
+  border-bottom-color: transparent;
+}
+
+.dockbook-btn {
+  width: 8rem;
+  height: 3.4rem;
+  border: none;
+  border-radius: 1rem;
+  background: #ece8e3;
+  color: #243746;
+  font-size: 1.1rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.specdoctor-card:hover .dockbook-btn {
+  background: #243746;
+  color: #fff;
+}
+
+/* ==========================
+   HELP SECTION
+========================== */
+
+.help-section {
+  height: 13.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 2.25rem;
+}
+
+.help-left h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #24384a;
+  margin-bottom: 0.4rem;
+}
+
+.help-left p {
+  font-size: 0.9rem;
+  color: #7b7b7b;
+}
+
+.help-link {
+  border: none;
+  background: transparent;
+  color: #24384a;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.help-link-text {
+  border-bottom: 0.05rem solid #24384a;
+  padding-bottom: 0.2rem;
+  transition: border-color 0.3s ease;
+}
+
+.help-link:hover .help-link-text {
+  border-bottom-color: transparent;
+}
+
+.help-link span {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 64rem) {
+  .doctors-help-section {
+    height: auto;
+    padding: 2rem 1.5rem 0;
+  }
+
+  .doctors-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+
+  .doctors-content {
+    max-width: 100%;
+  }
+
+  .doctors-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .doctors-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .help-section {
+    height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem 0 2rem;
+  }
+}
+
+@media (max-width: 48rem) {
+  .doctor-top {
+    flex-direction: column;
+  }
+
+  .doctor-top img {
+    width: 100%;
+    height: 14rem;
+  }
+
+  .stats-section {
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .card-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .dockbook-btn {
+    width: 100%;
+  }
+
+  .action-buttons {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 30rem) {
+  .doctors-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .speview-all-btn {
+    width: 100%;
+  }
+}

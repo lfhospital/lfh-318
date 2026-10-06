@@ -1,0 +1,347 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter, sans-serif;
+}
+
+.p-refund-page {
+    width: 100%;
+    height: 105vh;
+    background: #ffffff;
+    padding: 7rem 3rem;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #4a4a4a;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.p-refund-header {
+    width: 100%;
+}
+
+.p-refund-header h1 {
+    color: #4A4A4A;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.75rem;
+}
+
+.p-refund-header p {
+    margin: 0.6875rem 0 0;
+    color: #7A7D80;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+/* =========================
+   MAIN REFUND CONTAINER
+========================= */
+
+.p-refund-container {
+    width: 55rem;
+    height: 25rem;
+    margin-top: 5rem;
+    padding: 1.25rem 1.5rem 2.0625rem;
+    border: 0.0625rem solid #d4d4d4;
+    border-radius: 0.1875rem;
+    background: #ffffff;
+}
+
+/* =========================
+   VISIT TIME
+========================= */
+
+.p-visit-time {
+    margin-bottom: 1.5rem;
+    color: #D3A693;
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5rem;
+    letter-spacing: 0.11375rem;
+    text-transform: uppercase;
+}
+
+/* =========================
+   REFUND CARD
+========================= */
+
+.p-refund-card {
+    width: 52rem;
+    height: 14rem;
+    padding: 1.6875rem 1.25rem 1.25rem;
+    border: 0.0625rem solid #d2d0cc;
+    border-radius: 0.3125rem;
+    background: #f8f6f2;
+}
+
+.p-refund-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.p-refund-row span:first-child {
+    color: #4A4A4A;
+    font-size: 0.6875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+.p-refund-row span:last-child {
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+.p-refund-row .p-fee {
+    color: #8B2E2E;
+}
+
+.p-refund-divider {
+    width: 100%;
+    height: 0.0625rem;
+    margin-top: 0.25rem;
+    background: #d4d2ce;
+}
+
+/* =========================
+   REFUND TOTAL
+========================= */
+
+.p-refund-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 1.875rem;
+}
+
+.p-refund-total span {
+    color: #2E2E2E;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5rem;
+}
+
+.p-refund-total strong {
+    color: #253746;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5rem;
+}
+
+/* =========================
+   REFUND NOTE
+========================= */
+
+.p-refund-note {
+    display: flex;
+    align-items: center;
+    gap: 0.6875rem;
+    margin-top: 1.25rem;
+    color: #7A7D80;
+    font-size: 0.6875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.1875rem;
+}
+
+.p-star {
+    font-size: 1rem;
+    color: #d9a18e;
+}
+
+/* =========================
+   RESCHEDULE TIP
+========================= */
+
+.p-reschedule-tip {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 52rem;
+    height: 3rem;
+    margin-top: 2.5625rem;
+    padding: 0 1.5rem;
+    border-radius: 0.8125rem;
+    background: #eef4ec;
+    color: #5F7F52;
+    text-align: center;
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+.p-tip-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 0.125rem solid #6b8f62;
+    border-radius: 50%;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #6b8f62;
+}
+
+/* =========================
+   BOTTOM ACTIONS
+========================= */
+
+.p-refund-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 55rem;
+    max-width: 69.375rem;
+    margin-top: 1rem;
+}
+
+.p-keep-appointment {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #555555;
+    font-family: inherit;
+    font-size: 0.9375rem;
+    cursor: pointer;
+}
+
+.p-keep-appointment span:last-child {
+    border-bottom: 0.0625rem solid #555555;
+    padding-bottom: 0.1875rem;
+}
+
+.p-back-arrow {
+    font-size: 1.75rem;
+    line-height: 1rem;
+    font-weight: 300;
+    color: #555555;
+}
+
+/* =========================
+   RIGHT BUTTONS
+========================= */
+
+.p-right-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+}
+
+
+.p-reschedule-button {
+    cursor: pointer;
+    height: 2.75rem;
+    width: 12rem;
+    border-radius: 0.5rem;
+    background: #253746;
+    border: none;
+    color: #F7F5F0;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+}
+
+.p-cancel-button {
+    cursor: pointer;
+    height: 2.75rem;
+    width: 12.81rem;
+    border-radius: 0.5rem;
+    border: 1px solid #D6D4D2;
+    background: #ffffff;
+    display: flex;
+    padding: 0.5rem 2rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8125rem;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+
+    .p-refund-page {
+        padding: 1.5rem 2rem 3rem;
+    }
+
+    .p-refund-container,
+    .p-refund-actions {
+        width: 100%;
+    }
+
+    .p-refund-container {
+        margin-top: 4rem;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .p-refund-page {
+        padding: 1.5rem;
+    }
+
+    .p-refund-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .p-refund-header p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    .p-refund-container {
+        margin-top: 3rem;
+        padding: 1rem;
+    }
+
+    .p-refund-card {
+        padding: 1.25rem 1rem;
+    }
+
+    .p-reschedule-tip {
+        align-items: flex-start;
+        padding: 1rem;
+    }
+
+    .p-refund-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    .p-right-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .p-reschedule-button,
+    .p-cancel-button {
+        width: 100%;
+    }
+
+    .p-keep-appointment {
+        justify-content: flex-start;
+    }
+}

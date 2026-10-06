@@ -1,0 +1,990 @@
+/* =========================================
+   QUICK INDEX SECTION
+========================================= */
+
+.qi-section {
+    width: 100%;
+    height: 35.6875rem;
+    padding: 0rem 3rem;
+    box-sizing: border-box;
+    background: #ffffff;
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    color: #26394b;
+}
+
+
+/* =========================================
+   QUICK INDEX LABEL
+========================================= */
+
+.qi-label {
+    margin: 0;
+
+    color: #7a7d80;
+
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+
+/* =========================================
+   QUICK INDEX TITLE
+========================================= */
+
+.qi-title {
+    margin: 1.65rem 0 0;
+    color: #253746;
+    font-size: 2.5rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 2.9375rem;
+}
+
+
+/* =========================================
+   QUICK INDEX DESCRIPTION
+========================================= */
+
+.qi-description {
+    margin: 0.45rem 0 0;
+    color: #7A7D80;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+
+/* =========================================
+   LETTER INDEX
+========================================= */
+
+.qi-letters {
+    width: 100%;
+    margin-top: 4.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
+
+/* =========================================
+   LETTER BUTTON
+========================================= */
+
+.qi-letter {
+    width: 2.37rem;
+    height: 2.37rem;
+    flex: 0 0 2.37rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid #d3d3d3;
+    border-radius: 0.85rem;
+    background: #ffffff;
+    color: #26394b;
+    font-family: inherit;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   ACTIVE LETTER
+========================================= */
+
+.qi-letter-active {
+    background: #26394b;
+    border-color: #26394b;
+    color: #ffffff;
+}
+
+/* =========================================
+   CONDITIONS SECTION
+========================================= */
+
+.qi-conditions {
+    width: 100%;
+    margin-top: 7.15rem;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   CONDITIONS LEFT
+========================================= */
+
+.qi-condition-left {
+    min-width: 0;
+}
+
+
+/* =========================================
+   CONDITION LABEL
+========================================= */
+
+.qi-condition-label {
+    color: #7A7D80;
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+    text-transform: uppercase;
+}
+
+
+/* =========================================
+   CONDITION TITLE
+========================================= */
+
+.qi-condition-title {
+    margin: 2rem 0 0;
+    color: #253746;
+    font-size: 2.5rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 2.9375rem;
+}
+
+
+/* =========================================
+   CONDITIONS RIGHT
+========================================= */
+
+.qi-condition-right {
+    min-width: 0;
+    padding-top: 3.45rem;
+}
+
+
+/* =========================================
+   CONDITION DESCRIPTION
+========================================= */
+
+.qi-condition-description {
+    width: 31rem;
+    color: #7A7D80;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+
+/* =========================================
+   QUICK INDEX TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .qi-section {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+
+    .qi-letters {
+        flex-wrap: wrap;
+    }
+
+    .qi-conditions {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+/* =========================================
+   QUICK INDEX MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .qi-section {
+        min-height: auto;
+
+        padding: 2.5rem 1.5rem 3rem;
+    }
+
+    .qi-title {
+        font-size: 2.5rem;
+    }
+
+    .qi-description {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    .qi-letters {
+        margin-top: 2.5rem;
+
+        gap: 0.6rem;
+    }
+
+    .qi-letter {
+        width: 2.8rem;
+        height: 2.8rem;
+
+        flex-basis: 2.8rem;
+    }
+
+    .qi-conditions {
+        margin-top: 4rem;
+
+        grid-template-columns: 1fr;
+
+        row-gap: 2rem;
+    }
+
+    .qi-condition-title {
+        margin-top: 1.5rem;
+
+        font-size: 2.4rem;
+    }
+
+    .qi-condition-right {
+        padding-top: 0;
+    }
+}
+
+
+/* =========================================
+   QUICK INDEX SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .qi-section {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    .qi-title {
+        font-size: 2.25rem;
+    }
+
+    .qi-letters {
+        gap: 0.5rem;
+    }
+
+    .qi-letter {
+        width: 2.6rem;
+        height: 2.6rem;
+
+        flex-basis: 2.6rem;
+
+        border-radius: 0.75rem;
+    }
+
+    .qi-condition-title {
+        font-size: 2.1rem;
+    }
+
+    .qi-condition-description {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+}
+
+
+/* =========================================
+   CONDITIONS GRID SECTION
+========================================= */
+
+.cg-section {
+    width: 100%;
+    padding: 0 0.55rem;
+    box-sizing: border-box;
+    background: #ffffff;
+    font-family: "Inter", sans-serif;
+}
+
+
+/* =========================================
+   CONDITIONS GRID
+========================================= */
+
+.cg-grid {
+    width: 100%;
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 16.5rem;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   CONDITION CARD
+========================================= */
+
+.cg-card {
+    position: relative;
+    width: 100%;
+    height: 16.5rem;
+    padding: 1.25rem 1.5rem;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 1px solid #dddddd;
+}
+
+
+/* =========================================
+   CARD NUMBER
+========================================= */
+
+.cg-card-number {
+    position: absolute;
+
+    top: 1.25rem;
+    left: 1.5rem;
+
+    color: #777b7f;
+
+    font-size: 1rem;
+    font-weight: 400;
+
+    line-height: 1.2;
+}
+
+
+/* =========================================
+   CARD CONTENT
+========================================= */
+
+.cg-card-content {
+    position: absolute;
+
+    left: 1.5rem;
+    bottom: 2rem;
+
+    width: calc(100% - 3rem);
+}
+
+
+/* =========================================
+   CARD TITLE
+========================================= */
+
+.cg-card-title {
+    margin: 0 0 0.55rem 0;
+
+    color: #26384a;
+
+    font-size: 1.5rem;
+    font-weight: 600;
+
+    line-height: 1.2;
+}
+
+
+/* =========================================
+   CARD DESCRIPTION
+========================================= */
+
+.cg-card-description {
+    margin: 0;
+
+    max-width: 25rem;
+
+    color: #777b7f;
+
+    font-size: 1.25rem;
+    font-weight: 400;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================
+   NUMBER
+========================================= */
+
+.cg-number {
+    position: absolute;
+
+    top: 0.55rem;
+    left: 0.7rem;
+
+    color: #8a8d8f;
+
+    font-size: 0.5rem;
+    font-style: normal;
+    font-weight: 400;
+
+    line-height: 1;
+}
+
+
+/* =========================================
+   CARD CONTENT
+========================================= */
+
+.cg-card-content {
+    position: absolute;
+
+    left: 0.7rem;
+    right: 0.7rem;
+    bottom: 1rem;
+}
+
+
+/* =========================================
+   TITLE
+========================================= */
+
+.cg-title {
+    margin: 0;
+
+    color: #26394b;
+
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 600;
+
+    line-height: 1.2;
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.cg-description {
+    max-width: 12rem;
+
+    margin: 0.35rem 0 0;
+
+    color: #7a7d80;
+
+    font-size: 0.625rem;
+    font-style: normal;
+    font-weight: 400;
+
+    line-height: 1.35;
+}
+
+
+/* =========================================
+   CONDITIONS GRID TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .cg-section {
+        padding: 0 1.5rem;
+    }
+
+    .cg-card {
+        padding-left: 0.65rem;
+        padding-right: 0.65rem;
+    }
+
+    .cg-number {
+        left: 0.65rem;
+    }
+
+    .cg-card-content {
+        left: 0.65rem;
+        right: 0.65rem;
+    }
+}
+
+
+/* =========================================
+   CONDITIONS GRID MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .cg-section {
+        padding: 0 1rem;
+    }
+
+    .cg-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 15rem;
+    }
+
+    .cg-card {
+        padding: 0.6rem;
+    }
+
+    .cg-number {
+        left: 0.6rem;
+    }
+
+    .cg-card-content {
+        left: 0.6rem;
+        right: 0.6rem;
+        bottom: 0.8rem;
+    }
+
+    .cg-title {
+        font-size: 0.75rem;
+    }
+
+    .cg-description {
+        font-size: 0.6rem;
+    }
+}
+
+
+/* =========================================
+   CONDITIONS GRID SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .cg-section {
+        padding: 0 0.75rem;
+    }
+
+    .cg-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 14rem;
+    }
+
+    .cg-card {
+        min-height: 8rem;
+    }
+
+    .cg-number {
+        font-size: 0.5rem;
+    }
+
+    .cg-title {
+        font-size: 0.75rem;
+    }
+
+    .cg-description {
+        max-width: 15rem;
+
+        font-size: 0.6rem;
+    }
+}
+
+
+/* =========================================
+   HEALTH LIBRARY FOOTER SECTION
+========================================= */
+
+.hlf-section {
+    width: 100%;
+    height: 40vh;
+
+    position: relative;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    color: #26394b;
+}
+
+
+/* =========================================
+   PAGINATION
+========================================= */
+
+.hlf-pagination {
+    position: absolute;
+
+    top: 3.55rem;
+    right: 3.55rem;
+
+    display: flex;
+    align-items: center;
+
+    gap: 0.85rem;
+}
+
+
+/* =========================================
+   PREVIOUS BUTTON
+========================================= */
+
+.hlf-pagination-prev {
+    display: flex;
+    align-items: center;
+
+    gap: 0.65rem;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #777b7e;
+
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5rem;
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   ACTIVE PAGE
+========================================= */
+
+.hlf-page-active {
+    background: #d9d9d9;
+
+    color: #26394b;
+}
+
+
+/* =========================================
+   PAGE BUTTON
+========================================= */
+
+.hlf-page {
+    width: 2.65rem;
+    height: 2.65rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: #73777b;
+
+    font-family: inherit;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   PAGINATION DOTS
+========================================= */
+
+.hlf-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 1.25rem;
+
+    color: #73777b;
+
+    font-size: 0.95rem;
+    font-weight: 400;
+
+    line-height: 1;
+}
+
+
+/* =========================================
+   NEXT BUTTON
+========================================= */
+
+.hlf-pagination-next {
+    display: flex;
+    align-items: center;
+
+    gap: 0.65rem;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #4a4d50;
+
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5rem;
+
+    cursor: pointer;
+
+    margin-left: 0.15rem;
+}
+
+
+/* =========================================
+   PAGINATION HOVER
+========================================= */
+
+.hlf-pagination-prev:hover,
+.hlf-pagination-next:hover {
+    color: #26394b;
+}
+
+.hlf-page:not(.hlf-page-active):hover {
+    color: #26394b;
+}
+
+
+/* =========================================
+   HELP SECTION
+========================================= */
+
+.hlf-help {
+    position: absolute;
+
+    left: 3.55rem;
+    right: 3.55rem;
+    bottom: 3.15rem;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+
+/* =========================================
+   HELP CONTENT
+========================================= */
+
+.hlf-help-content {
+    margin: 0;
+}
+
+
+/* =========================================
+   HELP TITLE
+========================================= */
+
+.hlf-help-title {
+    margin: 0;
+
+    color: #26394b;
+
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.8rem;
+}
+
+
+/* =========================================
+   HELP DESCRIPTION
+========================================= */
+
+.hlf-help-description {
+    margin: 0.3rem 0 0;
+
+    color: #7a7d80;
+
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+
+/* =========================================
+   HELP LINK
+========================================= */
+
+.hlf-help-link {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 0.6rem;
+
+    padding-bottom: 0.2rem;
+
+    border-bottom: 1px solid #26394b;
+
+    color: #26394b;
+
+    text-decoration: none;
+
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5rem;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   HELP LINK HOVER
+========================================= */
+
+.hlf-help-link:hover {
+    border-bottom-color: transparent;
+}
+
+
+/* =========================================
+   HEALTH LIBRARY FOOTER TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .hlf-pagination {
+        right: 3rem;
+    }
+
+    .hlf-help {
+        left: 3rem;
+        right: 3rem;
+    }
+}
+
+
+/* =========================================
+   HEALTH LIBRARY FOOTER MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .hlf-section {
+        height: 100vh;
+        min-height: 40rem;
+    }
+
+    .hlf-pagination {
+        top: 2rem;
+        right: 1.5rem;
+
+        gap: 0.4rem;
+    }
+
+    .hlf-pagination-prev span,
+    .hlf-pagination-next span {
+        display: none;
+    }
+
+    .hlf-page {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .hlf-help {
+        left: 1.5rem;
+        right: 1.5rem;
+        bottom: 2.5rem;
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 1.5rem;
+    }
+
+    .hlf-help-title {
+        font-size: 1.3rem;
+    }
+
+    .hlf-help-description {
+        font-size: 1rem;
+    }
+}
+
+
+/* =========================================
+   HEALTH LIBRARY FOOTER SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .hlf-pagination {
+        right: 1.25rem;
+    }
+
+    .hlf-help {
+        left: 1.25rem;
+        right: 1.25rem;
+    }
+
+    .hlf-help-title {
+        font-size: 1.2rem;
+    }
+
+    .hlf-help-description {
+        font-size: 0.95rem;
+    }
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1024px) {
+
+    .cg-section {
+        padding: 0 0.75rem;
+    }
+
+    .cg-card {
+        height: 15rem;
+    }
+
+    .cg-grid {
+        grid-auto-rows: 15rem;
+    }
+
+    .cg-card-title {
+        font-size: 1.35rem;
+    }
+
+    .cg-card-description {
+        font-size: 1.1rem;
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    .cg-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+    }
+
+    .cg-card {
+        height: 15rem;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .cg-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cg-card {
+        height: 14rem;
+    }
+
+    .cg-card-title {
+        font-size: 1.25rem;
+    }
+
+    .cg-card-description {
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,255 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.conditions-section {
+  width: 100%;
+  height: 70vh;
+  background: #fff;
+  padding: 2.4rem 3.2rem;
+  font-family: Inter;
+}
+
+.conditions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 3.5rem;
+}
+
+.conditions-left {
+  width: 52%;
+}
+
+.section-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #7c7c7c;
+  letter-spacing: 0.02rem;
+  margin-bottom: 1.3rem;
+  font-weight: 400;
+}
+
+.section-title {
+  font-size: 2.9rem;
+  line-height: 1.02;
+  font-weight: 400;
+  color: #26384a;
+  letter-spacing: -0.075rem;
+}
+
+.conditions-right {
+  width: 38%;
+  padding-top: 2.25rem;
+}
+
+.conditions-right p {
+  font-size: 1.05rem;
+  line-height: 1.45;
+  color: #7b7b7b;
+  font-weight: 300;
+}
+
+.conditions-grid {
+  display: grid;
+  grid-template-columns: 2fr 1.1fr 1.1fr;
+  gap: 1.4rem;
+}
+
+.condition-card {
+  height: 6.75rem;
+  border: 0.05rem solid #d3d3d3;
+  border-radius: 0.9rem;
+  background: transparent;
+  padding: 1.7rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  transition: 0.3s ease;
+}
+
+.large-card {
+  height: 6.75rem;
+}
+
+.condition-card h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #4d4d4d;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.condition-card p {
+  font-size: 0.9rem;
+  color: #575757;
+  line-height: 0.75rem;
+}
+
+.arrow {
+  font-size: 1.5rem;
+  color: #565656;
+  line-height: 1;
+}
+
+.more-card {
+  border: 0.05rem solid #d5ab97;
+}
+
+.more-card h3 {
+  color: #d09d88;
+  font-weight: 600;
+}
+
+.more-card .arrow {
+  color: #d09d88;
+}
+
+.condition-card:hover {
+  transform: translateY(-0.15rem);
+}
+
+.condition-card {
+  height: 6.75rem;
+  border: 0.05rem solid #d3d3d3;
+  border-radius: 0.9rem;
+  background: #fff;
+  padding: 1.7rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  transition: all 0.35s ease;
+  cursor: pointer;
+}
+
+.large-card {
+  height: 6.75rem;
+}
+
+.condition-card h3 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #4d4d4d;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+  transition: color 0.3s ease;
+}
+
+.condition-card p {
+  font-size: 0.9rem;
+  color: #575757;
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+.arrow {
+  font-size: 1.5rem;
+  color: #565656;
+  line-height: 1;
+  transition: all 0.3s ease;
+}
+
+/* Hover State - Matches Image 2 */
+.condition-card:hover {
+  background: #ffffff;
+  transform: translateY(-0.2rem);
+  border-color: #d8b19e;
+  border-top: 0.2rem solid #d8b19e;
+  box-shadow: 0 0.7rem 1.5rem rgba(0, 0, 0, 0.12);
+}
+
+.condition-card:hover h3 {
+  color: #4d4d4d;
+}
+
+.condition-card:hover p {
+  color: #575757;
+}
+
+.condition-card:hover .arrow {
+  color: #565656;
+}
+.more-card {
+  border: 0.05rem solid #d5ab97;
+}
+
+.more-card h3 {
+  color: #d09d88;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.more-card .arrow {
+  color: #d09d88;
+  transition: all 0.3s ease;
+}
+
+/* Hover only for +22 more conditions card */
+.more-card:hover {
+  background: #fff;
+  transform: translateY(-0.2rem);
+  border: 0.05rem solid #8f959b;
+  box-shadow: none;
+}
+
+.more-card:hover h3 {
+  color: #24384a;
+}
+
+.more-card:hover .arrow {
+  color: #24384a;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 64rem) {
+  .conditions-section {
+    height: auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .conditions-header {
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .conditions-left,
+  .conditions-right {
+    width: 100%;
+    padding-top: 0;
+  }
+
+  .conditions-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 48rem) {
+  .section-title {
+    font-size: 2.1rem;
+  }
+
+  .conditions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .condition-card,
+  .large-card {
+    height: auto;
+    min-height: 6rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .section-title {
+    font-size: 1.7rem;
+  }
+
+  .condition-card h3 {
+    font-size: 1.1rem;
+  }
+}

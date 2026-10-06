@@ -1,0 +1,129 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter, Arial, Helvetica, sans-serif;
+}
+
+.service-unavailable-page {
+    width: 100%;
+    min-height: 90vh;
+    background: #ffffff;
+    padding: 6rem 3rem;
+    color: #4a4a4a;
+}
+
+.service-unavailable-content {
+    width: 100%;
+    max-width: 70rem;
+}
+
+.service-unavailable-content h1 {
+    margin: 0;
+    color: #4A4A4A;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.75rem;
+}
+
+.service-unavailable-content p {
+    width: 100%;
+    max-width: 68.75rem;
+    margin: 0.625rem 0 0;
+    color: #7A7D80;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+.service-unavailable-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.9375rem;
+    margin-top: 4.5rem;
+}
+
+.service-try-again-button {
+    width: 7.8125rem;
+    height: 2.4375rem;
+    padding: 0;
+    border-radius: 0.5rem;
+    border: 1px solid #D6D4D2;
+    background: #ffffff;
+    color: #2E2E2E;
+    text-align: center;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.225rem;
+}
+
+.service-try-again-button:hover {
+    border: none;
+}
+
+.service-back-button {
+    height: 1.4375rem;
+    padding: 0;
+    border: none;
+    border-bottom: 0.0625rem solid #273d4d;
+    background: transparent;
+    color:  #253746;
+    text-align: center;
+    font-family: Inter;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5rem;
+    cursor: pointer;
+}
+
+.service-back-button:hover {
+    color: #1d2f3c;
+    border-bottom-color: #1d2f3c;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 1200px) {
+    .service-unavailable-page {
+        padding: 4rem 2.5rem;
+    }
+
+    .service-unavailable-content {
+        max-width: 100%;
+    }
+
+    .service-unavailable-content p {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 700px) {
+    .service-unavailable-page {
+        padding: 2.5rem 1.25rem;
+    }
+
+    .service-unavailable-content h1 {
+        font-size: 1.5rem;
+        line-height: 1.875rem;
+    }
+
+    .service-unavailable-content p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    .service-unavailable-actions {
+        margin-top: 3rem;
+        gap: 1rem;
+    }
+
+    .service-try-again-button {
+        width: 9rem;
+    }
+}

@@ -1,0 +1,375 @@
+/* =========================================================
+   PAYMENT FAILED PAGE
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.dc-payment-failed-page {
+    width: 100%;
+    height: 80vh;
+    background: #ffffff;
+    font-family: Inter, Arial, Helvetica, sans-serif;
+    color: #4a4a4a;
+}
+
+.dc-payment-failed-container {
+    width: 100%;
+    display: flex;
+    gap: 2.25rem;
+    padding: 6rem 3rem;
+}
+
+/* =========================================================
+   LEFT SECTION
+========================================================= */
+
+.dc-payment-failed-left {
+    width: calc(100% - 35.125rem);
+    min-width: 0;
+}
+
+.dc-payment-failed-header {
+    width: 100%;
+}
+
+.dc-payment-failed-header h1 {
+
+    color: #4A4A4A;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.75rem;
+}
+
+.dc-payment-failed-header p {
+    margin: 0.75rem 0 0;
+    color: #7A7D80;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+
+/* =========================================================
+   ERROR BOX
+========================================================= */
+
+.dc-payment-error-box {
+    width: 55rem;
+    height: 4rem;
+    margin-top: 2.625rem;
+    display: flex;
+    align-items: center;
+    padding: 0 1.375rem;
+    background: #faf5f5;
+    border-radius: 0.75rem;
+}
+
+.dc-payment-error-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9e302e;
+}
+
+.dc-payment-error-content {
+    margin-left: 0.875rem;
+}
+
+.dc-payment-error-content h3 {
+    color: #4A4A4A;
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5rem;
+}
+
+.dc-payment-error-content p {
+    margin: 0.125rem 0 0;
+    color: #7A7D80;
+    font-size: 0.6875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 0.9375rem;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.dc-payment-action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 2.6875rem;
+    margin-left: 0.625rem;
+}
+
+.dc-payment-back-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #4A4A4A;
+    text-align: center;
+    font-size: 0.6875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5rem;
+}
+
+.dc-payment-back-button svg {
+    color: #4d4d4d;
+}
+
+.dc-payment-back-button span {
+    height: 1.25rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 0.0625rem solid #595959;
+}
+
+.dc-payment-try-button {
+    width: 7.875rem;
+    height: 2.75rem;
+    background: #ffffff;
+    border-radius: 0.5rem;
+    border: 1px solid #D6D4D2;
+    color: #2E2E2E;
+    text-align: center;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.225rem;
+    cursor: pointer;
+}
+.dc-payment-back-button span:hover,
+.dc-payment-try-button:hover {
+    border: none;
+}
+
+/* =========================================================
+   RIGHT BOOKING CARD
+========================================================= */
+
+.dc-booking-hold-card {
+    width: 26.5625rem;
+    height: 20.125rem;
+    flex-shrink: 0;
+    padding: 1.5rem;
+    background: #ffffff;
+    border-radius: 0.25rem;
+    border: 1px solid #D6D4D2;
+    margin-top: 6.75rem;
+}
+
+
+/* =========================================================
+   CARD TITLE
+========================================================= */
+
+.dc-booking-hold-title {
+    color: #4A4A4A;
+    font-size: 0.6875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+    letter-spacing: 0.13063rem;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   DOCTOR DETAILS
+========================================================= */
+
+.dc-booking-doctor {
+    display: flex;
+    align-items: center;
+    margin-top: 0.875rem;
+}
+
+.dc-booking-doctor-image {
+    width: 5.9375rem;
+    height: 6.125rem;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 0.8125rem;
+}
+
+.dc-booking-doctor-details {
+    margin-left: 0.9375rem;
+}
+
+.dc-booking-doctor-details h2 {
+    margin: 0;
+    color: #4A4A4A;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.75rem;
+}
+
+.dc-booking-doctor-details p {
+    margin: 0.6875rem 0 0;
+    color: #4A4A4A;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.225rem;
+}
+
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.dc-booking-card-divider {
+    width: 100%;
+    height: 0.0625rem;
+    margin-top: 0.9375rem;
+    background: #d6d6d6;
+}
+
+
+/* =========================================================
+   TOTAL
+========================================================= */
+
+.dc-booking-total-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.875rem;
+}
+
+.dc-booking-total-row span {
+    color: #7A7D80;
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+.dc-booking-total-row strong {
+    color: #4A4A4A;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5rem;
+}
+
+
+/* =========================================================
+   BOOKING NOTICE
+========================================================= */
+
+.dc-booking-notice {
+    width: 24rem;
+    height: 3rem;
+    display: flex;
+    align-items: flex-start;
+    margin-top: 0.875rem;
+    padding: 0.6875rem 0.875rem;
+    background: #f8f6f2;
+    border-radius: 0.125rem;
+    color: #d6a895;
+}
+
+.dc-booking-notice svg {
+    flex-shrink: 0;
+    margin-top: 0.1875rem;
+}
+
+.dc-booking-notice p {
+    margin: 0 0 0 0.625rem;
+    color: #7A7D80;
+    font-size: 0.6875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 0.95rem;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .dc-payment-failed-container {
+        flex-direction: column;
+        padding: 3rem 2rem;
+    }
+
+    .dc-payment-failed-left {
+        width: 100%;
+    }
+
+    .dc-booking-hold-card {
+        width: 100%;
+        max-width: 33.5625rem;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .dc-payment-failed-container {
+        padding: 2rem 1rem;
+    }
+
+    .dc-payment-failed-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .dc-payment-failed-header p {
+        font-size: 1rem;
+    }
+
+    .dc-payment-error-box {
+        height: auto;
+        min-height: 5rem;
+        padding: 1rem;
+    }
+
+    .dc-payment-action-buttons {
+        margin-left: 0;
+        gap: 1rem;
+    }
+
+    .dc-payment-try-button {
+        width: 8.5rem;
+    }
+
+    .dc-booking-hold-card {
+        height: auto;
+        padding: 1.25rem;
+    }
+
+    .dc-booking-doctor-image {
+        width: 6.5rem;
+        height: 6.5rem;
+    }
+
+    .dc-booking-doctor-details h2 {
+        font-size: 1.25rem;
+    }
+
+    .dc-booking-doctor-details p {
+        font-size: 0.95rem;
+    }
+}

@@ -1,0 +1,152 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.location-section {
+  width: 100%;
+  min-height: 50vh;
+  background: #ffffff;
+  padding: 3rem 0;
+
+  display: flex;
+  align-items: center;
+}
+
+.location-container {
+  width: 92%;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+/* ======================
+   LEFT SIDE
+====================== */
+
+.location-content {
+  width: 34rem;
+  flex-shrink: 0;
+}
+
+.location-content h1 {
+  font-size: 2.5rem;
+  font-weight: 400;
+  line-height: 1.1;
+  color: #24364a;
+  margin-bottom: 2.5rem;
+}
+
+.hospital-details h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2f3f50;
+  margin-bottom: 0.9rem;
+}
+
+.hospital-details p {
+  width: 32.5rem;
+
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #606060;
+
+  margin-bottom: 2.75rem;
+}
+
+.timing-row {
+  width: 32.5rem;
+
+  border-top: 0.05rem solid #d9d9d9;
+
+  padding-top: 2.1rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timing-row span:first-child {
+  font-size: 0.9rem;
+  color: #8b8b8b;
+}
+
+.timing-row span:last-child {
+  font-size: 0.9rem;
+  color: #2f3f50;
+  font-weight: 500;
+}
+
+/* ======================
+   MAP CARD
+====================== */
+
+.docmap-card {
+  width: 19.5rem;
+  height: 15.25rem;
+
+  border-radius: 0rem 0.9rem 0.9rem 0rem; 
+  overflow: hidden;
+
+  margin-left: 0;
+  flex-shrink: 0;
+}
+
+.docmap-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 64rem) {
+  .location-section {
+    height: auto;
+    padding: 2.5rem 0;
+  }
+
+  .location-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.75rem;
+  }
+
+  .location-content {
+    width: 100%;
+  }
+
+  .hospital-details p,
+  .timing-row {
+    width: 100%;
+  }
+
+  .docmap-card {
+    width: 100%;
+    height: 14rem;
+    border-radius: 0.9rem;
+  }
+}
+
+@media (max-width: 48rem) {
+  .location-content h1 {
+    font-size: 1.9rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .location-content h1 {
+    font-size: 1.6rem;
+  }
+
+  .timing-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+}

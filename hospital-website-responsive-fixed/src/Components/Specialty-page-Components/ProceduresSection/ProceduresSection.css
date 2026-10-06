@@ -1,0 +1,202 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.procedures-section {
+  width: 100%;
+  height: 85vh;
+  background: #fff;
+  padding: 2rem 3.2rem 2.5rem;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.procedures-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2.75rem;
+}
+
+.procedures-left {
+  width: 55%;
+}
+
+.section-tag {
+  display: block;
+  color: #7f7f7f;
+  font-size: 0.75rem;
+  margin-bottom: 1.4rem;
+  letter-spacing: 0.015rem;
+}
+
+.procedures-left h1 {
+  font-size: 2.5rem;
+  line-height: 1.03;
+  font-weight: 500;
+  color: #25384a;
+  letter-spacing: -0.09rem;
+}
+
+.procedures-right {
+  width: 40%;
+  padding-top: 2.75rem;
+}
+
+.procedures-right p {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: #7a7a7a;
+}
+
+.procedures-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.3rem;
+}
+
+.spcprocedure-card {
+  height: 21.25rem;
+  border: 0.05rem solid #d0d0d0;
+  border-radius: 0.9rem;
+  background: transparent;
+  padding: 1.7rem 1.5rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+   transition: all 0.35s ease;
+}
+.spcprocedure-card:hover {
+  transform: translateY(-0.3rem);
+  box-shadow: 0 1.2rem 2.5rem rgba(0, 0, 0, 0.14);
+}
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.7rem;
+}
+
+.procedure-label {
+  font-size: 0.8rem;
+  color: #757575;
+  letter-spacing: 0.2rem;
+  font-weight: 400;
+}
+
+.status-pill {
+  height: 1.8rem;
+  padding: 0 0.9rem;
+  border-radius: 49.95rem;
+  display: flex;
+  align-items: center;
+  font-size: 0.65rem;
+  font-weight: 500;
+}
+
+.emergency {
+  background: #efebe7;
+  color: #d09e85;
+}
+
+.diagnostic {
+  background: #ece9e4;
+  color: #25384a;
+}
+
+.spcprocedure-card h2 {
+  font-size: 1.25rem;
+  line-height: 1.35;
+  font-weight: 600;
+  color: #4f4f4f;
+  margin-bottom: 1.2rem;
+}
+
+.spccard-description {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: #555555;
+  margin-bottom: auto;
+}
+
+.divider {
+  width: 100%;
+  height: 0.05rem;
+  background: #d3d3d3;
+  margin: 1.7rem 0 1.5rem;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.footer-label {
+  display: block;
+  font-size: 0.7rem;
+  color: #8a8a8a;
+  letter-spacing: 0.04rem;
+  margin-bottom: 0.4rem;
+}
+
+.card-footer h4 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #4f4f4f;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 64rem) {
+  .procedures-section {
+    height: auto;
+    padding: 1.6rem 1.5rem 2rem;
+  }
+
+  .procedures-header {
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .procedures-left,
+  .procedures-right {
+    width: 100%;
+    padding-top: 0;
+  }
+
+  .procedures-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .spcprocedure-card {
+    height: auto;
+    min-height: 18rem;
+  }
+}
+
+@media (max-width: 48rem) {
+  .procedures-left h1 {
+    font-size: 2.1rem;
+  }
+
+  .spcprocedure-card h2 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .procedures-left h1 {
+    font-size: 1.7rem;
+  }
+
+  .card-footer {
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: flex-start;
+  }
+}

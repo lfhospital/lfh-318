@@ -11,6 +11,10 @@ import PackageDetail2 from './pages/Package-detail-page2';
 import PackageDetail3 from './pages/Package-detail-page3';
 import All_Specialties from './pages/All-specility-page';
 import HealthLibrary from './pages/HealthLibrary-page';
+import LoginPage from './pages/Login-page';
+import ContactPage from './pages/Contact-page';
+import AboutPage from './pages/About-page';
+import PatientDashboard from './pages/Patient-dashboard-page';
 import BookingFlowPage from './Components/Doctor-profile-page-Components/Booking-flow-Component/Booking-flow-page';
 import PatientInfo from './Components/Doctor-profile-page-Components/Booking-flow-Component/Step-1/PatientInfo';
 import Review from './Components/Doctor-profile-page-Components/Booking-flow-Component/Step-2/Review';
@@ -45,6 +49,10 @@ function DevNavigation() {
     { path: '/package-detail-3', label: 'PackageDetail3' },
     { path: '/compare', label: 'compare' },
     { path: '/health-library', label: 'healthLibrary' },
+    { path: '/about', label: 'about' },
+    { path: '/contact', label: 'contact' },
+    { path: '/login', label: 'login' },
+    { path: '/dashboard', label: 'dashboard' },
     { path: '/booking-flow', label: 'bookingFlow' },
     { path: '/patient-info', label: 'patientInfo' },
     { path: '/review', label: 'review' },
@@ -112,6 +120,10 @@ export default function App() {
           <Route path="/package-detail-3" element={<PackageDetail3 />} />
           <Route path="/compare" element={<ComparePage />} />
           <Route path="/health-library" element={<HealthLibrary />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/dashboard" element={<PatientDashboard />} />
           
           {/* Booking Flow Routes */}
           <Route path="/booking-flow" element={<BookingFlowPage />} />

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { getPatientSession } from "../../../utils/patientSession";
 import {
   Phone,
   User,
@@ -10,6 +11,11 @@ import {
 } from "lucide-react";
 import "./Navbar.css";
 import img from "../../../asserts/Group 14.png";
+
+const pageRoutes = {
+  About: "/about",
+  Contact: "/contact",
+};
 
 const navLinks = [
   "Doctors & Specialties",
@@ -23,6 +29,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const dropdownRef = useRef(null);
 
@@ -59,6 +66,8 @@ export default function Navbar() {
       navigate("/health-library");
     } else if (link === "Packages") {
       navigate("/health-packages");
+    } else if (pageRoutes[link]) {
+      navigate(pageRoutes[link]);
     }
   };
 
@@ -91,7 +100,7 @@ export default function Navbar() {
             >
               <a
                 href="#"
-                className="nav-link"
+                className={`nav-link ${pageRoutes[link] && pathname === pageRoutes[link] ? "active" : ""}`}
                 onClick={(e) => handleNavClick(link, e)}
               >
                 {link}
@@ -125,7 +134,7 @@ export default function Navbar() {
           </li>
 
           <li>
-            <button className="nav-user">
+            <button className="nav-user" onClick={() => navigate(getPatientSession() ? "/dashboard" : "/login")} aria-label="My account">
               <User size={18} strokeWidth={1.8} />
             </button>
           </li>

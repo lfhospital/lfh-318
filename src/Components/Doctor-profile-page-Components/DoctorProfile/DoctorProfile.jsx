@@ -169,8 +169,17 @@ export default function DoctorProfile({ doctorData, onBookAppointment }) {
       return;
     }
 
+    // The specialty id is required later by the verify-book API
+    // (decryptedValue.specialist_id) — same id used for the timeslots call.
+    const specialistId =
+      doctorData?.speciality && doctorData.speciality.length > 0
+        ? doctorData.speciality[0]
+        : null;
+
     const bookingDetails = {
       doctorId: doctorData?.doctorId || doctorData?._id || null,
+      doctorKey: doctorData?._id || doctorData?.doctorId || null,
+      specialistId,
       doctorName: displayName,
       specialty: displaySpecialty,
       doctorImage: displayImage,

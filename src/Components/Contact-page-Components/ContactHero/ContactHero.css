@@ -1,0 +1,85 @@
+.contact-hero {
+  display: flex;
+  align-items: stretch;
+  gap: 2.75rem;
+  font-family: "Inter", sans-serif;
+}
+
+.contact-hero-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+}
+
+.contact-hero-eyebrow {
+  padding: 0.75rem 0 0;
+  letter-spacing: 0.13rem;
+}
+
+.contact-hero-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3.25rem;
+}
+
+.contact-hero-copy h1 {
+  font-size: 3.25rem;
+  font-weight: 400;
+  line-height: 3.75rem;
+  color: #253746;
+}
+
+.contact-hero-copy p {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: #4a4a4a;
+}
+
+.contact-hero-image {
+  flex-shrink: 0;
+  width: 46rem;
+  height: 32.875rem;
+  overflow: hidden;
+}
+
+.contact-hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 31% center;
+  display: block;
+}
+
+@media (max-width: 80rem) {
+  .contact-hero-image {
+    width: 52%;
+  }
+
+  .contact-hero-copy h1 {
+    font-size: 2.75rem;
+    line-height: 3.25rem;
+  }
+}
+
+@media (max-width: 48rem) {
+  .contact-hero {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .contact-hero-copy {
+    gap: 1.5rem;
+  }
+
+  .contact-hero-copy h1 {
+    font-size: 2.25rem;
+    line-height: 2.75rem;
+  }
+
+  .contact-hero-image {
+    width: 100%;
+    height: 16rem;
+  }
+}

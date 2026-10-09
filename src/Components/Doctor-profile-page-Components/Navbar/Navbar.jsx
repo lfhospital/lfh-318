@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getPatientSession } from "../../../utils/patientSession";
 import { Phone, User, Menu, X, ArrowRight } from "lucide-react";
 import "./Navbar.css";
 import img from '../../../asserts/Group 14.png'
@@ -20,6 +21,10 @@ export default function Navbar() {
     e.preventDefault();
     if (link === "Doctors & Specialties") {
       navigate('/doctors');
+    } else if (link === "About") {
+      navigate('/about');
+    } else if (link === "Contact") {
+      navigate('/contact');
     }
   };
 
@@ -59,7 +64,7 @@ export default function Navbar() {
   </li>
 
   <li>
-    <button className="nav-user">
+    <button className="nav-user" onClick={() => navigate(getPatientSession() ? "/dashboard" : "/login")} aria-label="My account">
       <User size={18} strokeWidth={1.8} />
     </button>
   </li>

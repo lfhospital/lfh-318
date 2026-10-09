@@ -1,0 +1,168 @@
+.otp-content {
+  gap: 3.9375rem;
+}
+
+.otp-top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2.75rem;
+}
+
+.otp-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -0.5rem;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #2e2e2e;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.otp-back:hover {
+  background: #f7f5f0;
+}
+
+.otp-content .login-heading strong {
+  font-weight: 500;
+  color: #2e2e2e;
+}
+
+/* =========================
+   OTP BOXES
+========================= */
+
+.otp-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
+.otp-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.otp-boxes {
+  display: flex;
+  gap: 0.8125rem;
+}
+
+.otp-box {
+  width: 3.125rem;
+  height: 2.75rem;
+  background: #ffffff;
+  border: 0.0625rem solid #d6d4d2;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.05);
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: #2e2e2e;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.otp-box::placeholder {
+  color: #d6d4d2;
+}
+
+.otp-box:focus {
+  border-color: #253746;
+  box-shadow: 0 0 0 0.1875rem rgba(37, 55, 70, 0.12);
+}
+
+.otp-box.has-error {
+  border-color: #8b2e2e;
+}
+
+.otp-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  color: #7a7d80;
+  white-space: nowrap;
+}
+
+.otp-timer svg {
+  color: #d3a693;
+}
+
+.otp-error {
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  color: #8b2e2e;
+}
+
+.otp-resend {
+  padding: 0.125rem 0;
+  background: transparent;
+  border: none;
+  border-bottom: 0.0625rem solid #253746;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+  color: #253746;
+  cursor: pointer;
+}
+
+.otp-resend:hover:not(:disabled) {
+  color: #d3a693;
+  border-color: #d3a693;
+}
+
+.otp-resend:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.otp-verify-btn {
+  align-self: flex-start;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 30rem) {
+  .otp-content {
+    gap: 2.5rem;
+  }
+
+  .otp-top {
+    gap: 2rem;
+  }
+
+  .otp-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .otp-boxes {
+    width: 100%;
+    min-width: 0;
+    gap: 0.5rem;
+  }
+
+  .otp-box {
+    flex: 1 1 0;
+    min-width: 0;
+    width: 0;
+  }
+
+  .otp-verify-btn {
+    align-self: stretch;
+  }
+}

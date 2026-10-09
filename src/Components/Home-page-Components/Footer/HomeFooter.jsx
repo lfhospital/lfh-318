@@ -65,7 +65,7 @@ export default function Footer() {
 
           <div className="home-footer-column">
             <h4>Hospital</h4>
-            <a href="/">About Us</a>
+            <a href="/about">About Us</a>
             <a href="/">Our Doctors</a>
             <a href="/">Careers</a>
             <a href="/">Press</a>
@@ -89,7 +89,7 @@ export default function Footer() {
         <div className="home-footer-bottom-links">
           <a href="/">Privacy</a>
           <a href="/">Terms of Use</a>
-          <a href="/">Contact</a>
+          <a href="/contact">Contact</a>
         </div>
       </div>
 

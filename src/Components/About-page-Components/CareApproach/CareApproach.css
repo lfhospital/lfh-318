@@ -1,0 +1,49 @@
+.care-approach-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  font-family: "Inter", sans-serif;
+}
+
+.care-approach-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2.9375rem;
+  padding: 1.875rem 1.25rem 2.625rem;
+  border: 0.0625rem solid #d6d4d2;
+  margin-left: -0.0625rem;
+}
+
+.care-approach-card:first-child {
+  margin-left: 0;
+}
+
+.care-approach-icon {
+  color: #d3a693;
+}
+
+.care-approach-card h3 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.75rem;
+  color: #253746;
+}
+
+.care-approach-card p {
+  margin-top: 0.375rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: #7a7d80;
+}
+
+@media (max-width: 48rem) {
+  .care-approach-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .care-approach-card,
+  .care-approach-card:first-child {
+    margin: 0 0 -0.0625rem;
+    gap: 1.25rem;
+    padding-bottom: 1.875rem;
+  }
+}

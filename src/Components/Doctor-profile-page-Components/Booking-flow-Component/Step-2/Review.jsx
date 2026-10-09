@@ -36,6 +36,25 @@ function parseFee(feeString, fallback = 800) {
   return Number.isNaN(numeric) ? fallback : numeric;
 }
 
+// Fixed hospital identifiers — this app currently serves a single
+// hospital, so these are constants rather than something fetched from
+// an API.
+const HOSPITAL_ID = "0b2b0216-654d-4762-8c9a-01014f6d5d3c";
+const HOSPITAL_NAME = "Lakshmee foundation hospital";
+const HOSPITAL_ADDRESS = "123 Main St, City, State";
+const HOSPITAL_LOCATION = { latitude: "17.3850", longitude: "78.4867" };
+const HOSPITAL_DURATION = "20";
+
+// Converts a DD/MM/YYYY string (as captured on the Patient Info step)
+// into a day-of-month number, matching the `dob` shape expected by the
+// verify-book API (e.g. 28).
+function parseDobDay(ddmmyyyy) {
+  if (!ddmmyyyy) return null;
+  const match = ddmmyyyy.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (!match) return null;
+  return parseInt(match[1], 10);
+}
+
 // Loads the Razorpay checkout script if it isn't already present on the
 // page (it's normally pre-loaded via index.html, but this is a safe
 // fallback in case that tag is ever removed).
@@ -149,8 +168,9 @@ export default function Review({ onContinue, onBack }) {
         theme: {
           color: "#2563eb",
         },
-        handler: function (paymentResponse) {
-          // Payment succeeded — persist payment details and move forward.
+        handler: async function (paymentResponse) {
+          // Payment succeeded — persist payment details first so nothing is
+          // lost even if the verify-book call below fails.
           const updatedAppointment = {
             ...appointment,
             payment: {
@@ -165,6 +185,94 @@ export default function Review({ onContinue, onBack }) {
             "appointment",
             JSON.stringify(updatedAppointment)
           );
+
+          // Confirm/record the booking on the backend now that payment has
+          // gone through. This both verifies the Razorpay signature server
+          // side and (per the backend) returns the authoritative booking
+          // details — including the real booking id — to show on the
+          // confirmation screen.
+          try {
+            const patientId = localStorage.getItem("patientId") || "";
+            const isoDob = parseDobToIso(patientInfo?.dob);
+
+            const verifyResponse = await fetch(
+              "https://ishah.in/api/lfhospital/payments/verify-book",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  order_id: data.order.id,
+                  razorpay_payment_id: paymentResponse.razorpay_payment_id,
+                  razorpay_signature: paymentResponse.razorpay_signature,
+                  patientData: { _id: patientId },
+                  decryptSelectedDoctor: {
+                    key: bookingDetails?.doctorKey || bookingDetails?.doctorId || "",
+                    hospital_type: 1,
+                    hospital_id: HOSPITAL_ID,
+                  },
+                  decryptedValue: {
+                    payLater: false,
+                    type: "hospital",
+                    datebooked: bookingDetails?.selectedDate || "",
+                    slot: bookingDetails?.selectedTime || "",
+                    appointmentFor: patientInfo?.fullName || "",
+                    phno: patientInfo?.mobileNumber || "",
+                    dob: parseDobDay(patientInfo?.dob),
+                    gender: (patientInfo?.gender || "").toLowerCase(),
+                    mri_no: "",
+                    shareHistory: true,
+                    hospital_id: HOSPITAL_ID,
+                    hospital_name: HOSPITAL_NAME,
+                    hospital_duration: HOSPITAL_DURATION,
+                    hospital_address: HOSPITAL_ADDRESS,
+                    hospital_location: HOSPITAL_LOCATION,
+                    hospital_fee: String(consultationFee),
+                    actual_amount: String(totalPayable),
+                    imageurl: "",
+                    relation: "",
+                    relation_id: "",
+                    specialist_id: bookingDetails?.specialistId || "",
+                    couponApplied: Boolean(appointment?.coupon),
+                    appliedCouponCode: appointment?.coupon || "",
+                    visit_reason: patientInfo?.reason || "",
+                  },
+                }),
+              }
+            );
+
+            const verifyData = await verifyResponse.json().catch(() => null);
+            console.log("verify-book response:", verifyData);
+
+            if (verifyResponse.ok && verifyData?.success) {
+              const finalAppointment = {
+                ...updatedAppointment,
+                booking: verifyData,
+              };
+              localStorage.setItem(
+                "appointment",
+                JSON.stringify(finalAppointment)
+              );
+
+              const bookingId =
+                verifyData?.bookingId ||
+                verifyData?.booking?.bookingId ||
+                verifyData?.data?.bookingId ||
+                verifyData?.appointment?.bookingId;
+              if (bookingId) {
+                localStorage.setItem("bookingId", bookingId);
+              }
+            } else {
+              console.error(
+                "verify-book did not succeed:",
+                verifyData || verifyResponse.statusText
+              );
+            }
+          } catch (verifyError) {
+            // Payment already succeeded on Razorpay's side — don't block the
+            // user from reaching the confirmation screen just because the
+            // verify-book call failed; just log it for debugging.
+            console.error("Error calling verify-book API:", verifyError);
+          }
 
           setIsProcessingPayment(false);
 

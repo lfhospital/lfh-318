@@ -1,0 +1,380 @@
+.dash-layout {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 4.15rem;
+  padding: 0 3.1875rem;
+  min-height: calc(100vh - 4.15rem - 3.3rem);
+}
+
+.dash-overview {
+  flex: 1;
+  min-width: 0;
+  padding: 3.125rem 0 3rem;
+  font-family: "Inter", sans-serif;
+}
+
+.dash-greeting {
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 2.5rem;
+  color: #253746;
+}
+
+/* =========================
+   TOOLBAR
+========================= */
+
+.dash-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 2.75rem;
+}
+
+.dash-search {
+  flex: 1;
+  min-width: 0;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1rem;
+  border: 0.0625rem solid #d6d4d2;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.0625rem 0.0625rem rgba(10, 13, 18, 0.05);
+  color: #7a7d80;
+  cursor: text;
+  transition: border-color 0.2s ease;
+}
+
+.dash-search:focus-within {
+  border-color: #253746;
+}
+
+.dash-search input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  line-height: 1.5rem;
+  color: #2e2e2e;
+}
+
+.dash-search input::placeholder {
+  color: #7a7d80;
+}
+
+.dash-search input::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
+.dash-search svg {
+  flex-shrink: 0;
+}
+
+.dash-toolbar-actions {
+  width: 29.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.dash-outline-btn {
+  height: 2.625rem;
+  padding: 0 0.75rem;
+  border: 0.0625rem solid #d6d4d2;
+  border-radius: 0.75rem;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  line-height: 1.5rem;
+  color: #2e2e2e;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.dash-outline-btn:hover {
+  background: #f7f5f0;
+}
+
+/* =========================
+   APPOINTMENTS TABLE
+========================= */
+
+.dash-appointments {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.25rem 0;
+}
+
+.dash-appointments h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.75rem;
+  color: #4a4a4a;
+}
+
+.dash-table-wrap {
+  margin-top: 1rem;
+  overflow-x: auto;
+}
+
+.dash-table {
+  width: 100%;
+  min-width: 52rem;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.dash-col-type {
+  width: 10.4375rem;
+}
+
+.dash-col-date {
+  width: 9.6875rem;
+}
+
+.dash-col-patient {
+  width: 8.5625rem;
+}
+
+.dash-col-actions {
+  width: 10.3125rem;
+}
+
+.dash-table th {
+  padding: 0 1.5625rem 0 0;
+  border-bottom: 0.0625rem solid #7a7d80;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  line-height: 2.5rem;
+  text-align: left;
+  text-transform: uppercase;
+  color: #4a4a4a;
+  white-space: nowrap;
+}
+
+.dash-table td {
+  height: 5.3rem;
+  padding: 0 1.5625rem 0 0;
+  border-bottom: 0.047rem solid #d6d4d2;
+  vertical-align: middle;
+}
+
+.dash-table th:first-child,
+.dash-table td:first-child {
+  padding-left: 0.625rem;
+}
+
+.dash-table th:last-child,
+.dash-table td:last-child {
+  padding-right: 0.625rem;
+}
+
+.dash-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.dash-cell-main {
+  display: block;
+  font-size: 0.875rem;
+  color: #253746;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dash-cell-strong {
+  font-weight: 500;
+}
+
+.dash-cell-muted {
+  color: #4a4a4a;
+}
+
+.dash-cell-sub {
+  display: block;
+  margin-top: 0.625rem;
+  font-size: 0.6875rem;
+  color: #7a7d80;
+}
+
+.dash-relation {
+  display: flex;
+  align-items: center;
+  gap: 0.3125rem;
+}
+
+.dash-relation svg {
+  color: #d3a693;
+}
+
+/* Status badges */
+
+.dash-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  white-space: nowrap;
+}
+
+.dash-badge-upcoming {
+  background: #dfe8f0;
+  color: #253746;
+}
+
+.dash-badge-completed {
+  background: #e7f0e9;
+  color: #33663f;
+}
+
+.dash-badge-dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.dash-badge-cancelled,
+.dash-badge-cancelledByHospital,
+.dash-badge-missed,
+.dash-badge-pending {
+  border: 0.0625rem solid #d6d4d2;
+  color: #4a4a4a;
+}
+
+.dash-action {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+  color: #4a4a4a;
+  border-bottom: 0.0625rem solid #253746;
+  white-space: nowrap;
+}
+
+.dash-action:hover {
+  color: #d3a693;
+  border-color: #d3a693;
+}
+
+.dash-empty {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #7a7d80;
+}
+
+.dash-link-btn {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-weight: 500;
+  color: #253746;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.dash-show-all {
+  display: block;
+  margin: 1.5rem auto 0;
+  padding: 0.5rem 1rem;
+  border: 0.0625rem solid #d6d4d2;
+  border-radius: 0.75rem;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  color: #2e2e2e;
+  cursor: pointer;
+}
+
+.dash-show-all:hover {
+  background: #f7f5f0;
+}
+
+/* Loading placeholders */
+.dash-skeleton {
+  display: block;
+  width: 70%;
+  height: 0.875rem;
+  border-radius: 0.375rem;
+  background: linear-gradient(90deg, #efede8 0%, #f7f5f0 50%, #efede8 100%);
+  background-size: 200% 100%;
+  animation: dash-shimmer 1.4s ease-in-out infinite;
+}
+
+.dash-skeleton.short {
+  width: 45%;
+  height: 0.625rem;
+  margin-top: 0.625rem;
+}
+
+@keyframes dash-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dash-skeleton {
+    animation: none;
+  }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 64rem) {
+  .dash-layout {
+    padding: 0 1.2rem;
+  }
+
+  .dash-toolbar {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .dash-search {
+    flex-basis: 100%;
+  }
+
+  .dash-toolbar-actions {
+    width: auto;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 48rem) {
+  .dash-layout {
+    flex-direction: column;
+    gap: 0;
+    min-height: 0;
+  }
+
+  .dash-overview {
+    padding-top: 1.75rem;
+  }
+
+  .dash-greeting {
+    font-size: 1.625rem;
+    line-height: 2rem;
+  }
+
+  .dash-toolbar {
+    margin-top: 1.5rem;
+  }
+
+  .dash-appointments {
+    padding: 1.25rem 0 0;
+  }
+}

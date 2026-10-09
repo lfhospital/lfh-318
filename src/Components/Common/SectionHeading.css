@@ -1,0 +1,49 @@
+/* Section heading pattern shared by the Contact and About pages */
+.page-eyebrow {
+  font-family: "Inter", sans-serif;
+  font-size: 0.8125rem;
+  line-height: 1.5rem;
+  text-transform: uppercase;
+  color: #7a7d80;
+}
+
+.page-section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  font-family: "Inter", sans-serif;
+}
+
+.page-section-title {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.page-section-title h2 {
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 2rem;
+  color: #253746;
+}
+
+.page-section-note {
+  max-width: 32rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: #7a7d80;
+}
+
+@media (max-width: 48rem) {
+  .page-section-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .page-section-title h2 {
+    font-size: 1.625rem;
+    line-height: 2rem;
+  }
+}

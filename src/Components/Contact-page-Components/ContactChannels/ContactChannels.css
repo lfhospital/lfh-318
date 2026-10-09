@@ -1,0 +1,152 @@
+/* =========================
+   CHANNEL CARDS
+========================= */
+
+.contact-channels {
+  display: flex;
+  flex-direction: column;
+  gap: 3.625rem;
+  font-family: "Inter", sans-serif;
+}
+
+.contact-channels .page-section-note {
+  max-width: 25.3125rem;
+}
+
+.contact-channel-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.contact-channel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2.9375rem;
+  padding: 1.875rem 1.25rem;
+  border: 0.0625rem solid #d6d4d2;
+  margin-left: -0.0625rem;
+  transition: background 0.2s ease;
+}
+
+.contact-channel:first-child {
+  margin-left: 0;
+}
+
+.contact-channel:hover {
+  background: #f7f5f0;
+}
+
+.contact-channel-icon {
+  display: block;
+}
+
+.contact-channel-body {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0;
+}
+
+.contact-channel-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 15.5625rem;
+}
+
+.contact-channel-text h3 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.75rem;
+  color: #253746;
+}
+
+/* Stretch the main link over the whole card */
+.contact-channel-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.contact-channel-link:focus-visible {
+  outline: none;
+}
+
+.contact-channel:has(.contact-channel-link:focus-visible) {
+  outline: 0.125rem solid #253746;
+  outline-offset: -0.125rem;
+}
+
+.contact-channel-text p {
+  margin-top: 0.375rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: #7a7d80;
+}
+
+.contact-channel-value {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.25rem;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.75rem;
+  color: #253746;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+  cursor: copy;
+}
+
+.contact-channel-arrow {
+  flex-shrink: 0;
+  color: #253746;
+  opacity: 0;
+  transform: translate(-0.25rem, 0.25rem);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.contact-channel:hover .contact-channel-arrow {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 64rem) {
+  .contact-channel-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contact-channel {
+    margin: 0 0 -0.0625rem -0.0625rem;
+  }
+
+  .contact-channel:nth-child(odd) {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 48rem) {
+  .contact-channels {
+    gap: 2rem;
+  }
+
+  .contact-channel-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .contact-channel,
+  .contact-channel:nth-child(odd) {
+    margin: 0 0 -0.0625rem 0;
+    gap: 1.5rem;
+  }
+
+  .contact-channel-arrow {
+    opacity: 1;
+    transform: none;
+  }
+}

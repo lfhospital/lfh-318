@@ -1,0 +1,25 @@
+.contact-page {
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: calc(4.15rem + 6.0625rem) 3.25rem 11rem;
+}
+
+.contact-page-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 4.25rem;
+  margin-top: 0.125rem;
+}
+
+@media (max-width: 64rem) {
+  .contact-page {
+    padding: calc(4.15rem + 3rem) 1.2rem 6rem;
+  }
+}
+
+@media (max-width: 48rem) {
+  .contact-page-sections {
+    gap: 3.5rem;
+    margin-top: 3rem;
+  }
+}

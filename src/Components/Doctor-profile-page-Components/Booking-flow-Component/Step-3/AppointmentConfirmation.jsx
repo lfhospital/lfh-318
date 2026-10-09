@@ -1,11 +1,113 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./AppointmentConfirmation.css";
 import Navbar from "../../Navbar/Navbar";
 import Footer from "../../Footer/DoctorFooter";
 import dock from "../../../../asserts/doctor.png";
 import { ArrowDownToLine, Calendar, MapPin } from "lucide-react";
 
+function calculateAge(isoDob) {
+  if (!isoDob) return null;
+  const dobDate = new Date(isoDob);
+  if (Number.isNaN(dobDate.getTime())) return null;
+  const today = new Date();
+  let age = today.getFullYear() - dobDate.getFullYear();
+  const monthDiff = today.getMonth() - dobDate.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dobDate.getDate())) {
+    age--;
+  }
+  return age;
+}
+
+// Parses a DD/MM/YYYY string (as captured on the Patient Info step) into
+// an ISO date, used only for age display.
+function parseDobToIso(ddmmyyyy) {
+  if (!ddmmyyyy) return null;
+  const match = ddmmyyyy.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (!match) return null;
+  const [, dd, mm, yyyy] = match;
+  return `${yyyy}-${mm.padStart(2, "0")}-${dd.padStart(2, "0")}`;
+}
+
+// Produces (and persists) a readable booking reference. If a Razorpay
+// payment id is available we derive the id from it so it stays stable
+// across refreshes; otherwise we generate one once and cache it.
+function getBookingId(appointment) {
+  const cached = localStorage.getItem("bookingId");
+  if (cached) return cached;
+
+  const year = new Date().getFullYear().toString().slice(-2);
+  const paymentId = appointment?.payment?.paymentId;
+  const suffixSource = paymentId
+    ? paymentId.replace(/[^A-Za-z0-9]/g, "").slice(-8).toUpperCase()
+    : Math.random().toString(36).slice(-8).toUpperCase();
+
+  const part1 = suffixSource.slice(0, 4) || "0000";
+  const part2 = suffixSource.slice(4, 8) || "0000";
+
+  const bookingId = `LKM-${year}-${part1}-${part2}`;
+  localStorage.setItem("bookingId", bookingId);
+  return bookingId;
+}
+
 export default function AppointmentConfirmation({ onReschedule, onCancel }) {
+  const [appointment, setAppointment] = useState(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("appointment");
+    if (stored) {
+      try {
+        setAppointment(JSON.parse(stored));
+      } catch (e) {
+        console.error("Failed to parse appointment from localStorage", e);
+      }
+    }
+  }, []);
+
+  // ---------- Derived display values ----------
+  const doctorName = appointment?.doctorName || "Dr. Ananya Menon";
+  const doctorSpecialty =
+    appointment?.specialty || "Cardiologist · Interventional";
+  const doctorImage = appointment?.doctorImage || dock;
+
+  const visitMode =
+    appointment?.selectedMode === "virtual" ? "Virtual" : "In-person";
+
+  const patient = appointment?.patient;
+  const patientName = patient?.fullName || "—";
+  const patientPhone = patient?.mobileNumber || "";
+
+  const bookingId = getBookingId(appointment);
+
+  const selectedDateObj = appointment?.selectedDate
+    ? new Date(appointment.selectedDate)
+    : null;
+  const validDate =
+    selectedDateObj && !Number.isNaN(selectedDateObj.getTime())
+      ? selectedDateObj
+      : null;
+
+  const formattedVisitDate = validDate
+    ? validDate.toLocaleDateString("en-IN", {
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      })
+    : "Date not available";
+
+  const visitDay = validDate ? validDate.getDate().toString() : "--";
+  const visitMonthYear = validDate
+    ? validDate.toLocaleDateString("en-IN", {
+        month: "short",
+        year: "numeric",
+      })
+    : "";
+  const visitWeekday = validDate
+    ? validDate.toLocaleDateString("en-IN", { weekday: "short" })
+    : "";
+
+  const visitTime = appointment?.selectedTime || "";
+
   return (
     <>
       <Navbar />
@@ -86,7 +188,7 @@ export default function AppointmentConfirmation({ onReschedule, onCancel }) {
           <div className="ac-booking-id">
             <span>Booking ID</span>
 
-            <strong>LKM-26-4479-2207</strong>
+            <strong>{bookingId}</strong>
           </div>
         </div>
 
@@ -100,13 +202,19 @@ export default function AppointmentConfirmation({ onReschedule, onCancel }) {
           <div className="ac-appointment-details">
             <div className="ac-doctor-header">
               <div className="ac-doctor-image">
-                <img src={dock} alt="Dr. Ananya Menon" />
+                <img
+                  src={doctorImage}
+                  alt={doctorName}
+                  onError={(e) => {
+                    e.target.src = dock;
+                  }}
+                />
               </div>
 
               <div className="ac-doctor-info">
-                <h2>Dr. Ananya Menon</h2>
+                <h2>{doctorName}</h2>
 
-                <p>Cardiologist · Interventional</p>
+                <p>{doctorSpecialty}</p>
               </div>
             </div>
 
@@ -115,26 +223,16 @@ export default function AppointmentConfirmation({ onReschedule, onCancel }) {
             <div className="ac-detail-row">
               <span>Booking ID</span>
 
-              <strong>LKM-26-4479-2207</strong>
+              <strong>{bookingId}</strong>
             </div>
 
             <div className="ac-detail-row">
-              <span>Updated visit</span>
+              <span>Visit</span>
 
               <div>
-                <strong>Mon, 11 May 2026</strong>
+                <strong>{formattedVisitDate}</strong>
 
-                <small>5:30 PM · 25–30 min</small>
-              </div>
-            </div>
-
-            <div className="ac-detail-row ac-was-row">
-              <span>Was</span>
-
-              <div>
-                <strong className="ac-old-date">Mon, 10-May-2026</strong>
-
-                <small className="ac-old-time">5:30 PM</small>
+                <small>{visitTime}</small>
               </div>
             </div>
 
@@ -144,7 +242,7 @@ export default function AppointmentConfirmation({ onReschedule, onCancel }) {
               <div>
                 <strong>First consultation</strong>
 
-                <small>In-person</small>
+                <small>{visitMode}</small>
               </div>
             </div>
 
@@ -152,9 +250,9 @@ export default function AppointmentConfirmation({ onReschedule, onCancel }) {
               <span>Patient</span>
 
               <div>
-                <strong>Rohan Iyer</strong>
+                <strong>{patientName}</strong>
 
-                <small>+91 98765 43210</small>
+                <small>{patientPhone}</small>
               </div>
             </div>
           </div>
@@ -165,12 +263,14 @@ export default function AppointmentConfirmation({ onReschedule, onCancel }) {
             <span className="ac-visit-label">YOUR VISIT</span>
 
             <div className="ac-visit-date">
-              <strong>10</strong>
+              <strong>{visitDay}</strong>
 
-              <span>May 2026 · Sun</span>
+              <span>
+                {visitMonthYear} {visitWeekday && `· ${visitWeekday}`}
+              </span>
             </div>
 
-            <div className="ac-visit-time">5:30 PM</div>
+            <div className="ac-visit-time">{visitTime}</div>
 
             <p className="ac-arrive-text">Arrive 15 minutes early</p>
 

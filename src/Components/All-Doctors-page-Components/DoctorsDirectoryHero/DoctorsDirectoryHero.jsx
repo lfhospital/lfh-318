@@ -1,7 +1,11 @@
 import { Search, ChevronDown } from "lucide-react";
 import "./DoctorsDirectoryHero.css";
 
-export default function DoctorsDirectoryHero({ doctorCount = 0 }) {
+export default function DoctorsDirectoryHero({
+  doctorCount = 0,
+  searchQuery = "",
+  onSearchChange,
+}) {
   return (
     <section className="doctors-directory-hero">
       <div className="directory-content">
@@ -10,7 +14,7 @@ export default function DoctorsDirectoryHero({ doctorCount = 0 }) {
         <h1 className="directory-title">
           Find your right
           <br />
-          specialist.
+          specialist
         </h1>
 
         <p className="directory-description">
@@ -23,8 +27,10 @@ export default function DoctorsDirectoryHero({ doctorCount = 0 }) {
             <input
               type="text"
               placeholder="Search by doctor name"
+              value={searchQuery}
+              onChange={(e) => onSearchChange?.(e.target.value)}
             />
-            <Search size={34} strokeWidth={1.8} />
+            <Search size={20} strokeWidth={1.8} />
           </div>
 
           <div className="right-controls">

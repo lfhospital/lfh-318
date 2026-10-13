@@ -12,9 +12,13 @@ import PackageDetail3 from './pages/Package-detail-page3';
 import All_Specialties from './pages/All-specility-page';
 import HealthLibrary from './pages/HealthLibrary-page';
 import LoginPage from './pages/Login-page';
+import SignupPage from './pages/Signup-page';
 import ContactPage from './pages/Contact-page';
 import AboutPage from './pages/About-page';
 import PatientDashboard from './pages/Patient-dashboard-page';
+import PatientAppointments from './pages/Patient-appointments-page';
+import PatientPrescriptions from './pages/Patient-prescriptions-page';
+import PatientStoriesPage from './pages/Patient-stories-page';
 import BookingFlowPage from './Components/Doctor-profile-page-Components/Booking-flow-Component/Booking-flow-page';
 import PatientInfo from './Components/Doctor-profile-page-Components/Booking-flow-Component/Step-1/PatientInfo';
 import Review from './Components/Doctor-profile-page-Components/Booking-flow-Component/Step-2/Review';
@@ -50,8 +54,10 @@ function DevNavigation() {
     { path: '/compare', label: 'compare' },
     { path: '/health-library', label: 'healthLibrary' },
     { path: '/about', label: 'about' },
+    { path: '/patient-stories', label: 'patientStories' },
     { path: '/contact', label: 'contact' },
     { path: '/login', label: 'login' },
+    { path: '/signup', label: 'signup' },
     { path: '/dashboard', label: 'dashboard' },
     { path: '/booking-flow', label: 'bookingFlow' },
     { path: '/patient-info', label: 'patientInfo' },
@@ -121,9 +127,13 @@ export default function App() {
           <Route path="/compare" element={<ComparePage />} />
           <Route path="/health-library" element={<HealthLibrary />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/patient-stories" element={<PatientStoriesPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
           <Route path="/dashboard" element={<PatientDashboard />} />
+          <Route path="/dashboard/appointments" element={<PatientAppointments />} />
+          <Route path="/dashboard/prescriptions" element={<PatientPrescriptions />} />
           
           {/* Booking Flow Routes */}
           <Route path="/booking-flow" element={<BookingFlowPage />} />

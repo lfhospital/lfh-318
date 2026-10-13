@@ -31,7 +31,10 @@ function formatDay(date) {
 const formatTime = (date) =>
   date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
 
-function getStatus(a, start) {
+// How long a slot lasts; hospital_duration is in minutes
+const durationMinutes = (a) => Number(a.hospital_duration) || 20;
+
+function getStatus(a, start, end) {
   switch (a.appointmentStatus) {
     case "completed":
       return "completed";
@@ -42,7 +45,8 @@ function getStatus(a, start) {
     case "missed":
       return "missed";
     default:
-      return start > new Date() ? "upcoming" : "pending";
+      // Still upcoming until the slot ends, so an in-progress call counts as upcoming
+      return end > new Date() ? "upcoming" : "pending";
   }
 }
 
@@ -55,7 +59,8 @@ function getAction(a, status) {
 
 function mapAppointment(a, patientId) {
   const start = appointmentStart(a);
-  const status = getStatus(a, start);
+  const end = new Date(start.getTime() + durationMinutes(a) * 60000);
+  const status = getStatus(a, start, end);
   const specialities = (a.doctorSpeciality || []).map((s) => s.value).filter(Boolean);
   const isSelf = !a.patientRelationId || a.patientRelationId === patientId;
 
@@ -68,13 +73,16 @@ function mapAppointment(a, patientId) {
         ? `${specialities[0]} +${specialities.length - 1}`
         : specialities[0] || "",
     type: CONSULTATION_TYPES[a.consultationType] || titleCase(a.consultationType),
+    consultationType: a.consultationType,
     date: formatDay(start),
     time: formatTime(start),
     start,
+    end,
     patient: titleCase(a.appointmentFor),
     relation: isSelf ? "Me" : "Family",
     status,
     action: getAction(a, status),
+    hasPrescription: status === "completed" && Boolean(a.isPrescriptionAvailable),
   };
 }
 
@@ -85,14 +93,56 @@ function sortAppointments(list) {
   return [...upcoming, ...rest];
 }
 
+// Patient filter: "all", "me", or a family member's name
+export function buildPatientOptions(appointments) {
+  const family = [
+    ...new Set(appointments.filter((a) => a.relation === "Family").map((a) => a.patient)),
+  ];
+  return [
+    { value: "all", label: "All" },
+    { value: "me", label: "Me" },
+    ...family.map((name) => ({ value: name, label: name })),
+  ];
+}
+
+export function matchesPatient(a, patient) {
+  if (patient === "all") return true;
+  if (patient === "me") return a.relation === "Me";
+  return a.patient === patient;
+}
+
+// Open a few minutes early so patients can join on time
+const JOIN_WINDOW_MS = 10 * 60000;
+
+export function isLive(a, now = new Date()) {
+  return (
+    a.status === "upcoming" &&
+    now.getTime() >= a.start.getTime() - JOIN_WINDOW_MS &&
+    now < a.end
+  );
+}
+
+// Last list fetched, so moving between dashboard pages doesn't wait on the API again
+let cache = { patientId: null, appointments: [] };
+
+export function clearAppointmentsCache() {
+  cache = { patientId: null, appointments: [] };
+}
+
 export function useAppointments(patientId) {
-  const [state, setState] = useState({ appointments: [], loading: true, error: "" });
+  const cached = cache.patientId === patientId ? cache.appointments : null;
+  const [state, setState] = useState({
+    appointments: cached || [],
+    loading: !cached,
+    error: "",
+  });
   const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     if (!patientId) return;
     let cancelled = false;
-    setState((s) => ({ ...s, loading: true, error: "" }));
+    // Refresh in the background when a cached list is already showing
+    setState((s) => ({ ...s, loading: cache.patientId !== patientId, error: "" }));
 
     (async () => {
       try {
@@ -104,11 +154,15 @@ export function useAppointments(patientId) {
         const result = await response.json().catch(() => null);
         if (!response.ok || !result?.success) throw new Error(result?.message || `HTTP ${response.status}`);
         const rows = (result.data?.AppointmentsData || []).map((a) => mapAppointment(a, patientId));
-        if (!cancelled) setState({ appointments: sortAppointments(rows), loading: false, error: "" });
+        const sorted = sortAppointments(rows);
+        cache = { patientId, appointments: sorted };
+        if (!cancelled) setState({ appointments: sorted, loading: false, error: "" });
       } catch (err) {
         console.error("Error fetching appointments:", err);
-        if (!cancelled)
+        // Keep showing a cached list rather than replacing it with an error
+        if (!cancelled && cache.patientId !== patientId)
           setState({ appointments: [], loading: false, error: "We couldn't load your appointments right now." });
+        else if (!cancelled) setState((s) => ({ ...s, loading: false }));
       }
     })();
 

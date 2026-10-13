@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { ChevronDown, Lock } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { ArrowLeft, ChevronDown, Lock } from "lucide-react";
 import "./Login.css";
 import googleIcon from "../../../asserts/google-icon.svg";
 import OtpVerification from "../OtpVerification/OtpVerification";
@@ -12,7 +13,44 @@ const countryCodes = [
   { code: "UK", dial: "+44", length: 10 },
 ];
 
-export default function Login() {
+// Sign up and sign in share one OTP flow: verifyotp creates the patient on
+// first use, so the modes differ only in copy and the links between them.
+const COPY = {
+  login: {
+    intro: {
+      title: "Your care, ",
+      accent: "always within reach.",
+      text: "Appointments, reports, prescriptions and payments for you and your family. All in one secure place.",
+    },
+    heading: "Welcome",
+    text: "Sign in securely with your registered mobile number. A one time password will be sent to you.",
+  },
+  signup: {
+    intro: {
+      title: "One account",
+      accent: "for every step of care.",
+      // The design starts the accent on its own line
+      breakBeforeAccent: true,
+      text: "One secure account for you and your family. Manage appointments, reports, prescriptions and payments with ease.",
+    },
+    heading: "Let's get started.",
+    text: "Enter your mobile number to create your patient account. We'll verify it with a quick OTP.",
+  },
+};
+
+export default function Login({ mode = "login" }) {
+  const navigate = useNavigate();
+  // Carry ?redirect= across the sign in / sign up switch
+  const { search } = useLocation();
+  const isSignup = mode === "signup";
+  const copy = COPY[isSignup ? "signup" : "login"];
+
+  // React Router tracks history depth in state.idx; with nothing to go back
+  // to (e.g. /signup opened directly), fall back to the sign in page
+  const handleBack = () => {
+    if (window.history.state?.idx > 0) navigate(-1);
+    else navigate(`/login${search}`);
+  };
   const [country, setCountry] = useState(countryCodes[0]);
   const [mobile, setMobile] = useState("");
   const [error, setError] = useState("");
@@ -54,11 +92,7 @@ export default function Login() {
           accent: "security step.",
           text: "Every sign in is verified to keep your account and health information safe, secure and private.",
         }
-      : {
-          title: "Your care, ",
-          accent: "always within reach.",
-          text: "Appointments, reports, prescriptions and payments for you and your family. All in one secure place.",
-        };
+      : copy.intro;
 
   return (
     <section className="login-section">
@@ -66,6 +100,7 @@ export default function Login() {
         <div className="login-intro-content">
           <h1 className="login-intro-title">
             {intro.title}
+            {intro.breakBeforeAccent && <br />}
             <span>{intro.accent}</span>
           </h1>
           <p className="login-intro-text">{intro.text}</p>
@@ -81,12 +116,22 @@ export default function Login() {
           />
         ) : (
           <div className="login-panel-content">
+            {isSignup && (
+              <div className="login-back-row">
+                <button
+                  type="button"
+                  className="otp-back"
+                  onClick={handleBack}
+                  aria-label="Go back"
+                >
+                  <ArrowLeft size={20} strokeWidth={1.5} />
+                </button>
+              </div>
+            )}
+
             <div className="login-heading">
-              <h2>Welcome</h2>
-              <p>
-                Sign in securely with your registered mobile number. A one time
-                password will be sent to you.
-              </p>
+              <h2>{copy.heading}</h2>
+              <p>{copy.text}</p>
             </div>
 
             <form className="login-form" onSubmit={handleSendOtp} noValidate>
@@ -143,26 +188,37 @@ export default function Login() {
               )}
             </form>
 
-            <div className="login-alt">
-              <span className="login-label">Or</span>
-              <button type="button" className="login-google-btn">
-                <img src={googleIcon} alt="" width="24" height="24" />
-                Sign in with Google
-              </button>
-            </div>
+            {isSignup ? (
+              <div className="login-signup">
+                <p>Already have an account?</p>
+                <Link to={`/login${search}`} className="login-signup-link">
+                  Sign In
+                </Link>
+              </div>
+            ) : (
+              <>
+                <div className="login-alt">
+                  <span className="login-label">Or</span>
+                  <button type="button" className="login-google-btn">
+                    <img src={googleIcon} alt="" width="24" height="24" />
+                    Sign in with Google
+                  </button>
+                </div>
 
-            <div className="login-signup">
-              <p>New here?</p>
-              <a href="#" className="login-signup-link">
-                Create an account
-              </a>
-            </div>
+                <div className="login-signup">
+                  <p>New here?</p>
+                  <Link to={`/signup${search}`} className="login-signup-link">
+                    Create an account
+                  </Link>
+                </div>
 
-            <p className="login-terms">
-              By continuing you agree to our <a href="#">Terms</a> and{" "}
-              <a href="#">Privacy Policy</a>. This portal is HIPAA-aligned and
-              NABH compliant.
-            </p>
+                <p className="login-terms">
+                  By continuing you agree to our <a href="#">Terms</a> and{" "}
+                  <a href="#">Privacy Policy</a>. This portal is HIPAA-aligned and
+                  NABH compliant.
+                </p>
+              </>
+            )}
           </div>
         )}
       </div>

@@ -127,6 +127,10 @@
   align-items: center;
   gap: 0.5rem;
   margin-top: 5rem;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
   cursor: pointer;
 }
 

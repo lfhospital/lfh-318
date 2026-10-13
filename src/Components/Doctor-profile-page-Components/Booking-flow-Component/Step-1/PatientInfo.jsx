@@ -5,6 +5,7 @@ import Navbar from "../../Navbar/Navbar";
 import dock from "../../../../asserts/doctor.png";
 import "./PatientInfo.css";
 import { ChevronLeft, Upload, FileText, X } from "lucide-react";
+import { getPatientSession } from "../../../../utils/patientSession";
 
 // Base URL reports are served from once uploaded — mirrors the pattern
 // already used for doctor profile photos elsewhere in the app.
@@ -94,6 +95,13 @@ export default function PatientInfo({ onContinue, onBack }) {
     reason: "",
   });
 
+  // Booking needs a logged-in patient; come back here after login
+  useEffect(() => {
+    if (!getPatientSession()?.patientId) {
+      navigate("/login?redirect=/patient-info", { replace: true });
+    }
+  }, [navigate]);
+
   // Load the doctor/slot selection saved in Step 0 (Doctor Profile page),
   // and any previously filled patient info if the user navigated back.
   useEffect(() => {
@@ -123,6 +131,17 @@ export default function PatientInfo({ onContinue, onBack }) {
         setUploadedFile(parsed.uploadedFile || null);
       } catch (e) {
         console.error("Failed to parse patientInfo from localStorage", e);
+      }
+    } else {
+      // First visit: start from the logged-in patient's own details
+      const session = getPatientSession();
+      if (session) {
+        setFormData((prev) => ({
+          ...prev,
+          fullName: session.name || "",
+          mobileNumber: session.phno || "",
+          email: session.email || "",
+        }));
       }
     }
   }, []);

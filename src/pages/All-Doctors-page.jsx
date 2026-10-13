@@ -6,12 +6,20 @@ import Navbar from "../Components/Home-page-Components/Navbar/Navbar";
 
 export default function All_Doctors() {
     const [doctorCount, setDoctorCount] = useState(0);
+    const [searchQuery, setSearchQuery] = useState("");
 
     return (
         <>
             <Navbar />
-            <DoctorsDirectoryHero doctorCount={doctorCount} />
-            <DoctorsListing onDoctorsLoaded={setDoctorCount} />
+            <DoctorsDirectoryHero
+                doctorCount={doctorCount}
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+            />
+            <DoctorsListing
+                onDoctorsLoaded={setDoctorCount}
+                searchQuery={searchQuery}
+            />
             <Footer />
         </>
     );

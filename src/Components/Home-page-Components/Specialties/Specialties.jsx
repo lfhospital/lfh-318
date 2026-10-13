@@ -1,50 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Specialties.css';
 
-const specialties = [
-  {
-    id: '01',
-    title: 'Cardiology',
-    desc: 'Advanced heart & vascular care guided by precise diagnostics and clinical expertise.',
-  },
-  {
-    id: '02',
-    title: 'Orthopaedics',
-    desc: 'Bone, joint, and spine care focused on mobility, recovery, and rehabilitation.',
-  },
-  {
-    id: '03',
-    title: 'Neurology',
-    desc: 'Diagnosis and cutting-edge treatment for neurological disorders affecting the brain and nervous system.',
-  },
-  {
-    id: '04',
-    title: 'Oncology',
-    desc: 'Comprehensive heart & vascular care with advanced diagnostic imaging.',
-  },
-  {
-    id: '05',
-    title: 'Paediatrics',
-    desc: 'Dedicated healthcare for infants, children, and adolescents across every stage of development.',
-  },
-  {
-    id: '06',
-    title: 'Gastroenterology',
-    desc: 'Comprehensive heart & vascular care with advanced diagnostic imaging.',
-  },
-  {
-    id: '07',
-    title: 'Nephrology',
-    desc: 'Comprehensive heart & vascular care with advanced diagnostic imaging.',
-  },
-  {
-    id: '08',
-    title: 'Obstetrics',
-    desc: 'Comprehensive heart & vascular care with advanced diagnostic imaging.',
-  },
-];
+const DEPARTMENTS_API = 'https://ishah.in/api/lfhospital/specialities/departments';
+const VISIBLE_COUNT = 8;
 
 export default function Specialties() {
+  const [departments, setDepartments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(DEPARTMENTS_API);
+        const data = await response.json();
+
+        if (data.success && Array.isArray(data.specialist)) {
+          const active = data.specialist
+            .filter((d) => d.isActive)
+            .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+            .slice(0, VISIBLE_COUNT);
+          setDepartments(active);
+        } else {
+          setError('Failed to load specialties');
+        }
+      } catch (err) {
+        console.error('Error fetching departments:', err);
+        setError('Failed to load specialties');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDepartments();
+  }, []);
+
   return (
     <section className="specialties">
       <div className="specialties-inner">
@@ -56,18 +48,22 @@ export default function Specialties() {
             </p>
           </div>
 
-          <a href="#" className="view-all">
+          <Link to="/all-specialties" className="view-all">
             View all
-          </a>
+          </Link>
         </div>
 
+        {loading && <p className="specialties-status">Loading specialties...</p>}
+        {!loading && error && <p className="specialties-status">{error}</p>}
+
         <div className="specialties-grid">
-          {specialties.map((specialty) => (
+          {departments.map((department, index) => (
             <SpecialtyCard
-              key={specialty.id}
-              id={specialty.id}
-              title={specialty.title}
-              desc={specialty.desc}
+              key={department._id}
+              departmentId={department._id}
+              number={String(index + 1).padStart(2, '0')}
+              title={department.name}
+              desc={department.description}
             />
           ))}
         </div>
@@ -75,11 +71,12 @@ export default function Specialties() {
     </section>
   );
 }
-function SpecialtyCard({ id, title, desc }) {
+
+function SpecialtyCard({ departmentId, number, title, desc }) {
   return (
-    <div className="herospecialty-card">
+    <Link to={`/doctors?department=${departmentId}`} className="herospecialty-card">
       <div className="herocard-top">
-        <span className="herocard-id">{id}</span>
+        <span className="herocard-id">{number}</span>
       </div>
 
       <div className="herocard-content">
@@ -88,6 +85,6 @@ function SpecialtyCard({ id, title, desc }) {
       </div>
 
       <span className="herocard-arrow">↗</span>
-    </div>
+    </Link>
   );
 }

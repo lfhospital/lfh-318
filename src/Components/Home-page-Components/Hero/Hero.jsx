@@ -50,6 +50,8 @@ export default function Hero() {
   const [doctorsLoading, setDoctorsLoading] = useState(false);
   const [packages, setPackages] = useState([]);
   const [packagesLoading, setPackagesLoading] = useState(false);
+  const [specialties, setSpecialties] = useState([]);
+  const [specialtiesLoading, setSpecialtiesLoading] = useState(false);
 
   const searchRef = useRef(null);
 
@@ -131,6 +133,35 @@ export default function Hero() {
     fetchPackages();
   }, []);
 
+  // Fetch specialties from the same API used on the /all-specialties page
+  useEffect(() => {
+    const fetchSpecialties = async () => {
+      try {
+        setSpecialtiesLoading(true);
+
+        const response = await fetch(
+          "https://ishah.in/api/lfhospital/specialities"
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.success && data.specialist) {
+          setSpecialties(data.specialist);
+        }
+      } catch (err) {
+        console.error("Error fetching specialties for search:", err);
+      } finally {
+        setSpecialtiesLoading(false);
+      }
+    };
+
+    fetchSpecialties();
+  }, []);
+
   // Build the list of doctor display names + keep reference to the doctor object
   const doctorEntries = doctors.map((doc) => ({
     id: doc.doctorId || doc._id,
@@ -143,14 +174,25 @@ export default function Hero() {
     label: pkg.package_name,
   }));
 
+  // Specialty labels from the API carry stray whitespace/commas
+  const specialtyEntries = specialties
+    .filter((spec) => spec.departmentId)
+    .map((spec) => ({
+      id: spec._id,
+      label: (spec.label || spec.value || "").trim().replace(/,$/, ""),
+    }))
+    .filter((spec) => spec.label);
+
   const searchData = {
     ...staticSearchData,
+    Specialties: specialtyEntries.map((s) => s.label),
     Doctors: doctorEntries.map((d) => d.label),
     Packages: packageEntries.map((p) => p.label),
   };
 
   const tabOrder = [
     "Top Results",
+    "Specialties",
     "Tests",
     "Doctors",
     "Packages",
@@ -174,6 +216,13 @@ export default function Hero() {
         .map((p) => p.label)
     : [];
 
+  // Specialties matching the current query, surfaced in "Top Results" as well
+  const matchingSpecialtyLabels = normalizedQuery
+    ? specialtyEntries
+        .filter((s) => s.label.toLowerCase().includes(normalizedQuery))
+        .map((s) => s.label)
+    : [];
+
   let filteredResults;
 
   if (activeTab === "Top Results") {
@@ -181,8 +230,9 @@ export default function Hero() {
       item.toLowerCase().includes(normalizedQuery)
     );
 
-    // Merge matching doctors & packages into Top Results (dedup)
+    // Merge matching specialties, doctors & packages into Top Results (dedup)
     const merged = [
+      ...matchingSpecialtyLabels,
       ...matchingDoctorLabels,
       ...matchingPackageLabels,
       ...baseTopResults,
@@ -209,6 +259,12 @@ export default function Hero() {
     const matchedPackage = packageEntries.find((p) => p.label === item);
     if (matchedPackage) {
       navigate(`/package-detail-1?package_id=${matchedPackage.id}`);
+      return;
+    }
+
+    const matchedSpecialty = specialtyEntries.find((s) => s.label === item);
+    if (matchedSpecialty) {
+      navigate(`/doctors?specialty=${encodeURIComponent(matchedSpecialty.label)}`);
     }
   };
 
@@ -264,7 +320,9 @@ export default function Hero() {
               </div>
 
               <div className="search-results">
-                {activeTab === "Doctors" && doctorsLoading ? (
+                {activeTab === "Specialties" && specialtiesLoading ? (
+                  <div className="no-result">Loading specialties...</div>
+                ) : activeTab === "Doctors" && doctorsLoading ? (
                   <div className="no-result">Loading doctors...</div>
                 ) : activeTab === "Packages" && packagesLoading ? (
                   <div className="no-result">Loading packages...</div>

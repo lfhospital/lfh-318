@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "./BrowseBySpecialty.css";
 import { ArrowRight } from "lucide-react";
 
-const API_URL = "https://ishah.in/api/lfhospital/specialities";
+const API_URL = "https://ishah.in/api/lfhospital/specialities/departments";
 
 export default function BrowseBySpecialty({ searchTerm = "" }) {
   const [specialties, setSpecialties] = useState([]);
@@ -36,15 +37,19 @@ export default function BrowseBySpecialty({ searchTerm = "" }) {
         const data = await response.json();
 
         if (!data?.success || !Array.isArray(data?.specialist)) {
-          throw new Error("Unexpected response from specialties API");
+          throw new Error("Unexpected response from departments API");
         }
 
         if (isMounted) {
-          const mapped = data.specialist.map((item, index) => ({
-            number: String(index + 1).padStart(2, "0"),
-            name: item.label?.trim() || item.value?.trim() || "Specialty",
-            description: item.specialistDescription?.trim() || "",
-          }));
+          const mapped = data.specialist
+            .filter((item) => item.isActive)
+            .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+            .map((item, index) => ({
+              id: item._id,
+              number: String(index + 1).padStart(2, "0"),
+              name: item.name?.trim() || "Specialty",
+              description: item.description?.trim() || "",
+            }));
 
           setSpecialties(mapped);
         }
@@ -96,8 +101,12 @@ export default function BrowseBySpecialty({ searchTerm = "" }) {
 
             {/* Specialty Grid */}
             <div className="specialty-grid">
-              {filteredSpecialties.map((specialty, index) => (
-                <div className="specialty-card" key={index}>
+              {filteredSpecialties.map((specialty) => (
+                <Link
+                  to={`/doctors?department=${specialty.id}`}
+                  className="specialty-card"
+                  key={specialty.id}
+                >
 
                   <span className="specialty-number">
                     {specialty.number}
@@ -115,7 +124,7 @@ export default function BrowseBySpecialty({ searchTerm = "" }) {
                     )}
                   </div>
 
-                </div>
+                </Link>
               ))}
             </div>
 

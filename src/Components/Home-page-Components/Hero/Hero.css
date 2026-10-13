@@ -298,8 +298,9 @@
 .search-tabs {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.1rem;
   padding: 1rem 1.25rem 0.8rem;
+  overflow-x: auto;
   border-bottom: 0.0625rem solid #ececec;
   background: #ffffff;
 }
@@ -312,6 +313,7 @@
     font-size: 0.6rem;
     font-weight: 400;
     color: #8d8d8d;
+    white-space: nowrap;
     text-transform: uppercase;
     transition: color 0.25s ease;
 }

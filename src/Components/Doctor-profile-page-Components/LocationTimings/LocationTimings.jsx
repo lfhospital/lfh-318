@@ -1,5 +1,8 @@
 import "./LocationTimings.css";
-import img from "../../../asserts/Map.png";
+
+const HOSPITAL_ADDRESS =
+  "First Floor, GM57+PR, Ring Rd, opposite Novotel Hotel, Venkateswara Nagar, Veterinary Colony, Vijayawada, Andhra Pradesh 520008";
+const MAP_QUERY = encodeURIComponent(`Lakshmee Foundation Hospital, ${HOSPITAL_ADDRESS}`);
 
 export default function LocationTimings() {
   return (
@@ -12,11 +15,16 @@ export default function LocationTimings() {
           <div className="hospital-details">
             <h2>Lakshmee Foundation Hospital</h2>
 
-            <p>
-              First Floor, GM57+PR, Ring Rd, opposite Novotel Hotel,
-              Venkateswara Nagar, Veterinary Colony, Vijayawada, Andhra
-              Pradesh 520008
-            </p>
+            <p>{HOSPITAL_ADDRESS}</p>
+
+            <a
+              className="directions-link"
+              href={`https://www.google.com/maps/dir/?api=1&destination=${MAP_QUERY}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Get directions →
+            </a>
           </div>
 
           <div className="timing-row">
@@ -27,7 +35,13 @@ export default function LocationTimings() {
 
         {/* Right Map */}
         <div className="docmap-card">
-          <img src={img} alt="Hospital Location" />
+          <iframe
+            title="Lakshmee Foundation Hospital location"
+            src={`https://www.google.com/maps?q=${MAP_QUERY}&output=embed`}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            allowFullScreen
+          />
         </div>
       </div>
     </section>

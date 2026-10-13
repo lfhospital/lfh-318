@@ -4,12 +4,11 @@
 
 .hl-library {
     width: 100%;
-    height: 190vh;
     background: #ffffff;
     box-sizing: border-box;
     font-family: "Inter", Arial, Helvetica, sans-serif;
     color: #26394b;
-    padding: 6rem 3rem;
+    padding: 6rem 3rem 2.3rem;
 }
 
 
@@ -19,7 +18,6 @@
 
 .hl-container {
     width: 100%;
-    min-height: 100vh;
     box-sizing: border-box;
 }
 
@@ -266,6 +264,7 @@
 
 .hc-section {
     width: 100%;
+    margin-top: 2.6rem;
 }
 
 

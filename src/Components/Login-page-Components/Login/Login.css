@@ -61,6 +61,11 @@
   padding: 0 1.4375rem;
 }
 
+.login-back-row {
+  display: flex;
+  margin-bottom: -1rem;
+}
+
 .login-heading {
   display: flex;
   flex-direction: column;

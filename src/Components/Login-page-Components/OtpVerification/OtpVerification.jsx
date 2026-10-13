@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { ArrowLeft, Clock } from "lucide-react";
 import "./OtpVerification.css";
 import { sendOtp, verifyOtp } from "../loginApi";
@@ -8,8 +8,13 @@ import { savePatientSession } from "../../../utils/patientSession";
 const OTP_LENGTH = 6;
 const RESEND_SECONDS = 30;
 
+// Only follow same-site paths (e.g. "/patient-info"), never "//evil.com"
+const safeRedirect = (path) =>
+  path && path.startsWith("/") && !path.startsWith("//") ? path : "/dashboard";
+
 export default function OtpVerification({ phone, phno, onBack }) {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [otp, setOtp] = useState(Array(OTP_LENGTH).fill(""));
   const [secondsLeft, setSecondsLeft] = useState(RESEND_SECONDS);
   const [error, setError] = useState("");
@@ -115,7 +120,7 @@ export default function OtpVerification({ phone, phno, onBack }) {
       return;
     }
     savePatientSession(phno, result.data);
-    navigate("/dashboard");
+    navigate(safeRedirect(searchParams.get("redirect")), { replace: true });
   };
 
   const timerLabel = `0:${String(secondsLeft).padStart(2, "0")}`;

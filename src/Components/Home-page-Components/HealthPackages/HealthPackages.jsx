@@ -1,38 +1,69 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import "./HealthPackages.css";
 
-const packages = [
-  {
-    id: 1,
-    title: "Full Body",
-    booked: "Booked 1200+ times this month",
-    description:
-      "Cardiac risk assessment with lipid profile, hs-CRP, ECG, 2D echo and consultation with a cardiologist...",
-    meta: "42 tests · 8h fasting · Report in 24h · Home collection available",
-    price: "₹2,299",
-  },
-  {
-    id: 2,
-    title: "Full Body",
-    booked: "Booked 1200+ times this month",
-    description:
-      "Cardiac risk assessment with lipid profile, hs-CRP, ECG, 2D echo and consultation with a cardiologist...",
-    meta: "42 tests · 8h fasting · Report in 24h · Home collection available",
-    price: "₹2,299",
-  },
-  {
-    id: 3,
-    title: "Full Body",
-    booked: "Booked 1200+ times this month",
-    description:
-      "Cardiac risk assessment with lipid profile, hs-CRP, ECG, 2D echo and consultation with a cardiologist...",
-    meta: "42 tests · 8h fasting · Report in 24h · Home collection available",
-    price: "₹2,299",
-  },
-];
+const PACKAGES_API = "https://ishah.in/api/lfhospital/packages";
+const VISIBLE_COUNT = 3;
+
+const toCard = (pkg) => {
+  const totalTests = (pkg.labTests || []).reduce(
+    (sum, test) => sum + (test.subTests?.length || 1),
+    0
+  );
+  const meta = [
+    `${totalTests} tests`,
+    pkg.home_collection_available && "Home collection available",
+  ]
+    .filter(Boolean)
+    .join(" · ");
+
+  return {
+    id: pkg._id,
+    tag: pkg.package_type?.package_type?.toUpperCase() || "HEALTH PACKAGE",
+    title: pkg.package_name,
+    description: pkg.description || "Comprehensive health screening package",
+    meta,
+    price: `₹${Number(pkg.price).toLocaleString("en-IN")}`,
+  };
+};
 
 export default function HealthPackages() {
+  const navigate = useNavigate();
+  const [packages, setPackages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchPackages = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(PACKAGES_API);
+        const data = await response.json();
+
+        if (data.success && Array.isArray(data.packages)) {
+          setPackages(
+            data.packages
+              .filter((pkg) => !pkg.archived)
+              .slice(0, VISIBLE_COUNT)
+              .map(toCard)
+          );
+        } else {
+          setError("Failed to load packages");
+        }
+      } catch (err) {
+        console.error("Error fetching packages:", err);
+        setError("Failed to load packages");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPackages();
+  }, []);
+
+  const detailPath = (id) => `/package-detail-1?package_id=${id}`;
+
   return (
     <section className="health-packages">
       <div className="packages-header">
@@ -45,21 +76,23 @@ export default function HealthPackages() {
           </p>
         </div>
 
-        <button className="view-packages-btn">
+        <button
+          className="view-packages-btn"
+          onClick={() => navigate("/health-packages")}
+        >
           View all packages
         </button>
       </div>
 
+      {loading && <p className="packages-status">Loading packages...</p>}
+      {!loading && error && <p className="packages-status">{error}</p>}
+
       <div className="packages-grid">
         {packages.map((item) => (
           <div className="homepackage-card" key={item.id}>
-            <p className="top-package-tag">
-              COMPREHENSIVE · MOST CHOSEN
-            </p>
+            <p className="top-package-tag">{item.tag}</p>
 
             <h3 className="package-title">{item.title}</h3>
-
-            <p className="package-booked">{item.booked}</p>
 
             <p className="package-description">
               {item.description}
@@ -75,12 +108,15 @@ export default function HealthPackages() {
                 </p>
               </div>
 
-              <a href="/" className="package-detail">
+              <Link to={detailPath(item.id)} className="package-detail">
                 View Detail
-              </a>
+              </Link>
             </div>
 
-            <button className="home-add-plan-btn">
+            <button
+              className="home-add-plan-btn"
+              onClick={() => navigate(detailPath(item.id))}
+            >
               Add to plan
               <ArrowRight size={20} />
             </button>

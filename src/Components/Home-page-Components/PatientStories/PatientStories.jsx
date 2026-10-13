@@ -1,27 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import patientImg from "../../../asserts/image2.png";
+import { fetchTestimonials } from "./testimonials";
 import "./PatientStories.css";
 
-const stories = [
-  {
-    text: "We were reassured at every step. The nursing team explained each test in a way we could understand, no jargon, no rush.",
-    name: "Priya R.",
-    role: "Oncology patient",
-  },
-  {
-    text: "We were reassured at every step. The nursing team explained each test in a way we could understand, no jargon, no rush.",
-    name: "Priya R.",
-    role: "Oncology patient",
-  },
-  {
-    text: "We were reassured at every step. The nursing team explained each test in a way we could understand, no jargon, no rush.",
-    name: "Priya R.",
-    role: "Oncology patient",
-  },
-];
+const VISIBLE_COUNT = 3;
 
 export default function PatientStories() {
+  const [stories, setStories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchTestimonials()
+      .then((all) => setStories(all.slice(0, VISIBLE_COUNT)))
+      .catch((err) => {
+        console.error("Error fetching testimonials:", err);
+        setError("Failed to load patient stories");
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <section className="patient-stories">
       <div className="stories-header">
@@ -29,10 +29,10 @@ export default function PatientStories() {
           From the people we've cared for
         </h2>
 
-        <a href="/" className="stories-link">
+        <Link to="/patient-stories" className="stories-link">
           <span className="stories-link-text">All Stories</span>
           <ArrowRight size={18} />
-        </a>
+        </Link>
       </div>
 
       <div className="stories-image-wrapper">
@@ -45,9 +45,12 @@ export default function PatientStories() {
 
       <div className="stories-divider"></div>
 
+      {loading && <p className="stories-status">Loading patient stories...</p>}
+      {!loading && error && <p className="stories-status">{error}</p>}
+
       <div className="stories-grid">
-        {stories.map((story, index) => (
-          <div className="story-card" key={index}>
+        {stories.map((story) => (
+          <div className="story-card" key={story.id}>
             <p className="story-text">{story.text}</p>
 
             <div className="story-author">

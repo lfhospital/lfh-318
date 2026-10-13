@@ -1,6 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import "./QuickIndex.css";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+
+const PAGE_SIZE = 21;
+
+// Page numbers to show: first, last, current ±1, with "..." for gaps
+function getPageItems(current, total) {
+  const pages = new Set([1, total, current - 1, current, current + 1]);
+  const sorted = [...pages].filter((p) => p >= 1 && p <= total).sort((a, b) => a - b);
+  const items = [];
+  sorted.forEach((p, i) => {
+    if (i > 0 && p - sorted[i - 1] > 1) items.push("dots-" + p);
+    items.push(p);
+  });
+  return items;
+}
 
 export default function QuickIndex() {
   const letters = [
@@ -36,6 +50,9 @@ export default function QuickIndex() {
   const [conditions, setConditions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [activeLetter, setActiveLetter] = useState("All");
+  const [page, setPage] = useState(1);
+  const gridRef = useRef(null);
 
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -70,6 +87,35 @@ export default function QuickIndex() {
 
     fetchDepartments();
   }, []);
+
+  const availableLetters = useMemo(
+    () => new Set(conditions.map((c) => c.title.charAt(0).toUpperCase())),
+    [conditions]
+  );
+
+  const filtered = useMemo(
+    () =>
+      activeLetter === "All"
+        ? conditions
+        : conditions.filter(
+            (c) => c.title.charAt(0).toUpperCase() === activeLetter
+          ),
+    [conditions, activeLetter]
+  );
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const pageItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  const selectLetter = (letter) => {
+    setActiveLetter(letter);
+    setPage(1);
+  };
+
+  const goToPage = (p) => {
+    if (p < 1 || p > totalPages || p === page) return;
+    setPage(p);
+    gridRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
   return (
     <>
       <section className="qi-section">
@@ -91,9 +137,12 @@ export default function QuickIndex() {
             <button
               key={letter}
               className={`qi-letter ${
-                letter === "All" ? "qi-letter-active" : ""
+                letter === activeLetter ? "qi-letter-active" : ""
               }`}
-              disabled={letter === "X"}
+              onClick={() => selectLetter(letter)}
+              disabled={
+                letter !== "All" && !loading && !availableLetters.has(letter)
+              }
             >
               {letter}
             </button>
@@ -119,31 +168,22 @@ export default function QuickIndex() {
           </div>
         </div>
       </section>
-      <section className="cg-section">
+      <section className="cg-section" ref={gridRef}>
+        {loading && <p className="cg-status">Loading conditions...</p>}
+
+        {!loading && error && (
+          <p className="cg-status cg-status-error">{error}</p>
+        )}
+
+        {!loading && !error && filtered.length === 0 && (
+          <p className="cg-status">No conditions found for this letter.</p>
+        )}
+
         <div className="cg-grid">
-          {loading && (
-            <p style={{ textAlign: "center", padding: "2rem", fontSize: "1.2rem" }}>
-              Loading conditions...
-            </p>
-          )}
-
-          {!loading && error && (
-            <p
-              style={{
-                textAlign: "center",
-                padding: "2rem",
-                fontSize: "1.2rem",
-                color: "red",
-              }}
-            >
-              {error}
-            </p>
-          )}
-
           {!loading &&
             !error &&
-            conditions.map((condition, index) => (
-              <div className="cg-card" key={index}>
+            pageItems.map((condition, index) => (
+              <div className="cg-card" key={condition.title + index}>
                 <div className="cg-number">{condition.number}</div>
 
                 <div className="cg-card-content">
@@ -157,25 +197,43 @@ export default function QuickIndex() {
       </section>
       <section className="hlf-section">
         {/* ================= PAGINATION ================= */}
-        <div className="hlf-pagination">
-          <button className="hlf-pagination-prev">
-            <ArrowLeft size={20} strokeWidth={1.7} />
-            <span>Previous</span>
-          </button>
+        {!loading && !error && totalPages > 1 && (
+          <div className="hlf-pagination">
+            <button
+              className="hlf-pagination-prev"
+              onClick={() => goToPage(page - 1)}
+              disabled={page === 1}
+            >
+              <ArrowLeft size={16} strokeWidth={1.8} />
+              <span>Previous</span>
+            </button>
 
-          <button className="hlf-page hlf-page-active">1</button>
+            {getPageItems(page, totalPages).map((item) =>
+              typeof item === "number" ? (
+                <button
+                  key={item}
+                  className={`hlf-page ${item === page ? "hlf-page-active" : ""}`}
+                  onClick={() => goToPage(item)}
+                >
+                  {item}
+                </button>
+              ) : (
+                <span key={item} className="hlf-dots">
+                  ...
+                </span>
+              )
+            )}
 
-          <button className="hlf-page">2</button>
-
-          <button className="hlf-page">3</button>
-
-          <span className="hlf-dots">...</span>
-
-          <button className="hlf-pagination-next">
-            <span>Next</span>
-            <ArrowRight size={20} strokeWidth={1.7} />
-          </button>
-        </div>
+            <button
+              className="hlf-pagination-next"
+              onClick={() => goToPage(page + 1)}
+              disabled={page === totalPages}
+            >
+              <span>Next</span>
+              <ArrowRight size={16} strokeWidth={1.8} />
+            </button>
+          </div>
+        )}
 
         {/* ================= HELP CENTRE ================= */}
         <div className="hlf-help">
@@ -189,7 +247,7 @@ export default function QuickIndex() {
 
           <a href="#" className="hlf-help-link">
             <span>Visit help centre</span>
-            <ArrowRight size={23} strokeWidth={1.7} />
+            <ArrowRight size={18} strokeWidth={1.7} />
           </a>
         </div>
       </section>

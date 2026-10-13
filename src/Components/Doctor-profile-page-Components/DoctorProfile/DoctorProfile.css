@@ -330,7 +330,26 @@
   cursor: pointer;
 }
 
-.docpbook-btn:hover {
+.docpbook-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Holds the slot area's height when a date has no slots, so the
+   vertically-centred profile doesn't jump around */
+.slots-empty {
+  min-height: 16rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.docpbook-btn:hover:not(:disabled) {
   box-shadow: 0 0.55rem 0.5rem #364656a3,
     0 -0.35rem 0rem #ffffff61;
 }

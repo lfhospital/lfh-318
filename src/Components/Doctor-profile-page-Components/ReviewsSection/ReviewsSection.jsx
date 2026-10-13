@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
+import { fetchDoctorRatings, formatRelativeDate } from "../doctorRatings";
 import "./ReviewsSection.css";
+
+const INITIAL_VISIBLE = 3;
 
 export default function ReviewsSection({ doctorId }) {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showAll, setShowAll] = useState(false);
   const [ratingStats, setRatingStats] = useState({
     average: 0,
     total: 0,
@@ -12,93 +16,27 @@ export default function ReviewsSection({ doctorId }) {
   });
 
   useEffect(() => {
-    const fetchRatings = async () => {
-      if (!doctorId) return;
-      
-      try {
-        setLoading(true);
-        const response = await fetch(
-          `https://ishah.in/api/lfhospital/doctor/getratings?doctorId=${doctorId}`
-        );
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        console.log('Ratings API Response:', data);
-        
-        if (data.success && data.ratingData) {
-          // Process reviews with time formatting
-          const processedReviews = data.ratingData.map(review => ({
-            name: review.patientName || 'Anonymous',
-            time: formatDate(review.createdAt.$date),
-            review: review.notes,
-            rating: review.rating
-          }));
-          
-          setReviews(processedReviews);
-          
-          // Calculate rating statistics
-          const stats = calculateRatingStats(data.ratingData);
-          setRatingStats(stats);
-        } else {
-          setReviews([]);
-        }
-      } catch (err) {
+    if (!doctorId) return;
+
+    setLoading(true);
+    fetchDoctorRatings(doctorId)
+      .then(({ reviews, average, total, distribution }) => {
+        setReviews(reviews);
+        setRatingStats({ average, total, distribution });
+      })
+      .catch((err) => {
         console.error('Error fetching ratings:', err);
         setError('Failed to load reviews');
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchRatings();
+      })
+      .finally(() => setLoading(false));
   }, [doctorId]);
-
-  // Format date to relative time
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffTime = Math.abs(now - date);
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    
-    if (diffDays === 0) return 'Today';
-    if (diffDays === 1) return 'Yesterday';
-    if (diffDays < 7) return `${diffDays} days ago`;
-    if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
-    if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
-    return `${Math.floor(diffDays / 365)} years ago`;
-  };
-
-  // Calculate rating statistics
-  const calculateRatingStats = (ratingData) => {
-    const total = ratingData.length;
-    const sum = ratingData.reduce((acc, curr) => acc + curr.rating, 0);
-    const average = total > 0 ? (sum / total).toFixed(1) : 0;
-    
-    // Count ratings by star
-    const counts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
-    ratingData.forEach(r => {
-      if (counts[r.rating] !== undefined) {
-        counts[r.rating]++;
-      }
-    });
-    
-    // Calculate distribution with percentages
-    const distribution = [5, 4, 3, 2, 1].map(star => ({
-      star,
-      count: counts[star],
-      width: total > 0 ? `${(counts[star] / total) * 100}%` : '0%'
-    }));
-    
-    return { average, total, distribution };
-  };
 
   // Render stars based on rating
   const renderStars = (rating) => {
     return '★'.repeat(rating) + '☆'.repeat(5 - rating);
   };
+
+  const visibleReviews = showAll ? reviews : reviews.slice(0, INITIAL_VISIBLE);
 
   if (loading) {
     return (
@@ -140,7 +78,9 @@ export default function ReviewsSection({ doctorId }) {
 
             <div className="stars">{renderStars(Math.round(ratingStats.average))}</div>
 
-            <p>Based on {ratingStats.total} reviews</p>
+            <p>
+              Based on {ratingStats.total} {ratingStats.total === 1 ? "review" : "reviews"}
+            </p>
           </div>
 
           <div className="rating-divider"></div>
@@ -171,18 +111,18 @@ export default function ReviewsSection({ doctorId }) {
         {/* Reviews List */}
         {reviews.length > 0 ? (
           <div className="reviews-list">
-            {reviews.map((review, index) => (
+            {visibleReviews.map((review, index) => (
               <div className="review-card" key={index}>
                 <div className="review-header">
                   <div>
                     <h3>{review.name}</h3>
-                    <span>{review.time}</span>
+                    <span>{formatRelativeDate(review.date)}</span>
                   </div>
 
                   <div className="review-stars">{renderStars(review.rating)}</div>
                 </div>
 
-                <p>{review.review}</p>
+                {review.review && <p>{review.review}</p>}
               </div>
             ))}
           </div>
@@ -192,11 +132,17 @@ export default function ReviewsSection({ doctorId }) {
           </div>
         )}
 
-        {reviews.length > 0 && (
-          <div className="reviews-link">
-            <span className="review-text">Read all reviews</span>
-            <span className="review-arrow">→</span>
-          </div>
+        {reviews.length > INITIAL_VISIBLE && (
+          <button
+            type="button"
+            className="reviews-link"
+            onClick={() => setShowAll(!showAll)}
+          >
+            <span className="review-text">
+              {showAll ? "Show fewer reviews" : `Read all ${reviews.length} reviews`}
+            </span>
+            <span className="review-arrow">{showAll ? "↑" : "→"}</span>
+          </button>
         )}
       </div>
     </section>

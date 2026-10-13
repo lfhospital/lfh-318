@@ -1,5 +1,6 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import "./MissionSection.css";
 
 export default function MissionSection() {
@@ -26,10 +27,10 @@ export default function MissionSection() {
           people-centered care.
         </p>
 
-        <a href="#" className="mission-link">
+        <Link to="/about" className="mission-link">
           <span>Our Story</span>
           <ArrowRight size={20} />
-        </a>
+        </Link>
       </div>
     </section>
   );

@@ -1,41 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Plus, Minus, ArrowRight } from "lucide-react";
 import "./FAQSection.css";
 
-const faqData = [
-  {
-    question: "How can I book an appointment online?",
-    answer:
-      "You can book an appointment through our website by selecting a doctor, choosing an available time slot, and confirming your visit.",
-  },
-  {
-    question: "How can I book an appointment online?",
-    answer:
-      "You can book appointments online 24/7 using our patient portal.",
-  },
-  {
-    question: "How can I book an appointment online?",
-    answer:
-      "Appointments can be scheduled online, over the phone, or at the reception desk.",
-  },
-  {
-    question: "How can I book an appointment online?",
-    answer:
-      "You will receive an SMS and email confirmation after booking.",
-  },
-  {
-    question: "How can I book an appointment online?",
-    answer:
-      "You can also reschedule or cancel appointments through your account.",
-  },
-];
+// Note: www.ishah.in has an SSL cert mismatch, so use the bare domain
+const FAQS_API = "https://ishah.in/api/lfhospital/getfaqs";
+const INITIAL_VISIBLE = 5;
 
 export default function FAQSection() {
+  const [faqData, setFaqData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showAll, setShowAll] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
+
+  useEffect(() => {
+    const fetchFaqs = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(FAQS_API);
+        const data = await response.json();
+
+        if (data.success && Array.isArray(data.questions)) {
+          const faqs = data.questions
+            .filter((q) => q.isActive)
+            .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+          setFaqData(faqs);
+        } else {
+          setError("Failed to load FAQs");
+        }
+      } catch (err) {
+        console.error("Error fetching FAQs:", err);
+        setError("Failed to load FAQs");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFaqs();
+  }, []);
 
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
+
+  const visibleFaqs = showAll ? faqData : faqData.slice(0, INITIAL_VISIBLE);
 
   return (
     <section className="faq-section">
@@ -59,9 +67,12 @@ export default function FAQSection() {
         </div>
 
         <div className="faq-right">
-          {faqData.map((item, index) => (
+          {loading && <p className="faq-status">Loading FAQs...</p>}
+          {!loading && error && <p className="faq-status">{error}</p>}
+
+          {visibleFaqs.map((item, index) => (
             <div
-              key={index}
+              key={item._id || index}
               className={`faq-item ${
                 activeIndex === index ? "active" : ""
               }`}
@@ -88,6 +99,18 @@ export default function FAQSection() {
               )}
             </div>
           ))}
+
+          {!loading && faqData.length > INITIAL_VISIBLE && (
+            <button
+              className="faq-toggle-btn"
+              onClick={() => {
+                setShowAll(!showAll);
+                setActiveIndex(null);
+              }}
+            >
+              {showAll ? "Show less" : `View all ${faqData.length} questions`}
+            </button>
+          )}
         </div>
 
       </div>

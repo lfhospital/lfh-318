@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   LayoutGrid,
   Calendar,
@@ -8,21 +8,24 @@ import {
   CreditCard,
   Users,
   Settings,
+  SquareCheckBig,
   Share,
   PanelLeftClose,
   PanelLeftOpen,
 } from "lucide-react";
 import "./DashboardSidebar.css";
 import { clearPatientSession } from "../../../utils/patientSession";
+import { clearAppointmentsCache } from "../appointments";
 
 const sections = [
-  { title: "Main", items: [{ label: "Overview", icon: LayoutGrid }] },
+  { title: "Main", items: [{ label: "Overview", icon: LayoutGrid, to: "/dashboard" }] },
   {
     title: "My Care",
     items: [
-      { label: "Appointments", icon: Calendar },
-      { label: "Prescriptions", icon: FileText },
+      { label: "Appointments", icon: Calendar, to: "/dashboard/appointments" },
+      { label: "Prescriptions", icon: FileText, to: "/dashboard/prescriptions" },
       { label: "Reports", icon: Activity },
+      { label: "Second opinion", icon: SquareCheckBig },
     ],
   },
   {
@@ -41,6 +44,7 @@ export default function DashboardSidebar({ active = "Overview" }) {
 
   const handleSignout = () => {
     clearPatientSession();
+    clearAppointmentsCache();
     navigate("/login");
   };
 
@@ -63,17 +67,19 @@ export default function DashboardSidebar({ active = "Overview" }) {
             <div className="dash-sidebar-section" key={section.title}>
               <p className="dash-sidebar-heading">{section.title}</p>
               <ul>
-                {section.items.map(({ label, icon: Icon }) => (
+                {section.items.map(({ label, icon: Icon, to }) => (
                   <li key={label}>
-                    <a
-                      href="#"
+                    {/* Items without a page yet stay inert */}
+                    <Link
+                      to={to || "#"}
                       className={`dash-sidebar-item ${active === label ? "active" : ""}`}
-                      onClick={(e) => e.preventDefault()}
+                      onClick={to ? undefined : (e) => e.preventDefault()}
+                      aria-current={active === label ? "page" : undefined}
                       title={collapsed ? label : undefined}
                     >
                       <Icon size={20} strokeWidth={1.5} />
                       <span>{label}</span>
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

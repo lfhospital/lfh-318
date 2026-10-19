@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
 import { NAVIGATE_EVENT, clearNavParams } from './navigation';
 import HomePage from './pages/Home-page';
 import Doctors_Profile from './pages/Doctor-profile-page';
@@ -30,8 +30,6 @@ import PatientProfilePage from './pages/Patient-profile-page';
 import SecondOpinionPage from './pages/Second-opinion-page';
 import SignupDetailsPage from './pages/Signup-details-page';
 import HealthConditionPage from './pages/Health-condition-page';
-import HealthLibraryNoResultsPage from './pages/HealthLibraryNoResults-page';
-import HealthLibraryUnavailablePage from './pages/HealthLibraryUnavailable-page';
 import BookingFlowPage from './Components/Doctor-profile-page-Components/Booking-flow-Component/Booking-flow-page';
 import PatientInfo from './Components/Doctor-profile-page-Components/Booking-flow-Component/Step-1/PatientInfo';
 import Review from './Components/Doctor-profile-page-Components/Booking-flow-Component/Step-2/Review';
@@ -88,8 +86,6 @@ function DevNavigation() {
     { path: '/compare', label: 'compare' },
     { path: '/health-library', label: 'healthLibrary' },
     { path: '/health-library/condition/coronary-artery-disease', label: 'healthCondition' },
-    { path: '/health-library/no-results', label: 'healthNoResults' },
-    { path: '/health-library/unavailable', label: 'healthUnavailable' },
     { path: '/about', label: 'about' },
     { path: '/patient-stories', label: 'patientStories' },
     { path: '/contact', label: 'contact' },
@@ -173,9 +169,10 @@ export default function App() {
           <Route path="/health-library" element={<HealthLibrary />} />
           <Route path="/health-library/browse" element={<HealthLibraryBrowse />} />
           <Route path="/health-library/article/:bookId/:pageId" element={<HealthArticle />} />
-          <Route path="/health-library/condition/coronary-artery-disease" element={<HealthConditionPage />} />
-          <Route path="/health-library/no-results" element={<HealthLibraryNoResultsPage />} />
-          <Route path="/health-library/unavailable" element={<HealthLibraryUnavailablePage />} />
+          <Route path="/health-library/condition/:slug" element={<HealthConditionPage />} />
+          {/* Old mock-up URLs; browse shows these states itself now */}
+          <Route path="/health-library/no-results" element={<Navigate to="/health-library/browse" replace />} />
+          <Route path="/health-library/unavailable" element={<Navigate to="/health-library/browse" replace />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/patient-stories" element={<PatientStoriesPage />} />
           <Route path="/contact" element={<ContactPage />} />

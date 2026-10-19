@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import "./HealthLibrary.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Search, ArrowRight } from "lucide-react";
 
 export default function HealthLibrary() {
+  const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+
+  const search = (e) => {
+    e.preventDefault();
+    const q = query.trim();
+    navigate(q ? `/health-library/browse?q=${encodeURIComponent(q)}` : "/health-library/browse");
+  };
+
   const categories = [
     {
       number: "01",
@@ -64,17 +73,20 @@ export default function HealthLibrary() {
           </p>
 
           {/* ================= SEARCH ================= */}
-          <div className="hl-search-box">
+          <form className="hl-search-box" role="search" onSubmit={search}>
             <input
               type="text"
               placeholder="Search conditions, treatment, symptoms and more"
+              aria-label="Search the health library"
               className="hl-search-input"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
             />
 
-            <button className="hl-search-button" aria-label="Search">
+            <button type="submit" className="hl-search-button" aria-label="Search">
               <Search size={16} strokeWidth={1.8} />
             </button>
-          </div>
+          </form>
 
           {/* ================= CATEGORY ================= */}
           <div className="hl-category-section">

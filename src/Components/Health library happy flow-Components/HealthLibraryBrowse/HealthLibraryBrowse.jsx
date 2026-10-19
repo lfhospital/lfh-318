@@ -38,7 +38,9 @@ export default function HealthLibraryBrowse() {
   // Card summaries keyed by pageId; null while loading
   const [summaries, setSummaries] = useState({});
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(() => searchParams.get("q") || "");
+  // Bumped by "Try again" to reload after a network failure
+  const [reloadKey, setReloadKey] = useState(0);
   const [selectedTypes, setSelectedTypes] = useState(
     typeParam ? typeParam.split(",") : []
   );
@@ -53,6 +55,7 @@ export default function HealthLibraryBrowse() {
     const load = async () => {
       try {
         setLoading(true);
+        setError(null);
         const [articleList, departmentList] = await Promise.all([
           fetchArticles(),
           fetchDepartments(),
@@ -68,17 +71,19 @@ export default function HealthLibraryBrowse() {
     };
 
     load();
-  }, []);
+  }, [reloadKey]);
 
-  // Keep the category filter in the URL so links/back button work
+  // Keep the category filter and search in the URL so links/back button work
   useEffect(() => {
     const next = new URLSearchParams(searchParams);
     if (selectedTypes.length) next.set("type", selectedTypes.join(","));
     else next.delete("type");
+    if (query.trim()) next.set("q", query.trim());
+    else next.delete("q");
     if (next.toString() !== searchParams.toString()) {
       setSearchParams(next, { replace: true });
     }
-  }, [selectedTypes]);
+  }, [selectedTypes, query]);
 
   useEffect(() => {
     setPage(1);
@@ -193,19 +198,27 @@ export default function HealthLibraryBrowse() {
             understand your health and confidently take the next step.
           </p>
 
-          <div className="hl-search-box">
+          <form
+            className="hl-search-box"
+            role="search"
+            onSubmit={(e) => {
+              e.preventDefault();
+              gridRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+          >
             <input
               type="text"
               placeholder="Search conditions, treatment, symptoms and more"
+              aria-label="Search the health library"
               className="hl-search-input"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
 
-            <button className="hl-search-button" aria-label="Search">
+            <button type="submit" className="hl-search-button" aria-label="Search">
               <Search size={16} strokeWidth={1.8} />
             </button>
-          </div>
+          </form>
         </div>
       </section>
 
@@ -304,10 +317,57 @@ export default function HealthLibraryBrowse() {
         <div className="hlb-results">
           {loading && <p className="hlb-status">Loading articles...</p>}
 
-          {!loading && error && <p className="hlb-status hlb-status-error">{error}</p>}
+          {!loading && error && (
+            <div className="hlb-empty" role="alert">
+              <h2>Search is temporarily unavailable</h2>
+              <p>
+                We couldn't reach the library right now. This is usually a brief
+                network issue — please try again in a moment.
+              </p>
+              <div className="hlb-empty-actions">
+                <button
+                  type="button"
+                  className="hlb-empty-primary"
+                  onClick={() => setReloadKey((key) => key + 1)}
+                >
+                  Try again
+                </button>
+                <Link to="/health-library" className="hlb-empty-secondary">
+                  Back to library home
+                </Link>
+              </div>
+            </div>
+          )}
 
           {!loading && !error && filteredArticles.length === 0 && (
-            <p className="hlb-status">No articles found matching your filters.</p>
+            <div className="hlb-empty">
+              <h2>
+                {query.trim()
+                  ? `No results for “${query.trim()}”`
+                  : "No articles match these filters"}
+              </h2>
+              <p>
+                We couldn't find any matching topics. Check your spelling, try a
+                broader term, or browse by category.
+              </p>
+              <div className="hlb-empty-actions">
+                {query.trim() && activeFilterCount > 0 && (
+                  <button type="button" className="hlb-empty-primary" onClick={clearAllFilters}>
+                    Search “{query.trim()}” in all topics
+                  </button>
+                )}
+                {query.trim() && (
+                  <button type="button" className="hlb-empty-secondary" onClick={() => setQuery("")}>
+                    Clear search
+                  </button>
+                )}
+                {!query.trim() && activeFilterCount > 0 && (
+                  <button type="button" className="hlb-empty-primary" onClick={clearAllFilters}>
+                    Clear filters
+                  </button>
+                )}
+              </div>
+            </div>
           )}
 
           <div className="hlb-grid">
@@ -408,10 +468,10 @@ export default function HealthLibraryBrowse() {
             </p>
           </div>
 
-          <a href="#" className="hlf-help-link">
+          <Link to="/contact" className="hlf-help-link">
             <span>Visit help centre</span>
             <ArrowRight size={18} strokeWidth={1.7} />
-          </a>
+          </Link>
         </div>
       </section>
     </>

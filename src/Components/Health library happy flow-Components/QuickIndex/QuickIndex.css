@@ -621,3 +621,8 @@
         padding-right: 1.25rem;
     }
 }
+
+a.cg-card {
+    color: inherit;
+    text-decoration: none;
+}

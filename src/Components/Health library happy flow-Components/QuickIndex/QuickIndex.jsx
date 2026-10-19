@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
+import { Link } from "react-router-dom";
 import "./QuickIndex.css";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { getPageItems } from "../../../utils/pagination";
+import { fetchArticles } from "../healthLibraryApi";
 
 const PAGE_SIZE = 21;
 
@@ -43,38 +45,34 @@ export default function QuickIndex() {
   const [page, setPage] = useState(1);
   const gridRef = useRef(null);
 
+  // Every health library article, alphabetically
   useEffect(() => {
-    const fetchDepartments = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          "https://www.lfh.care/api/lfhospital/specialities/departments"
+    let cancelled = false;
+    fetchArticles()
+      .then((articles) => {
+        if (cancelled) return;
+        setConditions(
+          articles
+            .filter((article) => article.title)
+            .sort((a, b) => a.title.localeCompare(b.title))
+            .map((article) => ({
+              key: article.pageId,
+              title: article.title.trim(),
+              description: article.categoryLabel,
+              to: `/health-library/article/${article.bookId}/${article.pageId}`,
+            }))
         );
-        const data = await response.json();
-
-        if (data.success && Array.isArray(data.specialist)) {
-          const transformed = data.specialist
-            .sort((a, b) => a.sortOrder - b.sortOrder)
-            .map((dept) => ({
-              number: String(dept.sortOrder).padStart(2, "0"),
-              title: dept.name,
-              description:
-                "Find doctors, treatments and guidance related to " +
-                dept.name +
-                ".",
-            }));
-
-          setConditions(transformed);
-        }
-      } catch (err) {
-        console.error("Error fetching departments:", err);
-        setError("Failed to load conditions");
-      } finally {
-        setLoading(false);
-      }
+      })
+      .catch((err) => {
+        console.error("Error fetching health library articles:", err);
+        if (!cancelled) setError("Failed to load the A to Z index");
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
     };
-
-    fetchDepartments();
   }, []);
 
   const availableLetters = useMemo(
@@ -142,45 +140,46 @@ export default function QuickIndex() {
         <div className="qi-conditions">
           <div className="qi-condition-left">
             <div className="qi-condition-label">
-              03 · PROCEDURES &amp; TREATMENTS
+              A TO Z
             </div>
 
-            <h2 className="qi-condition-title">Every condition, A to Z</h2>
+            <h2 className="qi-condition-title">Every topic, A to Z</h2>
           </div>
 
           <div className="qi-condition-right">
             <p className="qi-condition-description">
-              From diagnostic imaging to complex interventional procedures,
-              every case is planned by a heart team and executed in our hybrid
-              cath labs.
+              Diseases, treatments, symptoms, medicines, tests and health
+              technology — every article in the library, in one list.
             </p>
           </div>
         </div>
       </section>
       <section className="cg-section" ref={gridRef}>
-        {loading && <p className="cg-status">Loading conditions...</p>}
+        {loading && <p className="cg-status">Loading topics...</p>}
 
         {!loading && error && (
           <p className="cg-status cg-status-error">{error}</p>
         )}
 
         {!loading && !error && filtered.length === 0 && (
-          <p className="cg-status">No conditions found for this letter.</p>
+          <p className="cg-status">No topics start with this letter.</p>
         )}
 
         <div className="cg-grid">
           {!loading &&
             !error &&
             pageItems.map((condition, index) => (
-              <div className="cg-card" key={condition.title + index}>
-                <div className="cg-number">{condition.number}</div>
+              <Link className="cg-card" key={condition.key} to={condition.to}>
+                <div className="cg-number">
+                  {String((page - 1) * PAGE_SIZE + index + 1).padStart(2, "0")}
+                </div>
 
                 <div className="cg-card-content">
                   <h3 className="cg-title">{condition.title}</h3>
 
                   <p className="cg-description">{condition.description}</p>
                 </div>
-              </div>
+              </Link>
             ))}
         </div>
       </section>
@@ -234,10 +233,10 @@ export default function QuickIndex() {
             </p>
           </div>
 
-          <a href="#" className="hlf-help-link">
+          <Link to="/contact" className="hlf-help-link">
             <span>Visit help centre</span>
             <ArrowRight size={18} strokeWidth={1.7} />
-          </a>
+          </Link>
         </div>
       </section>
     </>

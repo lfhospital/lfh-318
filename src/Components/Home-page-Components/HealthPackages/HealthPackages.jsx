@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
-import { togglePlanItem, usePlan } from "../../../planStore";
+import { defaultCollection, togglePlanItem, usePlan } from "../../../planStore";
 import "./HealthPackages.css";
 
 const PACKAGES_API = "https://ishah.in/api/lfhospital/packages";
@@ -27,6 +27,7 @@ const toCard = (pkg) => {
     meta,
     price: `₹${Number(pkg.price).toLocaleString("en-IN")}`,
     priceValue: pkg.price,
+    collection: defaultCollection(pkg.home_collection_available),
   };
 };
 
@@ -120,7 +121,12 @@ export default function HealthPackages() {
               className={`home-add-plan-btn ${isInPlan(item.id) ? "in-plan" : ""}`}
               aria-pressed={isInPlan(item.id)}
               onClick={() =>
-                togglePlanItem({ id: item.id, title: item.title, price: item.priceValue })
+                togglePlanItem({
+                  id: item.id,
+                  title: item.title,
+                  price: item.priceValue,
+                  collection: item.collection,
+                })
               }
             >
               {isInPlan(item.id) ? "Added to plan" : "Add to plan"}

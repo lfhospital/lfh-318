@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import "./SampleCollection.css";
 import { Home, Building2 } from "lucide-react";
+import useCollectionChoice from "./useCollectionChoice";
 
-export default function SampleCollection() {
-  const [activeCard, setActiveCard] = useState(1);
+export default function SampleCollection({ collection }) {
+  const { mode, homeAvailable, onChange } = useCollectionChoice(collection);
 
   const options = [
     {
-      id: 1,
+      id: "home",
       title: "Home collection",
       description:
         "Convenient sample collection at home by trained professionals, with the same standards of care and accuracy as an in-hospital visit.",
@@ -15,7 +16,7 @@ export default function SampleCollection() {
       icon: <Home size={22} strokeWidth={2} />,
     },
     {
-      id: 2,
+      id: "hospital",
       title: "Visit Hospital",
       description:
         "Visit the hospital for sample collection and access to on-site diagnostic services and support.",
@@ -31,20 +32,25 @@ export default function SampleCollection() {
         <span>Choose what works best.</span>
       </div>
 
-      <div className="collection-grid">
-        {options.map((item) => (
-          <div
+      <div className="collection-grid" role="radiogroup" aria-label="Sample collection">
+        {options.map((item) => {
+          const unavailable = item.id === "home" && !homeAvailable;
+          const active = mode === item.id;
+          return (
+          <button
+            type="button"
             key={item.id}
-            className={`collection-card ${
-              activeCard === item.id ? "active-card" : ""
+            role="radio"
+            aria-checked={active}
+            disabled={unavailable}
+            className={`collection-card ${active ? "active-card" : ""} ${
+              unavailable ? "unavailable-card" : ""
             }`}
-            onClick={() => setActiveCard(item.id)}
+            onClick={() => onChange(item.id)}
           >
             <div
               className={`icon-wrapper ${
-                activeCard === item.id
-                  ? "active-icon"
-                  : "inactive-icon"
+                active ? "active-icon" : "inactive-icon"
               }`}
             >
               {item.icon}
@@ -53,10 +59,13 @@ export default function SampleCollection() {
             <div className="card-content">
               <h3>{item.title}</h3>
               <p>{item.description}</p>
-              <span>{item.footer}</span>
+              <span>
+                {unavailable ? "Not available for this package" : item.footer}
+              </span>
             </div>
-          </div>
-        ))}
+          </button>
+          );
+        })}
       </div>
     </section>
   );

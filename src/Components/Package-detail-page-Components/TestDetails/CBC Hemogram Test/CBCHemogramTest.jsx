@@ -1,9 +1,10 @@
 import React from "react";
-import {Home, Building2, Phone} from "lucide-react"
+import { Phone } from "lucide-react";
 import { togglePlanItem, usePlan } from "../../../../planStore";
+import CollectionModeSelector from "../../SampleCollection/CollectionModeSelector";
 import "./CBCHemogramTest.css";
 
-export default function CBCHemogramTest({ packageData, loading, error }) {
+export default function CBCHemogramTest({ packageData, loading, error, collection }) {
   const { isInPlan } = usePlan();
   const inPlan = !!packageData && isInPlan(packageData._id);
   const defaultIncludedTests = [
@@ -132,15 +133,7 @@ export default function CBCHemogramTest({ packageData, loading, error }) {
             </p>
           </div>
 
-          <div className="mode-selector">
-            <button className="active-mode">
-            <Home size={18}/> Home Collection
-            </button>
-
-            <button>
-             <Building2 size={18}/>  Visit Hospital
-            </button>
-          </div>
+          <CollectionModeSelector collection={collection} />
 
           <div className="included-section">
             <h4>WHAT'S INCLUDED</h4>
@@ -167,6 +160,7 @@ export default function CBCHemogramTest({ packageData, loading, error }) {
                 id: packageData._id,
                 title: packageData.package_name,
                 price: packageData.price,
+                collection: collection?.mode || "home",
               })
             }
           >

@@ -163,3 +163,16 @@
     margin-bottom: 3rem;
   }
 }
+
+/* Cards are buttons now */
+button.collection-card {
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+}
+
+.unavailable-card {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

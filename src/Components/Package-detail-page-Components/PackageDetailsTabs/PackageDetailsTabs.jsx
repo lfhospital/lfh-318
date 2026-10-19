@@ -8,7 +8,7 @@ import ReviewsSection from "../../Doctor-profile-page-Components/ReviewsSection/
 import WhatsIncluded from "../WhatsIncluded/WhatsIncluded";
 import FrequentlyBookedWith from "../FrequentlyBookedWith/FrequentlyBookedWith";
 
-export default function PackageDetailsTabs({ packageData }) {
+export default function PackageDetailsTabs({ packageData, collection }) {
   const [activeTab, setActiveTab] = useState("01");
   const [openPanels, setOpenPanels] = useState([]);
 
@@ -149,7 +149,7 @@ export default function PackageDetailsTabs({ packageData }) {
 
           {/* 05 Sample Collection */}
           <div ref={sampleRef} className="package-left-section">
-            <SampleCollection />
+            <SampleCollection collection={collection} />
           </div>
 
           {/* 06 Report */}

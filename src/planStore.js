@@ -41,7 +41,15 @@ export const removeFromPlan = (id) => save(items.filter((item) => item.id !== id
 export const togglePlanItem = (pkg) =>
   items.some((item) => item.id === pkg.id) ? removeFromPlan(pkg.id) : addToPlan(pkg);
 
+export const updatePlanItem = (id, changes) =>
+  save(items.map((item) => (item.id === id ? { ...item, ...changes } : item)));
+
 export const clearPlan = () => save([]);
+
+// How the samples are collected for a plan item
+export const COLLECTION_LABELS = { home: "Home collection", hospital: "Hospital visit" };
+
+export const defaultCollection = (homeAvailable) => (homeAvailable ? "home" : "hospital");
 
 export function usePlan() {
   const plan = useSyncExternalStore(subscribe, () => items);

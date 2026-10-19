@@ -306,3 +306,15 @@
   opacity: 0.6;
   cursor: default;
 }
+
+.mode-selector button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.mode-selector button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

@@ -4,6 +4,7 @@ import Footer from '../Components/Home-page-Components/Footer/HomeFooter';
 import Navbar from '../Components/Home-page-Components/Navbar/Navbar';
 import PackageDetailsTabs from '../Components/Package-detail-page-Components/PackageDetailsTabs/PackageDetailsTabs';
 import TestDetails1 from '../Components/Package-detail-page-Components/TestDetails/TestDetails1';
+import { updatePlanItem, usePlan } from '../planStore';
 
 export default function PackageDetail1() {
     const [searchParams] = useSearchParams();
@@ -12,6 +13,8 @@ export default function PackageDetail1() {
     const [packageData, setPackageData] = useState(null);
     const [loading, setLoading] = useState(!!packageId);
     const [error, setError] = useState(null);
+    const [collectionMode, setCollectionMode] = useState('home');
+    const { items: planItems } = usePlan();
 
     useEffect(() => {
         if (!packageId) return;
@@ -47,11 +50,38 @@ export default function PackageDetail1() {
         fetchPackageDetail();
     }, [packageId]);
 
+    // Home collection can't be chosen for packages that don't offer it
+    const homeAvailable = packageData ? Boolean(packageData.home_collection_available) : true;
+    const effectiveMode = homeAvailable ? collectionMode : 'hospital';
+    const planItem = packageData && planItems.find((item) => item.id === packageData._id);
+
+    // Each package starts from the default choice...
+    useEffect(() => {
+        setCollectionMode('home');
+    }, [packageId]);
+
+    // ...unless it's already in the plan with a saved choice
+    useEffect(() => {
+        if (planItem?.collection) setCollectionMode(planItem.collection);
+    }, [planItem?.collection]);
+
+    const chooseCollection = (mode) => {
+        if (mode === 'home' && !homeAvailable) return;
+        setCollectionMode(mode);
+        if (planItem) updatePlanItem(planItem.id, { collection: mode });
+    };
+
+    const collection = {
+        mode: effectiveMode,
+        homeAvailable,
+        onChange: chooseCollection,
+    };
+
     return (
         <>
             <Navbar />
-            <TestDetails1 packageData={packageData} loading={loading} error={error} />
-            <PackageDetailsTabs packageData={packageData} />
+            <TestDetails1 packageData={packageData} loading={loading} error={error} collection={collection} />
+            <PackageDetailsTabs packageData={packageData} collection={collection} />
             <Footer />
         </>
     );

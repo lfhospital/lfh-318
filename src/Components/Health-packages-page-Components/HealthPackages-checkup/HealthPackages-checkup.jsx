@@ -2,7 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import "./HealthPackages-checkup.css";
 import { Search, ChevronDown, X } from "lucide-react";
 import { useCompare } from "../CompareContext.jsx";
-import { clearPlan, formatRupees, removeFromPlan, usePlan } from "../../../planStore";
+import {
+  COLLECTION_LABELS,
+  clearPlan,
+  formatRupees,
+  removeFromPlan,
+  usePlan,
+} from "../../../planStore";
 
 export default function HealthPackagesCheckup({
   searchQuery = "",
@@ -92,7 +98,12 @@ export default function HealthPackagesCheckup({
                       <ul className="plan-list">
                         {planItems.map((item) => (
                           <li key={item.id}>
-                            <span className="plan-item-title">{item.title}</span>
+                            <span className="plan-item-title">
+                              {item.title}
+                              {COLLECTION_LABELS[item.collection] && (
+                                <small>{COLLECTION_LABELS[item.collection]}</small>
+                              )}
+                            </span>
                             <span className="plan-item-price">{formatRupees(item.price)}</span>
                             <button
                               className="plan-remove"

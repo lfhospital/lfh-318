@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./PackageSection.css";
 import { useCompare } from "../CompareContext.jsx";
 import { getPageItems } from "../../../utils/pagination";
-import { togglePlanItem, usePlan } from "../../../planStore";
+import { defaultCollection, togglePlanItem, usePlan } from "../../../planStore";
 
 const PAGE_SIZE = 9;
 
@@ -187,7 +187,12 @@ export default function PackageCards({ searchQuery = "", onPackagesFiltered }) {
                   className={`plan-btn ${isInPlan(item.id) ? "in-plan" : ""}`}
                   aria-pressed={isInPlan(item.id)}
                   onClick={() =>
-                    togglePlanItem({ id: item.id, title: item.title, price: item.rawData.price })
+                    togglePlanItem({
+                      id: item.id,
+                      title: item.title,
+                      price: item.rawData.price,
+                      collection: defaultCollection(item.rawData.home_collection_available),
+                    })
                   }
                 >
                   {isInPlan(item.id) ? "Added to plan" : "Add to plan"}

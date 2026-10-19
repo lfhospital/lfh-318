@@ -1,0 +1,290 @@
+/* =========================================================
+   CONDITION DETAILS
+========================================================= */
+
+.condition-details {
+    position: relative;
+    width: 100%;
+    height: 30rem;
+    box-sizing: border-box;
+    padding: 6rem 3rem 2rem;
+    background: #ffffff;
+    font-family: "Inter";
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   RIGHT BLUE BORDER
+========================================================= */
+
+.condition-details::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2px;
+    height: 100%;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.condition-breadcrumb {
+    display: flex;
+    align-items: center;
+    color: #7A7D80;
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+    letter-spacing: 0.13rem;
+}
+
+/* Slash */
+
+.breadcrumb-slash {
+    margin: 0 0.18rem;
+    color: #7A7D80;
+}
+
+/* DISEASE & CONDITION */
+
+.breadcrumb-current {
+    color: #D3A693;
+}
+
+.breadcrumb-link {
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    letter-spacing: inherit;
+    cursor: pointer;
+}
+
+.breadcrumb-main.breadcrumb-link {
+    color: #7A7D80;
+}
+
+.breadcrumb-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2rem;
+}
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.condition-content {
+    margin-top: 1.85rem;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.condition-title {
+    color: #2E2E2E;
+    font-size: 4.25rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 4.5rem;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.condition-description {
+    margin: 1.2rem 0 0;
+    color: #7A7D80;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+
+/* =========================================================
+   BUTTON CONTAINER
+========================================================= */
+
+.condition-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: 1.8rem;
+}
+
+
+/* =========================================================
+   COMMON BUTTON
+========================================================= */
+
+.condition-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.35rem;
+    box-sizing: border-box;
+    padding: 0 1.05rem;
+    border-radius: 0.5rem;
+    color:  #F7F5F0;
+    text-align: center;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.225rem;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+
+/* =========================================================
+    PRIMARY BUTTON
+    ========================================================= */
+
+.condition-btn-primary {
+    width: 11.2rem;
+    gap: 0.55rem;
+    border: 1px solid #253746;
+    background: #253746;
+    color: #ffffff;
+}
+
+.condition-btn-primary:hover {
+    background: #304656;
+    border-color: #304656;
+}
+
+/* Primary arrow */
+
+.condition-btn-primary svg {
+    flex-shrink: 0;
+    margin-top: 0.02rem;
+}
+
+/* =========================================================
+   SECONDARY BUTTON
+========================================================= */
+
+.condition-btn-secondary {
+    border: 1px solid #d6d6d6;
+    background: #ffffff;
+    color: #303030;
+}
+
+
+/* Individual widths */
+
+.condition-btn-secondary:nth-child(2) {
+    min-width: 11.55rem;
+}
+
+.condition-btn-secondary:nth-child(3) {
+    min-width: 9.15rem;
+}
+
+
+/* Secondary hover */
+
+.condition-btn-secondary:hover {
+    background: #f7f7f6;
+    border-color: #c7c7c7;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .condition-details {
+        height: auto;
+        min-height: 23rem;
+
+        padding: 2.5rem 2rem;
+    }
+
+    .condition-title {
+        font-size: 3rem;
+    }
+
+    .condition-description {
+        font-size: 0.78rem;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .condition-details {
+        padding: 2rem 1.5rem;
+    }
+
+    .condition-content {
+        margin-top: 1.5rem;
+    }
+
+    .condition-title {
+        font-size: 2.5rem;
+
+        line-height: 1.05;
+    }
+
+    .condition-description {
+        font-size: 0.75rem;
+
+        line-height: 1.3rem;
+    }
+
+    .condition-description br {
+        display: none;
+    }
+
+    .condition-actions {
+        flex-wrap: wrap;
+
+        margin-top: 1.5rem;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .condition-details {
+        padding: 1.75rem 1.25rem;
+    }
+
+    .condition-breadcrumb {
+        font-size: 0.55rem;
+
+        letter-spacing: 0.1rem;
+    }
+
+    .condition-title {
+        font-size: 2.2rem;
+    }
+
+    .condition-actions {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .condition-btn,
+    .condition-btn-secondary:nth-child(2),
+    .condition-btn-secondary:nth-child(3) {
+        width: 100%;
+    }
+}

@@ -1,0 +1,1212 @@
+/* =========================================
+   SECOND OPINION REQUEST FLOW
+========================================= */
+
+.sof-page {
+    --sof-primary: #253746;
+    --sof-accent: #d3a693;
+    --sof-secondary: #f7f5f0;
+    --sof-border: #d6d4d2;
+    --sof-input-border: #d4d4d4;
+    --sof-muted: #7a7d80;
+    --sof-text: #4a4a4a;
+    --sof-danger: #8b2e2e;
+
+    max-width: 90rem;
+    margin: 0 auto;
+    /* The site navbar is fixed and 4.15rem tall. */
+    padding: calc(4.15rem + 1.75rem) 3.25rem 5rem;
+    color: var(--sof-primary);
+    font-family: "Inter", sans-serif;
+}
+
+.sof-page button {
+    font-family: inherit;
+}
+
+/* Back + stepper */
+
+.sof-page .sof-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+    border: none;
+    background: transparent;
+    color: var(--sof-primary);
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+
+.sof-stepper {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    margin: 2.75rem 0 4.3rem;
+    padding: 0;
+    list-style: none;
+}
+
+.sof-stepper-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sof-stepper-track {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 0.625rem;
+    align-items: center;
+}
+
+/* Connector to the next step */
+.sof-stepper-track::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: calc(50% + 0.5rem);
+    width: calc(100% - 1rem);
+    height: 0.1875rem;
+    border-radius: 0.125rem;
+    background: #ececec;
+    transform: translateY(-50%);
+}
+
+.sof-stepper-item:last-child .sof-stepper-track::after {
+    display: none;
+}
+
+.sof-stepper-item.is-done .sof-stepper-track::after {
+    background: var(--sof-accent);
+}
+
+.sof-stepper-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--sof-border);
+}
+
+.sof-stepper-item.is-done .sof-stepper-dot,
+.sof-stepper-item.is-current .sof-stepper-dot {
+    background: var(--sof-accent);
+}
+
+.sof-stepper-item.is-current .sof-stepper-dot {
+    width: 0.625rem;
+    height: 0.625rem;
+}
+
+.sof-page .sof-stepper-label {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--sof-muted);
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    text-align: center;
+}
+
+.sof-stepper-item.is-done .sof-stepper-label {
+    color: var(--sof-text);
+}
+
+.sof-stepper-item.is-done button.sof-stepper-label {
+    cursor: pointer;
+}
+
+.sof-stepper-item.is-done button.sof-stepper-label:hover {
+    color: var(--sof-primary);
+    text-decoration: underline;
+}
+
+.sof-stepper-item.is-current .sof-stepper-label {
+    color: var(--sof-primary);
+    font-weight: 500;
+}
+
+/* Two-column step layout */
+
+.sof-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 3.3rem;
+}
+
+.sof-intro {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.sof-intro h1,
+.sof-review-intro h1 {
+    margin: 0 0 2.375rem;
+    color: var(--sof-primary);
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 2.375rem;
+}
+
+.sof-intro p,
+.sof-review-intro p {
+    margin: 0;
+    color: var(--sof-text);
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+
+.sof-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2.8rem;
+    width: 48rem;
+    max-width: 100%;
+}
+
+.sof-content--tight {
+    gap: 1.5rem;
+}
+
+.sof-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.sof-section--compact {
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.sof-section-heading {
+    display: flex;
+    flex-direction: column;
+}
+
+.sof-section-number {
+    margin-bottom: 1.25rem;
+    color: var(--sof-accent);
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+
+.sof-section-heading h2 {
+    margin: 0;
+    color: var(--sof-primary);
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 2rem;
+}
+
+.sof-section-heading h2 small {
+    color: var(--sof-text);
+    font-size: 0.6875rem;
+}
+
+.sof-section-heading p {
+    margin: 0.25rem 0 0;
+    color: var(--sof-muted);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+}
+
+/* Fields */
+
+.sof-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.sof-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+.sof-label-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.sof-label {
+    color: var(--sof-text);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.25rem;
+}
+
+.sof-required {
+    color: var(--sof-danger);
+    font-style: normal;
+}
+
+.sof-counter {
+    color: var(--sof-muted);
+    font-size: 0.6875rem;
+}
+
+.sof-input {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.625rem 0.875rem;
+    border: 0.0625rem solid var(--sof-input-border);
+    border-radius: 0.5rem;
+    background: #fff;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+    color: var(--sof-primary);
+    font: inherit;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    box-sizing: border-box;
+}
+
+.sof-input::placeholder,
+.sof-input.is-placeholder {
+    color: #737373;
+}
+
+.sof-input:focus {
+    border-color: var(--sof-primary);
+    outline: none;
+}
+
+.sof-input[aria-invalid="true"] {
+    border-color: var(--sof-danger);
+}
+
+.sof-textarea {
+    min-height: 4rem;
+    resize: vertical;
+}
+
+.sof-select {
+    position: relative;
+    display: block;
+}
+
+.sof-select select {
+    padding-right: 2.5rem;
+    appearance: none;
+    cursor: pointer;
+}
+
+.sof-select svg {
+    position: absolute;
+    top: 50%;
+    right: 0.875rem;
+    color: #737373;
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
+.sof-hint,
+.sof-muted {
+    margin: 0;
+    color: var(--sof-muted);
+    font-size: 0.6875rem;
+    line-height: 1.25rem;
+}
+
+.sof-error {
+    color: var(--sof-danger);
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+}
+
+/* Chips */
+
+.sof-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.sof-chips--fill {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(6.25rem, 1fr));
+    gap: 0.6875rem;
+}
+
+.sof-page .sof-chips--fill .sof-chip {
+    padding-inline: 0.75rem;
+}
+
+.sof-page .sof-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.375rem 1.5625rem;
+    border: 0.0625rem solid var(--sof-border);
+    border-radius: 0.5rem;
+    background: #fff;
+    color: #2e2e2e;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.sof-page .sof-chip:hover {
+    border-color: var(--sof-primary);
+}
+
+.sof-page .sof-chip.is-selected {
+    border-color: var(--sof-primary);
+    background: var(--sof-primary);
+    color: var(--sof-secondary);
+}
+
+.sof-page .sof-chip--add {
+    border-radius: 0.75rem;
+    color: var(--sof-primary);
+    font-size: 0.8125rem;
+}
+
+/* Buttons */
+
+.sof-continue-row {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sof-page .sof-primary,
+.sof-page .sof-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-height: 2.5rem;
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.sof-page .sof-primary {
+    border: 0.0625rem solid var(--sof-primary);
+    background: var(--sof-primary);
+    color: var(--sof-secondary);
+}
+
+.sof-page .sof-primary:hover {
+    background: #1a2934;
+}
+
+.sof-page .sof-primary:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.sof-page .sof-outline {
+    border: 0.0625rem solid var(--sof-border);
+    background: #fff;
+    color: var(--sof-primary);
+}
+
+.sof-page .sof-outline:hover {
+    border-color: var(--sof-primary);
+    background: var(--sof-secondary);
+}
+
+.sof-page .sof-link {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--sof-accent);
+    font-size: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.sof-page .sof-icon-button {
+    display: grid;
+    place-items: center;
+    padding: 0.25rem;
+    border: none;
+    border-radius: 0.25rem;
+    background: transparent;
+    color: var(--sof-text);
+    cursor: pointer;
+}
+
+.sof-page .sof-icon-button:hover {
+    background: var(--sof-secondary);
+}
+
+/* Documents */
+
+.sof-dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    border: 0.0625rem solid #e9eaeb;
+    border-radius: 0.75rem;
+    text-align: center;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.sof-dropzone.is-dragging {
+    border-color: var(--sof-accent);
+    background: var(--sof-secondary);
+}
+
+.sof-dropzone-icon {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #f5f5f5;
+    color: var(--sof-text);
+}
+
+.sof-dropzone p {
+    margin: 0;
+    color: var(--sof-text);
+    font-size: 0.875rem;
+}
+
+.sof-dropzone-note {
+    color: var(--sof-text);
+    font-size: 0.75rem;
+}
+
+.sof-or {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 7.5rem;
+    color: var(--sof-muted);
+    font-size: 0.75rem;
+}
+
+.sof-or::before,
+.sof-or::after {
+    content: "";
+    flex: 1;
+    border-top: 0.0625rem dashed var(--sof-border);
+}
+
+.sof-drive {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: -0.75rem;
+    color: var(--sof-text);
+    font-size: 0.75rem;
+}
+
+.sof-page .sof-drive-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.5rem 1.25rem;
+    border: 0.0625rem solid var(--sof-border);
+    border-radius: 0.375rem;
+    background: #fff;
+    color: var(--sof-primary);
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.sof-notice {
+    margin: 0;
+    padding: 0.625rem 0.875rem;
+    border-radius: 0.5rem;
+    background: var(--sof-secondary);
+    color: var(--sof-text);
+    font-size: 0.8125rem;
+}
+
+.sof-files,
+.sof-record-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sof-files li {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 0.75rem;
+    border: 0.0625rem solid var(--sof-border);
+    border-radius: 0.5rem;
+    color: var(--sof-text);
+}
+
+.sof-file-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.375rem;
+    min-width: 0;
+}
+
+.sof-file-text strong {
+    overflow: hidden;
+    color: var(--sof-primary);
+    font-size: 0.875rem;
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sof-file-text span {
+    color: var(--sof-muted);
+    font-size: 0.6875rem;
+}
+
+.sof-records {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.sof-record {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.875rem 0.625rem;
+    border: 0.0625rem solid var(--sof-border);
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.sof-record.is-selected {
+    border-color: var(--sof-primary);
+}
+
+.sof-record input,
+.sof-check input,
+.sof-option input,
+.sof-doctor input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sof-checkbox {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 1rem;
+    height: 1rem;
+    border: 0.0625rem solid var(--sof-border);
+    border-radius: 0.25rem;
+    background: #fff;
+    color: #fff;
+}
+
+.sof-record.is-selected .sof-checkbox,
+.sof-check input:checked + .sof-checkbox {
+    border-color: var(--sof-primary);
+    background: var(--sof-primary);
+}
+
+.sof-record input:focus-visible ~ .sof-checkbox,
+.sof-check input:focus-visible + .sof-checkbox,
+.sof-option input:focus-visible + .sof-radio,
+.sof-doctor input:focus-visible + .sof-radio {
+    outline: 0.125rem solid var(--sof-accent);
+    outline-offset: 0.125rem;
+}
+
+/* Specialist */
+
+.sof-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+}
+
+.sof-option {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 0.0625rem solid var(--sof-border);
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.sof-option.is-selected {
+    border-color: #9a9a9a;
+}
+
+.sof-radio {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.125rem;
+    border: 0.0625rem solid var(--sof-border);
+    border-radius: 50%;
+    background: #fff;
+    color: #fff;
+}
+
+.sof-radio.is-checked {
+    border-color: var(--sof-primary);
+    background: var(--sof-primary);
+}
+
+.sof-option-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+}
+
+.sof-option-text strong {
+    color: var(--sof-primary);
+    font-size: 0.8125rem;
+    font-weight: 500;
+}
+
+.sof-option-text span {
+    color: var(--sof-muted);
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+}
+
+.sof-doctor-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1rem;
+    border: 0.0625rem solid var(--sof-border);
+    border-radius: 0.5rem;
+}
+
+.sof-doctor {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+}
+
+.sof-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    background: #f6f2f0;
+}
+
+.sof-warning-icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 1.375rem;
+    height: 1.375rem;
+    margin-top: 0.125rem;
+    border: 0.09375rem solid var(--sof-danger);
+    border-radius: 50%;
+    color: var(--sof-danger);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.sof-warning strong {
+    color: var(--sof-primary);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.sof-warning p {
+    margin: 0.125rem 0 0;
+    color: var(--sof-muted);
+    font-size: 0.6875rem;
+}
+
+.sof-warning-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.375rem;
+    font-size: 0.75rem;
+}
+
+/* Review */
+
+.sof-review-intro {
+    margin-bottom: 3rem;
+}
+
+.sof-review-intro h1 {
+    margin-bottom: 1.5rem;
+}
+
+.sof-review-intro p {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+}
+
+.sof-review-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 26.5rem;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.sof-review-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.sof-summary,
+.sof-coupon,
+.sof-order {
+    border: 0.0625rem solid var(--sof-border);
+    border-radius: 0.5rem;
+    background: #fff;
+}
+
+.sof-summary {
+    padding: 0 1.25rem;
+}
+
+.sof-summary-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    border-bottom: 0.0625rem solid var(--sof-border);
+}
+
+.sof-summary-block:last-child {
+    border-bottom: none;
+}
+
+.sof-summary-block header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sof-summary-block h3,
+.sof-consent h3 {
+    margin: 0;
+    color: var(--sof-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.sof-detail span {
+    color: var(--sof-muted);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+}
+
+.sof-detail p {
+    margin: 0.25rem 0 0;
+    color: var(--sof-primary);
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+.sof-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.sof-tag {
+    padding: 0.375rem 0.875rem;
+    border-radius: 1rem;
+    background: var(--sof-secondary);
+    color: var(--sof-primary);
+    font-size: 0.75rem;
+}
+
+.sof-coupon {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.25rem;
+}
+
+.sof-coupon h3 {
+    margin: 0;
+    color: var(--sof-primary);
+    font-size: 1.125rem;
+    font-weight: 500;
+}
+
+.sof-coupon-row {
+    display: flex;
+    gap: 0.625rem;
+}
+
+.sof-coupon-row .sof-input {
+    flex: 1;
+    letter-spacing: 0.02em;
+}
+
+.sof-coupon-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.sof-page .sof-coupon-chip {
+    padding: 0.375rem 0.75rem;
+    border: none;
+    border-radius: 0.375rem;
+    background: var(--sof-secondary);
+    color: var(--sof-muted);
+    font-size: 0.6875rem;
+    cursor: pointer;
+}
+
+.sof-page .sof-coupon-chip:hover {
+    background: #ece8df;
+}
+
+.sof-coupon-chip strong {
+    margin-right: 0.25rem;
+    color: var(--sof-primary);
+    font-weight: 600;
+}
+
+.sof-success {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    color: #3d6b4a;
+    font-size: 0.75rem;
+}
+
+.sof-success .sof-link {
+    margin-left: 0.5rem;
+    color: var(--sof-muted);
+}
+
+.sof-consent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+}
+
+.sof-consent .sof-muted {
+    margin-top: -0.75rem;
+}
+
+.sof-check {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    color: var(--sof-text);
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    cursor: pointer;
+}
+
+.sof-check .sof-checkbox {
+    margin-top: 0.125rem;
+}
+
+.sof-submit-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sof-order {
+    position: sticky;
+    top: calc(4.15rem + 1.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.25rem;
+}
+
+.sof-order-title {
+    margin: 0;
+    color: var(--sof-text);
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.sof-order-row,
+.sof-order-total {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--sof-muted);
+    font-size: 0.8125rem;
+}
+
+.sof-order-row strong {
+    color: var(--sof-primary);
+    font-weight: 500;
+}
+
+.sof-order-row--discount strong {
+    color: #3d6b4a;
+}
+
+.sof-order-total {
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 0.0625rem solid var(--sof-border);
+    text-transform: uppercase;
+}
+
+.sof-order-total strong {
+    color: var(--sof-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.sof-order-note {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin: 0;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    background: var(--sof-secondary);
+    color: var(--sof-text);
+    font-size: 0.6875rem;
+}
+
+.sof-order-note svg {
+    color: var(--sof-accent);
+}
+
+/* Done */
+
+.sof-done {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 44rem;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.sof-done-badge {
+    display: grid;
+    place-items: center;
+    width: 6.25rem;
+    height: 6.25rem;
+    border: 0.625rem solid rgb(211 166 147 / 25%);
+    border-radius: 50%;
+    background: var(--sof-accent);
+    background-clip: padding-box;
+    color: #fff;
+}
+
+.sof-done h1 {
+    margin: 1.5rem 0 0.75rem;
+    color: var(--sof-primary);
+    font-size: 1.875rem;
+    font-weight: 500;
+}
+
+.sof-done-text {
+    max-width: 32rem;
+    margin: 0;
+    color: var(--sof-text);
+    font-size: 1.125rem;
+    line-height: 1.6;
+}
+
+.sof-reference {
+    margin: 1.75rem 0 3rem;
+    padding: 0.5rem 1rem;
+    border: 0.0625rem solid var(--sof-border);
+    background: var(--sof-secondary);
+    color: var(--sof-text);
+    font-size: 0.8125rem;
+}
+
+.sof-reference strong {
+    margin-left: 0.5rem;
+    color: var(--sof-primary);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.sof-next {
+    width: 100%;
+    padding: 1rem;
+    border: 0.0625rem solid var(--sof-border);
+    border-radius: 0.5rem;
+    text-align: left;
+}
+
+.sof-next h2 {
+    margin: 0 0 1.25rem;
+    color: var(--sof-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.sof-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sof-timeline li {
+    display: grid;
+    grid-template-columns: 1rem minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    align-items: start;
+}
+
+.sof-timeline-marker {
+    display: grid;
+    place-items: center;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.125rem;
+    border-radius: 50%;
+    background: #ececec;
+    color: #fff;
+}
+
+.is-done .sof-timeline-marker {
+    background: var(--sof-primary);
+}
+
+.is-active .sof-timeline-marker {
+    border: 0.125rem solid #f0e4de;
+    border-top-color: var(--sof-accent);
+    background: transparent;
+    animation: sof-spin 1s linear infinite;
+}
+
+.sof-timeline-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.sof-timeline-body strong {
+    color: var(--sof-primary);
+    font-size: 0.8125rem;
+    font-weight: 500;
+}
+
+.sof-timeline-body span,
+.sof-timeline-time {
+    color: var(--sof-text);
+    font-size: 0.6875rem;
+}
+
+.is-todo .sof-timeline-body strong,
+.is-todo .sof-timeline-body span,
+.is-todo .sof-timeline-time {
+    color: #b9bbbd;
+}
+
+.sof-quick-title {
+    margin: 2rem 0 0.75rem;
+    color: var(--sof-muted);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.sof-quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+}
+
+@keyframes sof-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .is-active .sof-timeline-marker {
+        animation: none;
+    }
+}
+
+/* Responsive */
+
+@media (max-width: 64rem) {
+    .sof-layout {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .sof-content {
+        width: 100%;
+    }
+
+    .sof-review-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sof-order {
+        position: static;
+        order: -1;
+    }
+}
+
+@media (max-width: 40rem) {
+    .sof-page {
+        padding: calc(4.15rem + 1rem) 1rem 3rem;
+    }
+
+    .sof-stepper {
+        margin: 1.5rem 0 2.5rem;
+    }
+
+    .sof-page .sof-stepper-label {
+        font-size: 0.6875rem;
+    }
+
+    .sof-row {
+        grid-template-columns: 1fr;
+    }
+
+    .sof-or {
+        margin: 0;
+    }
+
+    .sof-timeline li {
+        grid-template-columns: 1rem minmax(0, 1fr);
+    }
+
+    .sof-timeline-time {
+        grid-column: 2;
+    }
+}

@@ -1,0 +1,74 @@
+/* =========================================
+   REPORTS
+   Builds on PatientAppointments.css, PatientReports.css (table)
+   and Appointments.css (toast)
+========================================= */
+
+.rp-page {
+    /* tokens used by the shared .pr-table styles */
+    --pr-primary: var(--pa-primary);
+    --pr-secondary: var(--pa-secondary);
+    --pr-border: var(--pa-border);
+    --pr-muted: var(--pa-muted);
+    --pr-text: var(--pa-text);
+    --pr-white: var(--pa-white);
+}
+
+.rp-main {
+    gap: 2rem;
+    padding-right: 3.25rem;
+}
+
+.rp-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.rp-empty {
+    padding-top: 0;
+}
+
+.rp-title {
+    margin: 0.25rem 0 0;
+}
+
+/* Sort dropdown */
+
+.rp-sort {
+    flex: 0 0 auto;
+    gap: 0.25rem;
+    height: 2.5rem;
+    margin-top: 0.25rem;
+    border-color: var(--pa-border);
+    border-radius: 0.5rem;
+}
+
+.rp-sort-label {
+    color: #2e2e2e;
+    font-size: 0.8125rem;
+    white-space: nowrap;
+}
+
+.rp-sort select {
+    width: auto;
+    padding-right: 1.75rem;
+    color: #2e2e2e;
+    font-weight: 600;
+}
+
+@media (max-width: 48rem) {
+    .rp-main {
+        padding: 1rem;
+    }
+
+    .rp-header {
+        flex-direction: column-reverse;
+        gap: 1rem;
+    }
+
+    .rp-sort {
+        margin-top: 0;
+    }
+}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
+import { togglePlanItem, usePlan } from "../../../planStore";
 import "./HealthPackages.css";
 
 const PACKAGES_API = "https://ishah.in/api/lfhospital/packages";
@@ -25,11 +26,13 @@ const toCard = (pkg) => {
     description: pkg.description || "Comprehensive health screening package",
     meta,
     price: `₹${Number(pkg.price).toLocaleString("en-IN")}`,
+    priceValue: pkg.price,
   };
 };
 
 export default function HealthPackages() {
   const navigate = useNavigate();
+  const { isInPlan } = usePlan();
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -114,11 +117,14 @@ export default function HealthPackages() {
             </div>
 
             <button
-              className="home-add-plan-btn"
-              onClick={() => navigate(detailPath(item.id))}
+              className={`home-add-plan-btn ${isInPlan(item.id) ? "in-plan" : ""}`}
+              aria-pressed={isInPlan(item.id)}
+              onClick={() =>
+                togglePlanItem({ id: item.id, title: item.title, price: item.priceValue })
+              }
             >
-              Add to plan
-              <ArrowRight size={20} />
+              {isInPlan(item.id) ? "Added to plan" : "Add to plan"}
+              {isInPlan(item.id) ? <Check size={20} /> : <ArrowRight size={20} />}
             </button>
           </div>
         ))}

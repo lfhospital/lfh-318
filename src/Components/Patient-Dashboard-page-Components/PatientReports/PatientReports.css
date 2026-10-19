@@ -1,0 +1,734 @@
+/* =========================================
+   PATIENT REPORTS DASHBOARD
+========================================= */
+
+.patient-reports {
+    --pr-primary: #253746;
+    --pr-secondary: #f7f5f0;
+    --pr-border: #d6d4d2;
+    --pr-muted: #7a7d80;
+    --pr-text: #4a4a4a;
+    --pr-white: #ffffff;
+
+    /* tokens used by the shared dialog/toast styles (Appointments.css) */
+    --pa-primary: var(--pr-primary);
+    --pa-secondary: var(--pr-secondary);
+    --pa-border: var(--pr-border);
+    --pa-muted: var(--pr-muted);
+    --pa-text: var(--pr-text);
+    --pa-white: var(--pr-white);
+
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    min-height: 100vh;
+    padding: 5rem 0 0;
+    background: var(--pr-white);
+    color: var(--pr-primary);
+    font-family: "Inter", Arial, sans-serif;
+    font-size: 0.875rem;
+    box-sizing: border-box;
+}
+
+.patient-reports,
+.patient-reports *,
+.patient-reports *::before,
+.patient-reports *::after {
+    box-sizing: border-box;
+}
+
+.patient-reports button,
+.patient-reports input,
+.patient-reports select {
+    font: inherit;
+}
+
+.patient-reports button {
+    color: inherit;
+    cursor: pointer;
+}
+
+.patient-reports button:focus-visible,
+.patient-reports input:focus-visible,
+.patient-reports select:focus-visible {
+    outline: 0.125rem solid var(--pr-primary);
+    outline-offset: 0.125rem;
+}
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+.pr-sidebar {
+    display: flex;
+    flex: 0 0 17.25rem;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 17.25rem;
+    min-height: 100vh;
+    padding: 1.625rem 1.0625rem 1.0625rem 3.125rem;
+    border-right: 0.0625rem solid var(--pr-border);
+    background: #fff;
+}
+
+.pr-sidebar-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 1.125rem;
+    margin-bottom: 1.875rem;
+    padding: 0 0.75rem;
+}
+
+.pr-brand {
+    color: #6d7074;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.1375rem;
+    line-height: 1rem;
+}
+
+.pr-sidebar-toggle {
+    display: grid;
+    place-items: center;
+    width: 1.125rem;
+    height: 1.125rem;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+.pr-navigation {
+    display: flex;
+    flex-direction: column;
+    gap: 1.875rem;
+}
+
+.pr-nav-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.pr-nav-heading {
+    margin: 0;
+    padding: 0 0.75rem;
+    color: #74777a;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.1375rem;
+    line-height: 1rem;
+}
+
+.pr-nav-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.pr-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5625rem;
+    width: 100%;
+    min-height: 2.8125rem;
+    padding: 0.625rem 0.75rem;
+    border: none;
+    border-radius: 0.625rem;
+    background: transparent;
+    color: var(--pr-primary);
+    text-align: left;
+    white-space: nowrap;
+    transition: background-color 0.15s ease;
+}
+
+.pr-nav-item:hover,
+.pr-nav-item.is-active {
+    background: var(--pr-secondary);
+}
+
+.pr-nav-icon {
+    display: grid;
+    flex: 0 0 1.25rem;
+    place-items: center;
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.pr-nav-count {
+    display: grid;
+    place-items: center;
+    min-width: 2.25rem;
+    height: 1.5625rem;
+    margin-left: auto;
+    padding: 0 0.5rem;
+    border-radius: 1rem;
+    background: #f7f5f0;
+    color: #4a4a4a;
+    font-size: 0.875rem;
+}
+
+.pr-signout {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.625rem 0.875rem;
+    border: none;
+    border-top: 0.0625rem solid var(--pr-border);
+    background: transparent;
+    color: #303030;
+    text-align: left;
+}
+
+/* =========================================
+   MAIN CONTENT
+========================================= */
+
+.pr-main {
+    flex: 1;
+    min-width: 0;
+    padding: 1.625rem 3.125rem 2rem 1.5rem;
+}
+
+/* =========================================
+   TOOLBAR
+========================================= */
+
+.pr-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    margin-bottom: 2.5rem;
+}
+
+/* Issued / Uploaded tabs */
+
+.pr-tabs {
+    display: flex;
+    flex: 0 0 11.3125rem;
+    align-items: center;
+    height: 2.5rem;
+    padding: 0.1875rem;
+    border: 0.0625rem solid #d9d6d3;
+    border-radius: 0.625rem;
+    background: #fff;
+}
+
+.pr-tabs button {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 0.625rem;
+    border: none;
+    border-radius: 0.5rem;
+    background: transparent;
+    color: #555;
+    font-size: 0.8125rem;
+    white-space: nowrap;
+}
+
+.pr-tabs button.is-active {
+    background: #f2f2f2;
+    color: var(--pr-primary);
+    font-weight: 500;
+}
+
+/* Search */
+
+.pr-search {
+    display: flex;
+    flex: 1 1 18rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    height: 2.5rem;
+    min-width: 8rem;
+    padding: 0 0.75rem;
+    border: 0.0625rem solid #d6d4d2;
+    border-radius: 0.625rem;
+    background: #fff;
+}
+
+.pr-search input {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--pr-primary);
+    font-size: 0.8125rem;
+}
+
+.pr-search input::placeholder {
+    color: #85888b;
+    opacity: 1;
+}
+
+.pr-search svg {
+    flex-shrink: 0;
+    color: #7e8387;
+}
+
+/* Upload button */
+
+.pr-upload-button {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 2.625rem;
+    padding: 0 0.8125rem;
+    border: 0.0625rem solid #d6d4d2;
+    border-radius: 0.625rem;
+    background: #fff;
+    color: #414141;
+    font-size: 0.8125rem !important;
+    white-space: nowrap;
+    transition: background-color 0.15s ease;
+}
+
+.pr-upload-button:hover {
+    background: #f7f5f0;
+}
+
+/* Filters */
+
+.pr-filter {
+    position: relative;
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 0.25rem;
+    height: 2.625rem;
+    padding: 0 0.75rem;
+    border: 0.0625rem solid #d6d4d2;
+    border-radius: 0.625rem;
+    background: #fff;
+    color: #414141;
+    white-space: nowrap;
+}
+
+.pr-filter>span {
+    font-size: 0.8125rem;
+}
+
+.pr-filter select {
+    width: auto;
+    min-width: 1.25rem;
+    max-width: 5rem;
+    padding: 0 1rem 0 0;
+    appearance: none;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #303030;
+    font-size: 0.8125rem;
+    cursor: pointer;
+}
+
+.pr-filter>svg {
+    position: absolute;
+    top: 50%;
+    right: 0.625rem;
+    pointer-events: none;
+    transform: translateY(-50%);
+    color: #747474;
+}
+
+.pr-patient-filter {
+    gap: 0.1875rem;
+}
+
+.pr-patient-filter select {
+    max-width: 3rem;
+}
+
+.pr-sort-filter select {
+    max-width: 2.5rem;
+}
+
+/* =========================================
+   REPORTS TABLE
+========================================= */
+
+.pr-table-wrapper {
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+}
+
+.pr-table {
+    width: 100%;
+    min-width: 56.25rem;
+    border-collapse: collapse;
+    table-layout: fixed;
+    text-align: left;
+}
+
+.pr-table thead tr {
+    border-bottom: 0.0625rem solid #858585;
+}
+
+.pr-table th {
+    height: 1.8125rem;
+    padding: 0 0.625rem 0.6875rem;
+    color: #515151;
+    font-size: 0.625rem;
+    font-weight: 400;
+    line-height: 0.75rem;
+    white-space: nowrap;
+}
+
+.pr-table th:first-child,
+.pr-table td:first-child {
+    padding-left: 0.625rem;
+}
+
+.pr-table th:nth-child(1) {
+    width: 20.2%;
+}
+
+.pr-table th:nth-child(2) {
+    width: 17.3%;
+}
+
+.pr-table th:nth-child(3) {
+    width: 16.6%;
+}
+
+.pr-table th:nth-child(4) {
+    width: 17%;
+}
+
+.pr-table th:nth-child(5) {
+    width: 16.3%;
+}
+
+.pr-table th:nth-child(6) {
+    width: 12.6%;
+    text-align: center;
+}
+
+.pr-table tbody tr {
+    height: 5.375rem;
+    border-bottom: 0.0625rem solid #dedbd8;
+}
+
+.pr-table tbody tr:last-child {
+    border-bottom-color: transparent;
+}
+
+.pr-table td {
+    height: 5.375rem;
+    padding: 0.75rem 0.625rem;
+    vertical-align: middle;
+}
+
+/* Report and doctor information */
+
+.pr-report-cell,
+.pr-doctor-cell,
+.pr-patient-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4375rem;
+    min-width: 0;
+}
+
+.pr-primary-text {
+    color: var(--pr-primary);
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.125rem;
+    white-space: nowrap;
+}
+
+.pr-secondary-text {
+    color: #85888b;
+    font-size: 0.6875rem;
+    font-weight: 400;
+    line-height: 0.875rem;
+    white-space: nowrap;
+}
+
+.pr-date-text {
+    color: var(--pr-primary);
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+    white-space: nowrap;
+}
+
+/* Patient */
+
+.pr-patient-cell {
+    gap: 0.375rem;
+}
+
+.pr-patient-name {
+    color: #505050;
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+    white-space: nowrap;
+}
+
+.pr-patient-relation {
+    display: flex;
+    align-items: center;
+    gap: 0.3125rem;
+    color: #85888b;
+    font-size: 0.6875rem;
+    line-height: 0.875rem;
+}
+
+.pr-patient-relation svg {
+    color: #dc8d72;
+}
+
+/* =========================================
+   REPORT STATUS
+========================================= */
+
+.pr-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3125rem;
+    min-height: 1.625rem;
+    padding: 0.25rem 0.6875rem;
+    border: 0.0625rem solid transparent;
+    border-radius: 1.125rem;
+    font-size: 0.6875rem;
+    font-weight: 400;
+    line-height: 1rem;
+    white-space: nowrap;
+}
+
+.pr-status--processing {
+    border-color: #d8d5d2;
+    background: #fff;
+    color: #555;
+}
+
+.pr-status--ready {
+    background: #e7f0e9;
+    color: #347047;
+}
+
+.pr-status-dot {
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 50%;
+    background: #347047;
+}
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.pr-table td:last-child {
+    text-align: center;
+}
+
+.pr-action-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.pr-icon-button {
+    display: grid;
+    flex: 0 0 1.875rem;
+    place-items: center;
+    width: 1.875rem;
+    height: 1.875rem;
+    padding: 0;
+    border: 0.0625rem solid #d9d7d5;
+    border-radius: 0.25rem;
+    background: #fff;
+    color: #353535;
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.pr-icon-button:hover:not(:disabled) {
+    border-color: #9a9a9a;
+    background: #f7f5f0;
+}
+
+/* Processing reports: actions unavailable until ready */
+.pr-icon-button:disabled {
+    border-color: #ecebe9;
+    color: #c4c4c4;
+    cursor: not-allowed;
+}
+
+.pr-empty-state {
+    height: 5rem !important;
+    color: var(--pr-muted);
+    text-align: center;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 87.5rem) {
+    .pr-sidebar {
+        flex-basis: 15rem;
+        width: 15rem;
+        padding-left: 1.5rem;
+        padding-right: 1rem;
+    }
+
+    .pr-main {
+        padding-right: 1.5rem;
+        padding-left: 1.5rem;
+    }
+
+    .pr-toolbar {
+        flex-wrap: wrap;
+    }
+
+    .pr-tabs {
+        flex-basis: 11.3125rem;
+    }
+
+    .pr-search {
+        flex-basis: 16rem;
+    }
+}
+
+@media (max-width: 68.75rem) {
+    .pr-toolbar {
+        row-gap: 0.75rem;
+        margin-bottom: 2rem;
+    }
+
+    .pr-search {
+        flex-basis: calc(100% - 12.0625rem);
+    }
+
+    .pr-upload-button {
+        flex: 1 1 auto;
+    }
+
+    .pr-filter {
+        flex: 1 1 auto;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 48rem) {
+    .patient-reports {
+        flex-direction: column;
+    }
+
+    .pr-sidebar {
+        flex: none;
+        width: 100%;
+        min-height: auto;
+        padding: 1rem;
+        border-right: none;
+        border-bottom: 0.0625rem solid var(--pr-border);
+    }
+
+    .pr-sidebar-heading {
+        margin-bottom: 1rem;
+    }
+
+    .pr-navigation {
+        gap: 1rem;
+    }
+
+    .pr-nav-group {
+        gap: 0.375rem;
+    }
+
+    .pr-nav-items {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.25rem;
+    }
+
+    .pr-nav-item {
+        min-width: 0;
+        padding: 0.625rem;
+        font-size: 0.8125rem;
+    }
+
+    .pr-signout {
+        margin-top: 1rem;
+    }
+
+    .pr-main {
+        padding: 1rem;
+    }
+
+    .pr-toolbar {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.625rem;
+    }
+
+    .pr-tabs,
+    .pr-search,
+    .pr-upload-button,
+    .pr-filter {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .pr-tabs {
+        grid-column: 1 / -1;
+    }
+
+    .pr-search {
+        grid-column: 1 / -1;
+    }
+
+    .pr-upload-button {
+        grid-column: 1 / -1;
+    }
+
+    .pr-filter {
+        justify-content: flex-start;
+    }
+
+    .pr-table {
+        min-width: 56.25rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .pr-nav-item,
+    .pr-upload-button,
+    .pr-icon-button {
+        transition: none;
+    }
+}
+/* Collapsed sidebar: icons only */
+.pr-sidebar.is-collapsed {
+    flex-basis: 5rem;
+    width: 5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.pr-sidebar.is-collapsed .pr-brand,
+.pr-sidebar.is-collapsed .pr-nav-heading,
+.pr-sidebar.is-collapsed .pr-nav-count,
+.pr-sidebar.is-collapsed .pr-nav-item > span:not(.pr-nav-icon),
+.pr-sidebar.is-collapsed .pr-signout span {
+    display: none;
+}

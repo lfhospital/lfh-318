@@ -1,0 +1,401 @@
+/* =========================================
+   HEALTH LIBRARY BROWSE - HERO
+   (base hero styles come from HealthLibrary.css)
+========================================= */
+
+.hlb-hero {
+    padding-bottom: 3.5rem;
+}
+
+.hlb-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-transform: uppercase;
+}
+
+.hlb-breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.hlb-breadcrumb a:hover {
+    color: #253746;
+}
+
+.hlb-breadcrumb-current {
+    color: #d39b83;
+}
+
+
+/* =========================================
+   LISTING LAYOUT
+========================================= */
+
+.hlb-listing {
+    width: 100%;
+    display: flex;
+    gap: 3.2rem;
+    box-sizing: border-box;
+    padding: 0 3.25rem 0 3.1rem;
+    background: #ffffff;
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    scroll-margin-top: 1rem;
+}
+
+
+/* =========================================
+   FILTERS
+========================================= */
+
+.hlb-filters {
+    flex: 0 0 18.125rem;
+    box-sizing: border-box;
+    position: sticky;
+    top: 1rem;
+    align-self: flex-start;
+}
+
+.hlb-filter-header {
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hlb-filter-header h2 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.hlb-filter-header button {
+    padding: 0;
+    background: transparent;
+    border: none;
+    color: #b1544b;
+    font-family: inherit;
+    font-size: 0.75rem;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.hlb-filter-divider {
+    width: 100%;
+    height: 1px;
+    background: #e9ebed;
+    margin: 1.5rem 0 0;
+}
+
+.hlb-filter-group {
+    margin-top: 2.5rem;
+    padding: 0 1.5rem;
+}
+
+.hlb-filter-divider + .hlb-filter-group {
+    margin-top: 1rem;
+}
+
+.hlb-filter-group h3 {
+    margin: 0 0 0.9rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #2f2f2f;
+}
+
+.hlb-filter-search {
+    height: 1.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0.85rem;
+    margin-bottom: 1rem;
+    border: 1px solid #d4d4d4;
+    border-radius: 0.25rem;
+    color: #2f2f2f;
+}
+
+.hlb-filter-search input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.75rem;
+    color: #2f2f2f;
+}
+
+.hlb-filter-search input::placeholder {
+    color: #2f2f2f;
+}
+
+.hlb-selected-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.hlb-selected-tags button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.3rem 0.6rem;
+    border: none;
+    border-radius: 2.5rem;
+    background: #efebe7;
+    color: #4a4a4a;
+    font-family: inherit;
+    font-size: 0.6875rem;
+    cursor: pointer;
+}
+
+.hlb-filter-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding-left: 0.4rem;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    color: #4b4b4b;
+    cursor: pointer;
+}
+
+.hlb-filter-group input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin: 0;
+    accent-color: #333;
+    cursor: pointer;
+}
+
+.hlb-show-more {
+    padding: 0 0 0 0.4rem;
+    border: none;
+    background: transparent;
+    color: #7a7d80;
+    font-family: inherit;
+    font-size: 0.75rem;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+/* =========================================
+   RESULTS GRID
+========================================= */
+
+.hlb-results {
+    flex: 1;
+    min-width: 0;
+}
+
+.hlb-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.125rem;
+}
+
+.hlb-status {
+    margin: 0;
+    padding: 2.5rem 0;
+    color: #7a7d80;
+    font-size: 0.9375rem;
+}
+
+.hlb-status-error {
+    color: #b1544b;
+}
+
+
+/* =========================================
+   ARTICLE CARD
+========================================= */
+
+.hlb-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 19.25rem;
+    padding: 2.1rem 1.5rem 1.75rem;
+    box-sizing: border-box;
+    border: 1px solid #e6e4e4;
+    border-radius: 0.2rem;
+    background: #ffffff;
+    transition: background 0.3s ease;
+}
+
+.hlb-card:hover {
+    background: #faf9f7;
+}
+
+.hlb-card-category {
+    color: #d39b83;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    line-height: 1rem;
+    letter-spacing: 0.02rem;
+    text-transform: uppercase;
+}
+
+.hlb-card-pill {
+    align-self: flex-start;
+    margin-top: 0.9rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 1rem;
+    background: #f1eeea;
+    color: #3b3b3b;
+    font-size: 0.625rem;
+    line-height: 0.875rem;
+}
+
+.hlb-card-title {
+    margin: 0.4rem 0 0;
+    color: #2d2d2d;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.75rem;
+}
+
+.hlb-card-summary {
+    margin: 0.75rem 0 3.4rem;
+    color: #4a4a4a;
+    font-size: 0.6875rem;
+    line-height: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.hlb-card-summary-loading {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.hlb-card-summary-loading span {
+    height: 0.65rem;
+    border-radius: 0.2rem;
+    background: #f1eeea;
+}
+
+.hlb-card-summary-loading span:last-child {
+    width: 40%;
+}
+
+/* Pinned to the card bottom so footers line up across a row */
+.hlb-card-footer {
+    margin-top: auto;
+    padding-top: 1.2rem;
+    border-top: 1px solid #d9d9d9;
+}
+
+.hlb-read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 2rem;
+    border-radius: 0.375rem;
+    background: #f5f3ef;
+    color: #2d2d2d;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.hlb-read-more:hover {
+    background: #ebe7e1;
+}
+
+
+/* =========================================
+   BOTTOM BAR
+========================================= */
+
+.hlb-bottom-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-left: 0.3rem;
+}
+
+.hlb-bottom-bar p {
+    margin: 0;
+    color: #7a7d80;
+    font-size: 0.75rem;
+}
+
+.hlb-help {
+    margin-top: 6.5rem;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+    .hlb-listing {
+        gap: 2rem;
+        padding: 0 3rem;
+    }
+
+    .hlb-filters {
+        flex-basis: 15rem;
+    }
+
+    .hlb-filter-header,
+    .hlb-filter-group {
+        padding: 0;
+    }
+
+    .hlb-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+    .hlb-hero {
+        padding-bottom: 0;
+    }
+
+    .hlb-listing {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 0 1.5rem;
+    }
+
+    .hlb-filters {
+        position: static;
+        flex-basis: auto;
+        width: 100%;
+    }
+
+    .hlb-bottom-bar {
+        flex-direction: column;
+        align-items: center;
+        padding-left: 0;
+    }
+
+    .hlb-help {
+        margin-top: 4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hlb-listing {
+        padding: 0 1.25rem;
+    }
+
+    .hlb-card {
+        min-height: 0;
+        padding: 1.5rem 1.25rem;
+    }
+}

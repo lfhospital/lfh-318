@@ -1,0 +1,384 @@
+/* =========================================
+   PRESCRIPTIONS
+   Builds on PatientAppointments.css + Appointments.css
+========================================= */
+
+.prx-main {
+    gap: 2.25rem;
+    padding-right: 3.25rem;
+}
+
+/* Toolbar */
+
+.prx-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 2.8125rem;
+    height: 2.5rem;
+}
+
+.prx-search {
+    flex: 1 1 auto;
+    height: 100%;
+    padding: 0 0.75rem;
+    border-color: var(--pa-border);
+    border-radius: 0.5rem;
+}
+
+.prx-toolbar-actions {
+    display: flex;
+    gap: 0.625rem;
+    height: 100%;
+}
+
+.prx-page .prx-tool-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 100%;
+    padding: 0 0.75rem;
+    border: 0.0625rem solid var(--pa-border);
+    border-radius: 0.5rem;
+    background: #fff;
+    color: var(--pa-ink);
+    font-size: 0.8125rem;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.prx-page .prx-tool-button:hover {
+    border-color: var(--pa-primary);
+    background: var(--pa-secondary);
+}
+
+.prx-patient-select {
+    width: 7.75rem;
+    height: 100%;
+    border-color: var(--pa-border);
+    border-radius: 0.5rem;
+}
+
+.prx-patient-select select {
+    color: var(--pa-ink);
+}
+
+/* Tabs */
+
+.prx-tabs {
+    display: flex;
+    gap: 0.375rem;
+    width: 27.0625rem;
+    max-width: 100%;
+    height: 2.25rem;
+    padding: 0.25rem;
+    border: 0.0625rem solid #f3f3f3;
+    border-radius: 0.25rem;
+}
+
+.prx-page .prx-tabs button {
+    flex: 1;
+    padding: 0 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    background: transparent;
+    color: var(--pa-text);
+    font-size: 0.8125rem;
+    white-space: nowrap;
+}
+
+.prx-page .prx-tabs button.is-active {
+    background: #f3f3f3;
+    color: var(--pa-primary);
+    font-weight: 500;
+}
+
+.prx-empty {
+    padding-top: 0;
+}
+
+/* Table */
+
+.prx-table {
+    min-width: 44rem;
+}
+
+.prx-table thead tr {
+    border-bottom-color: #888;
+}
+
+.prx-page .prx-table th {
+    height: 2.5rem;
+    padding-bottom: 0;
+    color: var(--pa-text);
+    font-size: 0.6875rem;
+    line-height: 2.5rem;
+    text-transform: uppercase;
+}
+
+.prx-table th:nth-child(1) {
+    width: 26%;
+}
+
+.prx-table th:nth-child(2) {
+    width: 20%;
+}
+
+.prx-table th:nth-child(3) {
+    width: 18%;
+}
+
+.prx-table th:nth-child(4) {
+    width: 21%;
+}
+
+.prx-table th:nth-child(5),
+.prx-table td:last-child {
+    width: 15%;
+    text-align: right;
+}
+
+.prx-table tbody tr,
+.prx-table td {
+    height: 3.875rem;
+}
+
+.prx-title {
+    display: block;
+    color: var(--pa-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.prx-ellipsis {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.prx-actions {
+    display: inline-flex;
+    gap: 0.5rem;
+}
+
+.prx-page .prx-icon-button {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 0.0625rem solid var(--pa-border);
+    border-radius: 0.25rem;
+    background: #fff;
+    color: #2e2e2e;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.prx-page .prx-icon-button:hover {
+    border-color: #9a9a9a;
+    background: var(--pa-secondary);
+}
+
+.prx-page .prx-icon-button--danger:hover {
+    border-color: var(--pa-danger);
+    background: #f6e9e9;
+    color: var(--pa-danger);
+}
+
+/* Form fields (also used by the Family members dialog) */
+
+.prx-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.prx-dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 1.5rem 1rem;
+    border: 0.0625rem dashed var(--pa-border);
+    border-radius: 0.5rem;
+    background: #fbfaf8;
+    color: var(--pa-muted);
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.prx-dropzone:hover,
+.prx-dropzone.is-dragging {
+    border-color: var(--pa-primary);
+    background: var(--pa-secondary);
+}
+
+.prx-dropzone:focus-visible {
+    outline: 0.125rem solid var(--pa-primary);
+    outline-offset: 0.125rem;
+}
+
+.prx-dropzone.has-error {
+    border-color: var(--pa-danger);
+}
+
+.prx-dropzone .pa-cell-primary {
+    color: var(--pa-primary);
+}
+
+.prx-error {
+    margin: -0.75rem 0 0;
+    color: var(--pa-danger);
+    font-size: 0.75rem;
+}
+
+.prx-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.prx-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    min-width: 0;
+}
+
+.prx-field--full {
+    grid-column: 1 / -1;
+}
+
+.prx-field span {
+    color: var(--pa-text);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.prx-field input,
+.prx-field select {
+    height: 2.5rem;
+    padding: 0 0.75rem;
+    border: 0.0625rem solid var(--pa-border);
+    border-radius: 0.5rem;
+    background: #fff;
+    color: var(--pa-primary);
+    font: inherit;
+    font-size: 0.8125rem;
+}
+
+.prx-field input:focus,
+.prx-field select:focus {
+    border-color: var(--pa-primary);
+    outline: none;
+}
+
+/* Responsive */
+
+@media (max-width: 68.75rem) {
+    .prx-toolbar {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        height: auto;
+    }
+
+    .prx-search {
+        flex-basis: 100%;
+        height: 2.5rem;
+    }
+
+    .prx-toolbar-actions {
+        height: 2.5rem;
+    }
+}
+
+@media (max-width: 48rem) {
+    .prx-main {
+        gap: 1.5rem;
+        padding: 1rem;
+    }
+
+    .prx-toolbar-actions {
+        width: 100%;
+    }
+
+    .prx-page .prx-tool-button,
+    .prx-patient-select {
+        flex: 1 1 0;
+    }
+
+    .prx-page .prx-tabs button {
+        padding: 0 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    .prx-fields {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* Self-uploaded row details */
+.prx-self-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: 0.375rem;
+    color: #d3a693;
+    font-size: 0.6875rem;
+}
+
+/* ⋮ row menu (Rename / Delete) */
+.prx-menu {
+    position: relative;
+}
+
+.prx-menu-list {
+    position: absolute;
+    top: calc(100% + 0.375rem);
+    right: 0;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    min-width: 4.75rem;
+    padding: 0.25rem;
+    border: 0.0625rem solid #e5e5e5;
+    border-radius: 0.375rem;
+    background: #fff;
+    box-shadow: 0 0.75rem 1rem -0.25rem rgb(0 0 0 / 8%),
+        0 0.25rem 0.375rem -0.125rem rgb(0 0 0 / 3%);
+}
+
+.prx-page .prx-menu-list button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    background: transparent;
+    color: #4a4a4a;
+    font-size: 0.75rem;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.prx-page .prx-menu-list button:hover,
+.prx-page .prx-menu-list button:focus-visible {
+    background: #f7f5f0;
+    color: #253746;
+}
+
+/* Rename dialog */
+.prx-rename {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* Patient filter menu matches the 40px toolbar row */
+.prx-page .prx-patient-menu .fm-trigger {
+    height: 100%;
+    min-height: 2.5rem;
+}

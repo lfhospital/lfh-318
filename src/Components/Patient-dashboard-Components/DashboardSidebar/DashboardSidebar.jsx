@@ -24,16 +24,16 @@ const sections = [
     items: [
       { label: "Appointments", icon: Calendar, to: "/dashboard/appointments" },
       { label: "Prescriptions", icon: FileText, to: "/dashboard/prescriptions" },
-      { label: "Reports", icon: Activity },
-      { label: "Second opinion", icon: SquareCheckBig },
+      { label: "Reports", icon: Activity, to: "/dashboard/reports" },
+      { label: "Second opinion", icon: SquareCheckBig, to: "/dashboard/second-opinion" },
     ],
   },
   {
     title: "Account",
     items: [
-      { label: "Payments", icon: CreditCard },
-      { label: "Family Members", icon: Users },
-      { label: "Profile & Settings", icon: Settings },
+      { label: "Payments", icon: CreditCard, to: "/dashboard/payments" },
+      { label: "Family Members", icon: Users, to: "/dashboard/family-members" },
+      { label: "Profile & Settings", icon: Settings, to: "/dashboard/profile" },
     ],
   },
 ];

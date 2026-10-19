@@ -1,0 +1,548 @@
+/* =========================================
+   PATIENT PROFILE & SETTINGS
+   Builds on PatientAppointments.css + Appointments.css (dialog, toast)
+========================================= */
+
+.pps-main {
+    gap: 2.3125rem;
+    max-width: 70rem;
+    padding: 3.125rem 3.25rem 3rem 1.5rem;
+}
+
+/* Header */
+
+.pps-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2.75rem;
+    margin-bottom: 0.1875rem;
+}
+
+.pps-header h1 {
+    margin: 0;
+    color: var(--pa-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.75rem;
+}
+
+.pps-header p {
+    margin: 0.875rem 0 0;
+    color: var(--pa-text);
+    font-size: 0.8125rem;
+}
+
+.pps-patient-id {
+    display: flex;
+    flex: 0 0 13.9375rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.625rem 0.875rem;
+    border-radius: 0.5rem;
+    background: var(--pa-secondary);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+}
+
+.pps-patient-id-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--pa-text);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.pps-page .pps-patient-id-top button {
+    display: grid;
+    place-items: center;
+    padding: 0.125rem;
+    border: none;
+    border-radius: 0.25rem;
+    background: transparent;
+    color: var(--pa-text);
+}
+
+.pps-page .pps-patient-id-top button:hover {
+    background: #ece9e3;
+}
+
+.pps-patient-id strong {
+    color: #2e2e2e;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5rem;
+    user-select: all;
+}
+
+.pps-notice {
+    margin: 0;
+    padding: 0.875rem 1rem;
+    border-left: 0.1875rem solid var(--pa-danger);
+    border-radius: 0.375rem;
+    background: #f9efef;
+    color: var(--pa-text);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+}
+
+/* Sections */
+
+.pps-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6875rem;
+}
+
+.pps-section h2 {
+    margin: 0;
+    color: var(--pa-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.pps-grid {
+    display: grid;
+    gap: 1.4375rem;
+}
+
+.pps-grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.pps-grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pps-span-all {
+    grid-column: 1 / -1;
+}
+
+/* Fields */
+
+.pps-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    min-width: 0;
+}
+
+.pps-label-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 1.5rem;
+}
+
+.pps-label {
+    color: var(--pa-muted);
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    text-transform: uppercase;
+}
+
+.pps-field input,
+.pps-select select {
+    width: 100%;
+    height: 2.75rem;
+    padding: 0 0.875rem;
+    border: 0.0625rem solid #d4d4d4;
+    border-radius: 0.5rem;
+    background: #fff;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+    color: #2e2e2e;
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+.pps-field input::placeholder {
+    color: var(--pa-muted);
+    font-weight: 400;
+}
+
+.pps-field input:focus,
+.pps-select select:focus {
+    border-color: var(--pa-primary);
+}
+
+.pps-field [aria-invalid="true"] {
+    border-color: var(--pa-danger);
+}
+
+.pps-select {
+    position: relative;
+    display: block;
+}
+
+.pps-select select {
+    padding-right: 2.5rem;
+    appearance: none;
+    cursor: pointer;
+}
+
+.pps-select svg {
+    position: absolute;
+    top: 50%;
+    right: 0.875rem;
+    color: var(--pa-muted);
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
+.pps-verify-input {
+    position: relative;
+    display: block;
+}
+
+.pps-verify-input input {
+    padding-right: 4.5rem;
+}
+
+.pps-verify-input .pps-link {
+    position: absolute;
+    top: 50%;
+    right: 0.875rem;
+    transform: translateY(-50%);
+}
+
+.pps-help,
+.pps-error {
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+}
+
+.pps-help {
+    color: var(--pa-text);
+}
+
+.pps-error {
+    color: var(--pa-danger);
+}
+
+/* Badge */
+
+.pps-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.125rem 0.625rem;
+    border-radius: 1rem;
+    background: #dfe8f0;
+    color: var(--pa-primary);
+    font-size: 0.6875rem;
+    line-height: 1.125rem;
+    text-transform: none;
+}
+
+.pps-badge.is-verified {
+    background: var(--pa-success-bg);
+    color: var(--pa-success);
+}
+
+.pps-badge-dot {
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+/* Text buttons */
+
+.pps-page .pps-link {
+    padding: 0.125rem 0 0;
+    border: none;
+    border-bottom: 0.0625rem solid var(--pa-primary);
+    background: transparent;
+    color: var(--pa-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.375rem;
+}
+
+.pps-page .pps-link--dark {
+    border-bottom-color: #2e2e2e;
+    color: #2e2e2e;
+}
+
+.pps-page .pps-link--danger {
+    border-bottom-color: var(--pa-danger);
+    color: var(--pa-danger);
+}
+
+.pps-page .pps-link:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Preferences */
+
+.pps-preferences {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4375rem;
+}
+
+.pps-preference {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 0.0625rem solid var(--pa-border);
+}
+
+.pps-preference:last-child {
+    border-bottom: none;
+}
+
+.pps-preference h3 {
+    margin: 0;
+    color: var(--pa-primary);
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+.pps-preference p {
+    margin: 0.25rem 0 0;
+    color: var(--pa-muted);
+    font-size: 0.75rem;
+}
+
+.pps-preference > div {
+    flex: 1;
+}
+
+.pps-page .pps-toggle {
+    position: relative;
+    flex: 0 0 2.25rem;
+    width: 2.25rem;
+    height: 1.25rem;
+    padding: 0;
+    border: none;
+    border-radius: 0.75rem;
+    background: #e5e5e5;
+    transition: background-color 0.2s ease;
+}
+
+.pps-toggle span {
+    position: absolute;
+    top: 0.125rem;
+    left: 0.125rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgb(16 24 40 / 15%);
+    transition: transform 0.2s ease;
+}
+
+.pps-page .pps-toggle.is-on {
+    background: var(--pa-primary);
+}
+
+.pps-toggle.is-on span {
+    transform: translateX(1rem);
+}
+
+/* Footer */
+
+.pps-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.pps-footer-left {
+    display: flex;
+    align-items: center;
+    gap: 1.0625rem;
+}
+
+.pps-page .pps-save {
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 0.5rem;
+    background: var(--pa-primary);
+    color: var(--pa-secondary);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    transition: background-color 0.2s ease;
+}
+
+.pps-page .pps-save:hover:not(:disabled) {
+    background: #1a2934;
+}
+
+.pps-page .pps-save:disabled {
+    background: #f3f3f3;
+    color: var(--pa-muted);
+    cursor: not-allowed;
+}
+
+/* OTP dialog */
+
+.pps-otp {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.pps-otp strong {
+    color: var(--pa-primary);
+    font-weight: 500;
+}
+
+.pps-otp-input {
+    height: 3.25rem;
+    padding: 0 1rem;
+    border: 0.0625rem solid var(--pa-border);
+    border-radius: 0.5rem;
+    color: var(--pa-primary);
+    font: inherit;
+    font-size: 1.5rem;
+    letter-spacing: 0.75rem;
+    text-align: center;
+    outline: none;
+}
+
+.pps-otp-input:focus {
+    border-color: var(--pa-primary);
+}
+
+.pps-otp-input[aria-invalid="true"] {
+    border-color: var(--pa-danger);
+}
+
+.pps-resend {
+    margin: 0;
+    color: var(--pa-muted);
+    font-size: 0.8125rem;
+}
+
+/* Responsive */
+
+@media (max-width: 68.75rem) {
+    .pps-grid--3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 48rem) {
+    .pps-main {
+        gap: 2rem;
+        padding: 1.5rem 1rem;
+    }
+
+    .pps-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    .pps-patient-id {
+        flex-basis: auto;
+    }
+
+    .pps-grid--3,
+    .pps-grid--2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pps-toggle,
+    .pps-toggle span {
+        transition: none;
+    }
+}
+
+/* Toast corner radius per the "changes saved" design */
+.pps-page .ap-toast {
+    border-radius: 0.75rem;
+}
+
+/* Profile picture */
+.pps-picture {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.pps-picture-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+}
+
+.pps-avatar {
+    display: grid;
+    flex: 0 0 5.75rem;
+    place-items: center;
+    width: 5.75rem;
+    height: 5.75rem;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    background: var(--pa-secondary);
+    color: var(--pa-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.pps-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pps-picture-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.pps-picture-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.pps-page .pps-upload {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2rem;
+    padding: 0 1rem;
+    border: 0.0625rem solid var(--pa-border);
+    border-radius: 0.5rem;
+    background: #fff;
+    color: #2e2e2e;
+    font-size: 0.8125rem;
+}
+
+.pps-page .pps-photo-delete {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 0.0625rem solid var(--pa-border);
+    border-radius: 0.5rem;
+    background: #fff;
+    color: #2e2e2e;
+}
+
+.pps-page .pps-upload:hover,
+.pps-page .pps-photo-delete:hover:not(:disabled) {
+    border-color: var(--pa-primary);
+    background: var(--pa-secondary);
+}
+
+.pps-page .pps-photo-delete:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}

@@ -1,5 +1,6 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
+import { NAVIGATE_EVENT, clearNavParams } from './navigation';
 import HomePage from './pages/Home-page';
 import Doctors_Profile from './pages/Doctor-profile-page';
 import Specialty from './pages/Specialty-page';
@@ -11,6 +12,8 @@ import PackageDetail2 from './pages/Package-detail-page2';
 import PackageDetail3 from './pages/Package-detail-page3';
 import All_Specialties from './pages/All-specility-page';
 import HealthLibrary from './pages/HealthLibrary-page';
+import HealthLibraryBrowse from './pages/HealthLibraryBrowse-page';
+import HealthArticle from './pages/HealthArticle-page';
 import LoginPage from './pages/Login-page';
 import SignupPage from './pages/Signup-page';
 import ContactPage from './pages/Contact-page';
@@ -19,6 +22,16 @@ import PatientDashboard from './pages/Patient-dashboard-page';
 import PatientAppointments from './pages/Patient-appointments-page';
 import PatientPrescriptions from './pages/Patient-prescriptions-page';
 import PatientStoriesPage from './pages/Patient-stories-page';
+import PatientReportsPage from './pages/Patient-reports-page';
+import PatientSecondOpinionPage from './pages/Patient-second-opinion-page';
+import PatientPaymentsPage from './pages/Patient-payments-page';
+import PatientFamilyMembersPage from './pages/Patient-family-members-page';
+import PatientProfilePage from './pages/Patient-profile-page';
+import SecondOpinionPage from './pages/Second-opinion-page';
+import SignupDetailsPage from './pages/Signup-details-page';
+import HealthConditionPage from './pages/Health-condition-page';
+import HealthLibraryNoResultsPage from './pages/HealthLibraryNoResults-page';
+import HealthLibraryUnavailablePage from './pages/HealthLibraryUnavailable-page';
 import BookingFlowPage from './Components/Doctor-profile-page-Components/Booking-flow-Component/Booking-flow-page';
 import PatientInfo from './Components/Doctor-profile-page-Components/Booking-flow-Component/Step-1/PatientInfo';
 import Review from './Components/Doctor-profile-page-Components/Booking-flow-Component/Step-2/Review';
@@ -39,6 +52,27 @@ import Doc_unavailable from './Components/Doctor-profile-page-Components/Doc una
 import PaymentFailed from './Components/Doctor-profile-page-Components/Payment failed-Components/PaymentFailed';
 import DoubleBooking from './Components/Doctor-profile-page-Components/Double booking attempt-Component/DoubleBooking';
 
+// Pages imported from the design handoff call navigateTo() (see ./navigation);
+// this turns those requests into react-router navigation.
+function NavigationBridge() {
+  const navigate = useNavigate();
+  const navigationType = useNavigationType();
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleNavigate = (event) => navigate(event.detail);
+    window.addEventListener(NAVIGATE_EVENT, handleNavigate);
+    return () => window.removeEventListener(NAVIGATE_EVENT, handleNavigate);
+  }, [navigate]);
+
+  // Back/forward opens a page without data from an earlier navigateTo()
+  useEffect(() => {
+    if (navigationType === 'POP') clearNavParams();
+  }, [location, navigationType]);
+
+  return null;
+}
+
 function DevNavigation() {
   const location = useLocation();
   const routes = [
@@ -53,12 +87,22 @@ function DevNavigation() {
     { path: '/package-detail-3', label: 'PackageDetail3' },
     { path: '/compare', label: 'compare' },
     { path: '/health-library', label: 'healthLibrary' },
+    { path: '/health-library/condition/coronary-artery-disease', label: 'healthCondition' },
+    { path: '/health-library/no-results', label: 'healthNoResults' },
+    { path: '/health-library/unavailable', label: 'healthUnavailable' },
     { path: '/about', label: 'about' },
     { path: '/patient-stories', label: 'patientStories' },
     { path: '/contact', label: 'contact' },
     { path: '/login', label: 'login' },
     { path: '/signup', label: 'signup' },
+    { path: '/signup/details', label: 'signupDetails' },
     { path: '/dashboard', label: 'dashboard' },
+    { path: '/dashboard/reports', label: 'reports' },
+    { path: '/dashboard/second-opinion', label: 'secondOpinions' },
+    { path: '/dashboard/payments', label: 'payments' },
+    { path: '/dashboard/family-members', label: 'familyMembers' },
+    { path: '/dashboard/profile', label: 'profile' },
+    { path: '/second-opinion', label: 'secondOpinionFlow' },
     { path: '/booking-flow', label: 'bookingFlow' },
     { path: '/patient-info', label: 'patientInfo' },
     { path: '/review', label: 'review' },
@@ -111,6 +155,7 @@ export default function App() {
     <Router>
       {/* Dev Navigation - remove in production */}
       <DevNavigation />
+      <NavigationBridge />
       
       <div style={{ paddingBottom: '50px' }}>
         <Routes>
@@ -126,14 +171,26 @@ export default function App() {
           <Route path="/package-detail-3" element={<PackageDetail3 />} />
           <Route path="/compare" element={<ComparePage />} />
           <Route path="/health-library" element={<HealthLibrary />} />
+          <Route path="/health-library/browse" element={<HealthLibraryBrowse />} />
+          <Route path="/health-library/article/:bookId/:pageId" element={<HealthArticle />} />
+          <Route path="/health-library/condition/coronary-artery-disease" element={<HealthConditionPage />} />
+          <Route path="/health-library/no-results" element={<HealthLibraryNoResultsPage />} />
+          <Route path="/health-library/unavailable" element={<HealthLibraryUnavailablePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/patient-stories" element={<PatientStoriesPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/signup/details" element={<SignupDetailsPage />} />
           <Route path="/dashboard" element={<PatientDashboard />} />
           <Route path="/dashboard/appointments" element={<PatientAppointments />} />
           <Route path="/dashboard/prescriptions" element={<PatientPrescriptions />} />
+          <Route path="/dashboard/reports" element={<PatientReportsPage />} />
+          <Route path="/dashboard/second-opinion" element={<PatientSecondOpinionPage />} />
+          <Route path="/dashboard/payments" element={<PatientPaymentsPage />} />
+          <Route path="/dashboard/family-members" element={<PatientFamilyMembersPage />} />
+          <Route path="/dashboard/profile" element={<PatientProfilePage />} />
+          <Route path="/second-opinion" element={<SecondOpinionPage />} />
           
           {/* Booking Flow Routes */}
           <Route path="/booking-flow" element={<BookingFlowPage />} />

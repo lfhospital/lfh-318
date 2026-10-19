@@ -175,6 +175,11 @@
     color: #26384a;
 }
 
+.pagination-btn:disabled {
+    color: #c4c6c8;
+    cursor: not-allowed;
+}
+
 .pagination-dots {
     color: #6b6b6b;
     font-size: 0.9rem;
@@ -358,4 +363,9 @@
 .compare-checkbox.disabled {
     opacity: 0.45;
     cursor: not-allowed;
+}
+.plan-btn.in-plan {
+    background: #26384a;
+    border-color: #26384a;
+    color: #fff;
 }

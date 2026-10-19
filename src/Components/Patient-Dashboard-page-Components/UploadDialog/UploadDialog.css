@@ -1,0 +1,314 @@
+/* =========================================
+   UPLOAD DIALOG (patient dashboard)
+   Rules are scoped under .ud-modal so page-level button resets
+   (e.g. `button { color: inherit }`) can't override them.
+========================================= */
+
+.ud-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background: rgb(10 10 10 / 70%);
+    font-family: "Inter", Arial, sans-serif;
+    animation: ud-fade 0.2s ease-out;
+}
+
+.ud-modal {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 30rem;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    border-radius: 0.75rem;
+    background: #fff;
+    box-shadow: 0 1.25rem 1.5rem -0.25rem rgb(16 24 40 / 8%),
+        0 0.5rem 0.5rem -0.25rem rgb(16 24 40 / 3%);
+    animation: ud-rise 0.2s ease-out;
+}
+
+.ud-modal *,
+.ud-modal *::before,
+.ud-modal *::after {
+    box-sizing: border-box;
+}
+
+.ud-modal button {
+    font: inherit;
+    cursor: pointer;
+}
+
+.ud-modal button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.ud-modal button:focus-visible {
+    outline: 0.125rem solid #253746;
+    outline-offset: 0.125rem;
+}
+
+.ud-modal .ud-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: grid;
+    place-items: center;
+    padding: 0.625rem;
+    border: none;
+    border-radius: 0.5rem;
+    background: transparent;
+    color: #667085;
+}
+
+.ud-modal .ud-close:hover:not(:disabled) {
+    background: #f2f4f7;
+}
+
+.ud-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1.5rem 4rem 1.25rem 1.5rem;
+}
+
+.ud-head h2 {
+    margin: 0;
+    color: #2e2e2e;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.75rem;
+}
+
+.ud-head p {
+    margin: 0;
+    color: #7a7d80;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.ud-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 1.5rem;
+}
+
+.ud-drop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 1rem 1.5rem;
+    border: 0.0625rem solid #eaecf0;
+    border-radius: 0.75rem;
+    background: #fff;
+    text-align: center;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.ud-drop.is-dragging {
+    border-color: #d3a693;
+    background: #fdf8f5;
+}
+
+.ud-drop.has-file {
+    border-color: #33663f;
+}
+
+.ud-drop-icon {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: 0.5rem;
+    border: 0.375rem solid #f9fafb;
+    border-radius: 50%;
+    background: #f2f4f7;
+    color: #475467;
+}
+
+.ud-drop.has-file .ud-drop-icon {
+    background: #e7f0e9;
+    color: #33663f;
+}
+
+.ud-drop-text {
+    max-width: 100%;
+    margin: 0;
+    color: #475467;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.ud-drop-text strong {
+    display: block;
+    overflow: hidden;
+    color: #253746;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ud-drop-hint {
+    margin: 0;
+    color: #475467;
+    font-size: 0.75rem;
+    line-height: 1.125rem;
+}
+
+.ud-modal .ud-link {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #d3a693;
+    font-size: inherit;
+    text-decoration: underline;
+}
+
+.ud-modal .ud-link:hover {
+    color: #b0644b;
+}
+
+.ud-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #9ca3af;
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+.ud-divider::before,
+.ud-divider::after {
+    flex: 1;
+    border-top: 0.0625rem dashed #e5e7eb;
+    content: "";
+}
+
+.ud-drive {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ud-drive p {
+    margin: 0;
+    color: #475467;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1rem;
+}
+
+.ud-modal .ud-drive-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.75rem 1.5rem;
+    border: 0.0625rem solid #eaecf0;
+    border-radius: 0.5rem;
+    background: #fff;
+    color: #036;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1rem;
+}
+
+.ud-modal .ud-drive-button:hover:not(:disabled) {
+    border-color: #c9ced6;
+    background: #f9fafb;
+}
+
+.ud-error,
+.ud-notice {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.ud-error {
+    color: #8b2e2e;
+}
+
+.ud-notice {
+    color: #4a4a4a;
+}
+
+.ud-error svg {
+    flex-shrink: 0;
+}
+
+.ud-actions {
+    display: flex;
+    gap: 0.75rem;
+    padding: 2rem 1.5rem 1.5rem;
+}
+
+.ud-modal .ud-button {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    height: 2.75rem;
+    padding: 0.375rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.ud-modal .ud-button--outline {
+    border: 0.0625rem solid #d6d4d2;
+    background: #fff;
+    color: #253746;
+}
+
+.ud-modal .ud-button--outline:hover:not(:disabled) {
+    border-color: #253746;
+    background: #f7f5f0;
+}
+
+.ud-modal .ud-button--primary {
+    border: 0.0625rem solid #253746;
+    background: #253746;
+    color: #f7f5f0;
+}
+
+.ud-modal .ud-button--primary:hover:not(:disabled) {
+    background: #1a2934;
+}
+
+@keyframes ud-fade {
+    from {
+        opacity: 0;
+    }
+}
+
+@keyframes ud-rise {
+    from {
+        opacity: 0;
+        transform: translateY(0.5rem);
+    }
+}
+
+@media (max-width: 30rem) {
+    .ud-actions {
+        flex-direction: column-reverse;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ud-overlay,
+    .ud-modal {
+        animation: none;
+    }
+}

@@ -1,0 +1,184 @@
+/* =========================================
+   HEALTH ARTICLE
+========================================= */
+
+.ha-section {
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 6rem 3rem 5rem;
+    box-sizing: border-box;
+    background: #ffffff;
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    color: #26394b;
+}
+
+.ha-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    color: #7a7d80;
+    font-size: 0.8125rem;
+    line-height: 1.5rem;
+    letter-spacing: 0.13rem;
+    text-transform: uppercase;
+}
+
+.ha-breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.ha-breadcrumb a:last-child {
+    color: #d39b83;
+}
+
+.ha-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1.5rem;
+    color: #26394b;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.ha-back:hover {
+    text-decoration: underline;
+}
+
+.ha-status {
+    margin: 2.5rem 0 0;
+    color: #7a7d80;
+}
+
+.ha-status-error {
+    color: #b1544b;
+}
+
+
+/* =========================================
+   ARTICLE BODY (class names come from the API markup)
+========================================= */
+
+.ha-content {
+    margin-top: 2rem;
+    color: #4a4a4a;
+    font-size: 1rem;
+    line-height: 1.65;
+}
+
+.ha-content h1,
+.ha-content .main-heading {
+    margin: 0 0 1.5rem;
+    color: #253746;
+    font-size: 3rem;
+    font-weight: 300;
+    line-height: 1.15;
+}
+
+.ha-content h2,
+.ha-content .section-heading {
+    margin: 2.25rem 0 0.75rem;
+    color: #253746;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.ha-content h3,
+.ha-content h4,
+.ha-content .sub-heading {
+    margin: 1.5rem 0 0.5rem;
+    color: #253746;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.ha-content p {
+    margin: 0 0 1rem;
+}
+
+.ha-content .paragraph-without-space,
+.ha-content .para-below {
+    margin-bottom: 0.25rem;
+}
+
+.ha-content ul,
+.ha-content ol {
+    margin: 0 0 1rem;
+    padding-left: 1.4rem;
+}
+
+.ha-content li {
+    margin-bottom: 0.4rem;
+}
+
+.ha-content b,
+.ha-content strong {
+    color: #2d2d2d;
+}
+
+.ha-content img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 0 2rem;
+    border-radius: 0.4rem;
+}
+
+.ha-content .table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+}
+
+.ha-content table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+}
+
+.ha-content th,
+.ha-content td {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #e6e4e4;
+    text-align: left;
+    vertical-align: top;
+}
+
+.ha-content th {
+    background: #f5f3ef;
+    color: #253746;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+    .ha-section {
+        padding: 2.5rem 1.5rem 3rem;
+    }
+
+    .ha-breadcrumb {
+        font-size: 0.68rem;
+    }
+
+    .ha-content h1,
+    .ha-content .main-heading {
+        font-size: 2.25rem;
+    }
+
+    .ha-content h2,
+    .ha-content .section-heading {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .ha-section {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}

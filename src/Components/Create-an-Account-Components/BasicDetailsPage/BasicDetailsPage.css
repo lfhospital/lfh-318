@@ -1,0 +1,389 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap");
+
+/* ---------- Design tokens (from Figma variables) ---------- */
+:root {
+    --white: #ffffff;
+    --primary-1: #253746;
+    --primary-2: #d3a693;
+    --accent: #b57e67;
+    /* hero accent on this screen (differs from --primary-2) */
+    --secondary-2: #f7f5f0;
+    --neutral-2: #d6d4d2;
+    --neutral-3: #7a7d80;
+    --neutral-4: #4a4a4a;
+    --neutral-5: #2e2e2e;
+    --neutral-300: #d4d4d4;
+    --emergency-final: #8b2e2e;
+    /* required-field asterisk */
+
+    --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --shadow-xs: 0 1px 2px 0 rgba(10, 13, 18, 0.05);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--neutral-4);
+    background: var(--white);
+}
+
+/* ---------- Page shell ---------- */
+.details-page {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 709fr 731fr;
+    /* 709px left panel in a 1440px frame */
+}
+
+.details-page__hero {
+    background: var(--secondary-2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 43px;
+    padding: 0 71px;
+    /* 26px frame offset + 45px inner padding */
+}
+
+.details-page__panel {
+    display: flex;
+    align-items: center;
+    padding: 48px 75px 48px 87px;
+    /* form content starts 87px after the panel edge */
+}
+
+/* ---------- Hero ---------- */
+.details-hero__title {
+    margin: 0;
+    font-size: 68px;
+    font-weight: 300;
+    line-height: 72px;
+    color: var(--neutral-4);
+}
+
+.details-hero__accent {
+    display: block;
+    color: var(--accent);
+}
+
+.details-hero__text {
+    margin: 0;
+    max-width: 567px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: var(--neutral-3);
+}
+
+/* ---------- Form shell ---------- */
+.details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 63px;
+    width: 100%;
+    max-width: 569px;
+}
+
+.details__head {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    width: 100%;
+}
+
+.details__back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-left: -6px;
+    padding: 0;
+    background: none;
+    border: 0;
+    color: var(--neutral-4);
+    cursor: pointer;
+}
+
+.details__titles {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+.details__title {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--neutral-4);
+}
+
+.details__subtitle {
+    margin: 0;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--neutral-4);
+}
+
+.details__form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 38px;
+    width: 100%;
+}
+
+.details__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    width: 100%;
+}
+
+.details__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+}
+
+.details__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    align-items: start;
+}
+
+.details__row--tight {
+    gap: 12px;
+}
+
+.details__note {
+    margin: 0;
+    font-size: 13px;
+    line-height: 24px;
+    color: var(--neutral-3);
+}
+
+/* ---------- Field ---------- */
+.bd-field {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+}
+
+.field__label {
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 1.32px;
+    text-transform: uppercase;
+    color: var(--neutral-3);
+}
+
+.field__req {
+    color: var(--emergency-final);
+}
+
+.field__input {
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--white);
+    border: 1px solid var(--neutral-2);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-xs);
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 300;
+    line-height: 24px;
+    color: var(--neutral-5);
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field__input--compact {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.field__input::placeholder {
+    color: var(--neutral-3);
+    font-weight: 300;
+}
+
+.field__input:focus {
+    border-color: var(--primary-1);
+    box-shadow: var(--shadow-xs), 0 0 0 3px rgba(37, 55, 70, 0.12);
+}
+
+/* ---------- Gender segmented buttons ---------- */
+.segmented {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+.segmented__btn {
+    flex: 1;
+    min-width: 0;
+    padding: 5px 12px;
+    background: none;
+    border: 1px solid var(--neutral-2);
+    border-radius: var(--radius-md);
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 300;
+    line-height: 24px;
+    text-align: center;
+    color: var(--neutral-3);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.segmented__btn:hover {
+    background: var(--secondary-2);
+}
+
+/* Selected state is not in the Figma frame; derived from the primary colour. */
+.segmented__btn--selected {
+    background: var(--secondary-2);
+    border-color: var(--primary-1);
+    color: var(--primary-1);
+    font-weight: 400;
+}
+
+/* ---------- Checkbox ---------- */
+.bd-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.checkbox__input {
+    appearance: none;
+    -webkit-appearance: none;
+    flex-shrink: 0;
+    position: relative;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    background: var(--white);
+    border: 1px solid var(--neutral-300);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.checkbox__input:checked {
+    background: var(--primary-1);
+    border-color: var(--primary-1);
+}
+
+.checkbox__input:checked::after {
+    content: "";
+    position: absolute;
+    left: 4.5px;
+    top: 1.5px;
+    width: 4px;
+    height: 8px;
+    border: solid var(--secondary-2);
+    border-width: 0 1.5px 1.5px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox__text {
+    font-size: 12px;
+    line-height: 24px;
+    color: var(--neutral-3);
+}
+
+/* ---------- Button ---------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    padding: 12px 32px;
+    border: 0;
+    border-radius: var(--radius-md);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.btn--primary {
+    background: var(--primary-1);
+    color: var(--secondary-2);
+}
+
+.btn--primary:hover:not(:disabled) {
+    background: var(--neutral-5);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn:focus-visible,
+.segmented__btn:focus-visible,
+.checkbox__input:focus-visible,
+.details__back:focus-visible {
+    outline: 2px solid var(--primary-2);
+    outline-offset: 2px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+    .details-page {
+        grid-template-columns: 1fr;
+    }
+
+    .details-page__hero {
+        padding: 48px 24px;
+        gap: 24px;
+    }
+
+    .details-hero__title {
+        font-size: 44px;
+        line-height: 52px;
+    }
+
+    .details-page__panel {
+        padding: 48px 24px;
+    }
+
+    .details {
+        gap: 40px;
+    }
+
+    .details__head {
+        gap: 32px;
+    }
+
+    .details__row,
+    .details__row--tight {
+        grid-template-columns: 1fr;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}

@@ -1,8 +1,11 @@
 import React from "react";
 import {Home, Building2, Phone} from "lucide-react"
+import { togglePlanItem, usePlan } from "../../../../planStore";
 import "./CBCHemogramTest.css";
 
 export default function CBCHemogramTest({ packageData, loading, error }) {
+  const { isInPlan } = usePlan();
+  const inPlan = !!packageData && isInPlan(packageData._id);
   const defaultIncludedTests = [
     "Complete Blood Count (CBC)",
     "Blood Sugar Fasting + PP",
@@ -155,8 +158,19 @@ export default function CBCHemogramTest({ packageData, loading, error }) {
             )}
           </div>
 
-          <button className="add-plan-btn">
-            Add to plan →
+          <button
+            className={`add-plan-btn ${inPlan ? "in-plan" : ""}`}
+            aria-pressed={inPlan}
+            disabled={!packageData}
+            onClick={() =>
+              togglePlanItem({
+                id: packageData._id,
+                title: packageData.package_name,
+                price: packageData.price,
+              })
+            }
+          >
+            {inPlan ? "Added to plan ✓" : "Add to plan →"}
           </button>
 
           <div className="advisor-section">

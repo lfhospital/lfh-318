@@ -119,8 +119,9 @@ export default function OtpVerification({ phone, phno, onBack }) {
       setError("We verified your number but couldn't load your account. Please try again.");
       return;
     }
-    savePatientSession(phno, result.data);
-    navigate(safeRedirect(searchParams.get("redirect")), { replace: true });
+    const session = savePatientSession(phno, result.data);
+    // New patients fill in their basic details before reaching the dashboard
+    navigate(session.newUser ? "/signup/details" : safeRedirect(searchParams.get("redirect")), { replace: true });
   };
 
   const timerLabel = `0:${String(secondsLeft).padStart(2, "0")}`;

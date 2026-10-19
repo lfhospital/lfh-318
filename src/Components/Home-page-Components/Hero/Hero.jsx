@@ -7,7 +7,7 @@ import {
   ScanText,
   Shield,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import img from "../../../asserts/image.png";
 import "./Hero.css";
 
@@ -353,10 +353,10 @@ export default function Hero() {
           Book Appointment
         </a>
 
-        <a href="#" className="hero-action-btn">
+        <Link to="/second-opinion" className="hero-action-btn">
           <Users size={18} />
           Second Opinion
-        </a>
+        </Link>
 
         <a href="#" className="hero-action-btn">
           <Home size={18} />

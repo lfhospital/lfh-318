@@ -249,3 +249,9 @@
     width: 100%;
   }
 }
+
+.home-add-plan-btn.in-plan {
+  background: #243746;
+  border-color: #243746;
+  color: #fff;
+}

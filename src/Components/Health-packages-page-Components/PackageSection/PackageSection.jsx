@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./PackageSection.css";
 import { useCompare } from "../CompareContext.jsx";
+import { getPageItems } from "../../../utils/pagination";
+import { togglePlanItem, usePlan } from "../../../planStore";
 
-export default function PackageCards() {
+const PAGE_SIZE = 9;
+
+export default function PackageCards({ searchQuery = "", onPackagesFiltered }) {
   const navigate = useNavigate();
   const {
     compareMode,
@@ -11,10 +15,13 @@ export default function PackageCards() {
     togglePackageSelection,
     maxCompare,
   } = useCompare();
+  const { isInPlan } = usePlan();
 
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const gridRef = useRef(null);
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -43,6 +50,20 @@ export default function PackageCards() {
               description: pkg.description || "Comprehensive health screening package",
               tests: `${totalTests} tests${pkg.home_collection_available ? ' · Home collection available' : ''}`,
               price: `₹${pkg.price}`,
+              // Everything a user might search by: name, type, concerns, tests
+              searchText: [
+                pkg.package_name,
+                pkg.description,
+                pkg.package_type?.package_type,
+                ...(pkg.health_concern || []).map((concern) => concern.title),
+                ...(pkg.labTests || []).flatMap((test) => [
+                  test.labMainTest,
+                  ...(test.subTests || []).map((sub) => sub?.name || sub),
+                ]),
+              ]
+                .filter((text) => typeof text === "string")
+                .join(" ")
+                .toLowerCase(),
               rawData: pkg // Store original data for future use
             };
           });
@@ -59,6 +80,29 @@ export default function PackageCards() {
 
     fetchPackages();
   }, []);
+
+  const filteredPackages = useMemo(() => {
+    const terms = searchQuery.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    return packages.filter((pkg) => terms.every((term) => pkg.searchText.includes(term)));
+  }, [packages, searchQuery]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (!loading) onPackagesFiltered?.(error ? 0 : filteredPackages.length);
+  }, [loading, error, filteredPackages.length]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredPackages.length / PAGE_SIZE));
+  const pageStart = (page - 1) * PAGE_SIZE;
+  const pagePackages = filteredPackages.slice(pageStart, pageStart + PAGE_SIZE);
+
+  const goToPage = (p) => {
+    if (p < 1 || p > totalPages || p === page) return;
+    setPage(p);
+    gridRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   if (loading) {
     return (
@@ -82,9 +126,14 @@ export default function PackageCards() {
 
   return (
     <>
-      <section className="package-section">
+      <section className="package-section" ref={gridRef}>
+        {filteredPackages.length === 0 && (
+          <p style={{ textAlign: 'center', padding: '2rem', fontSize: '1.2rem' }}>
+            No packages match "{searchQuery.trim()}"
+          </p>
+        )}
         <div className="package-grid">
-          {packages.map((item) => {
+          {pagePackages.map((item) => {
             const isSelected = selectedPackages.includes(item.id);
             const limitReached =
               !isSelected && selectedPackages.length >= maxCompare;
@@ -134,9 +183,15 @@ export default function PackageCards() {
                   </button>
                 </div>
 
-                <button className="plan-btn">
-                  Add to plan
-                  <span>→</span>
+                <button
+                  className={`plan-btn ${isInPlan(item.id) ? "in-plan" : ""}`}
+                  aria-pressed={isInPlan(item.id)}
+                  onClick={() =>
+                    togglePlanItem({ id: item.id, title: item.title, price: item.rawData.price })
+                  }
+                >
+                  {isInPlan(item.id) ? "Added to plan" : "Add to plan"}
+                  <span>{isInPlan(item.id) ? "✓" : "→"}</span>
                 </button>
               </div>
             );
@@ -144,17 +199,44 @@ export default function PackageCards() {
         </div>
       </section>
 
-      <div className="pagination-section">
-        <span className="showing-text">Showing 1–{packages.length} of {packages.length} packages</span>
-        <div className="pagination">
-          <button className="pagination-btn">← Previous</button>
-          <button className="page-number active-page">1</button>
-          <button className="page-number">2</button>
-          <button className="page-number">3</button>
-          <span className="pagination-dots">...</span>
-          <button className="pagination-btn">Next →</button>
+      {filteredPackages.length > 0 && (
+        <div className="pagination-section">
+          <span className="showing-text">
+            Showing {pageStart + 1}–{pageStart + pagePackages.length} of {filteredPackages.length} packages
+          </span>
+          {totalPages > 1 && (
+            <div className="pagination">
+              <button
+                className="pagination-btn"
+                onClick={() => goToPage(page - 1)}
+                disabled={page === 1}
+              >
+                ← Previous
+              </button>
+              {getPageItems(page, totalPages).map((item) =>
+                typeof item === "number" ? (
+                  <button
+                    key={item}
+                    className={`page-number ${item === page ? "active-page" : ""}`}
+                    onClick={() => goToPage(item)}
+                  >
+                    {item}
+                  </button>
+                ) : (
+                  <span key={item} className="pagination-dots">...</span>
+                )
+              )}
+              <button
+                className="pagination-btn"
+                onClick={() => goToPage(page + 1)}
+                disabled={page === totalPages}
+              >
+                Next →
+              </button>
+            </div>
+          )}
         </div>
-      </div>
+      )}
 
       <div className="carthelp-section">
         <div className="help-content">

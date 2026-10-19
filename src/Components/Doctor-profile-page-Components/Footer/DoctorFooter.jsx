@@ -27,7 +27,7 @@ export default function Footer() {
             <Link to="/doctors">Find a Doctor</Link>
             <Link to="/health-packages">Health Packages</Link>
             <a href="/">Lab Tests</a>
-            <a href="/">Second Opinion</a>
+            <a href="/second-opinion">Second Opinion</a>
           </div>
 
           <div className="footer-column">

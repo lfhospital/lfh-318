@@ -1,0 +1,357 @@
+.da-page {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 3rem 3rem;
+    background: #fff;
+    color: #253746;
+    font-family: "Inter"
+}
+
+.da-section {
+    width: 100%;
+    box-sizing: border-box
+}
+
+.da-heading {
+    color: #253746;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 2.9375rem
+}
+
+.da-description {
+    margin: 1rem 0 0;
+    color: #4A4A4A;
+    font-size: .875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem
+}
+
+.da-subheading {
+    color: #2E2E2E;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.5rem;
+}
+
+.da-risk-section {
+    min-height: 23.5rem;
+    padding-top: 1.1rem
+}
+
+.da-risk-description {
+    margin-top: 1rem
+}
+
+.da-risk-group {
+    margin-top: 1.7rem
+}
+
+.da-nonmodifiable {
+    margin-top: 1.75rem
+}
+
+.da-bullet-list {
+    display: flex;
+    flex-direction: column;
+    gap: .72rem;
+    margin: .85rem 0 0;
+    padding: 0;
+    list-style: none
+}
+
+.da-bullet-list li,
+.da-prevention-list li {
+    display: flex;
+    align-items: center;
+    color: #4A4A4A;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.25rem;
+}
+
+.da-bullet {
+    display: inline-block;
+    width: .5rem;
+    height: .5rem;
+    margin-right: .45rem;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #d9a18c
+}
+
+.da-diagnosis-section {
+    min-height: 19rem;
+    padding-top: .55rem
+}
+
+.da-diagnosis-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 26rem);
+    column-gap: .75rem;
+    row-gap: .75rem;
+    margin-top: .55rem;
+}
+
+.da-test-card {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    height: 4.05rem;
+    box-sizing: border-box;
+    padding: .85rem .8rem;
+    border: 1px solid #dcdcdc;
+    border-radius: .2rem;
+    background: #fff;
+}
+
+.da-check-icon {
+    flex-shrink: 0;
+    margin-top: .12rem;
+    margin-right: .55rem;
+    color: #d9a18c;
+    fill: #d9a18c;
+}
+
+.da-test-card h3 {
+    margin: 0;
+    color: #253746;
+    font-size: .875rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.25rem;
+}
+
+.da-test-card p {
+    margin: .4rem 0 0;
+    color: #7A7D80;
+    font-size: .875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.25rem;
+}
+
+.da-treatment-section {
+    min-height: 22rem;
+    padding-top: .6rem
+}
+
+.da-treatment-description {
+    margin-top: 1rem
+}
+
+.da-treatment-group {
+    width: 44.5rem;
+    margin-top: 1.7rem
+}
+
+.da-treatment-text {
+    margin: .95rem 0 0;
+    color: #55595c;
+    font-size: .75rem;
+    font-weight: 400;
+    line-height: 1.35rem
+}
+
+.da-procedures {
+    margin-top: 1.6rem
+}
+
+.da-procedure-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 53rem;
+    min-height: 3.65rem;
+    box-sizing: border-box;
+    padding: .65rem 0;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    font-family: "Inter"
+}
+
+.da-procedure-row:first-of-type {
+    margin-top: .7rem;
+    border-top: none
+}
+
+.da-procedure-row h4 {
+    color: #253746;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5rem;
+}
+
+.da-procedure-row p {
+    margin: .3rem 0 0;
+    color: #7A7D80;
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+.da-procedure-arrow {
+    flex-shrink: 0;
+    margin-right: .05rem;
+    color: #253746;
+    stroke-width: 1.5
+}
+
+.da-prevention-section {
+    min-height: 17.8rem;
+    padding-top: .55rem
+}
+
+.da-prevention-list {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    list-style: none
+}
+
+.da-doctor-section {
+    min-height: 13.5rem;
+    padding-top: .65rem
+}
+
+.da-doctor-description {
+    margin-top: 1rem
+}
+
+.da-doctor-actions {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    margin-top: 1.65rem
+}
+
+.da-primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem;
+    width: 10rem;
+    height: 2.35rem;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid #253746;
+    border-radius: .4rem;
+    background: #253746;
+    color: #fff;
+    font-family: "Inter";
+    font-size: .72rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background .2s ease
+}
+
+.da-primary-button:hover {
+    background: #304756
+}
+
+.da-secondary-button {
+    width: 11.55rem;
+    height: 2.35rem;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid #d5d5d5;
+    border-radius: .4rem;
+    background: #fff;
+    color: #303438;
+    font-family: "Inter";
+    font-size: .72rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background .2s ease, border-color .2s ease
+}
+
+.da-secondary-button:hover {
+    background: #f8f8f7;
+    border-color: #c6c6c6
+}
+
+@media(max-width:900px) {
+    .da-section {
+        padding-left: 2rem;
+        padding-right: 2rem
+    }
+
+    .da-diagnosis-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%
+    }
+
+    .da-treatment-group,
+    .da-procedure-row {
+        width: 100%
+    }
+}
+
+@media(max-width:650px) {
+    .da-section {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem
+    }
+
+    .da-risk-section,
+    .da-diagnosis-section,
+    .da-treatment-section,
+    .da-prevention-section,
+    .da-doctor-section {
+        min-height: auto
+    }
+
+    .da-heading {
+        font-size: 1.5rem
+    }
+
+    .da-description {
+        font-size: .72rem;
+        line-height: 1.45rem
+    }
+
+    .da-description br {
+        display: none
+    }
+
+    .da-diagnosis-grid {
+        grid-template-columns: 1fr
+    }
+
+    .da-test-card {
+        height: auto;
+        min-height: 4rem
+    }
+
+    .da-doctor-actions {
+        flex-wrap: wrap
+    }
+}
+
+@media(max-width:450px) {
+    .da-doctor-actions {
+        flex-direction: column;
+        align-items: stretch
+    }
+
+    .da-primary-button,
+    .da-secondary-button {
+        width: 100%
+    }
+
+    .da-treatment-text {
+        font-size: .72rem
+    }
+}

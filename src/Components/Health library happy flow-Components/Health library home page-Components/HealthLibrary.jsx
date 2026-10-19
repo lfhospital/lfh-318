@@ -1,5 +1,6 @@
 import React from "react";
 import "./HealthLibrary.css";
+import { Link } from "react-router-dom";
 import { Search, ArrowRight } from "lucide-react";
 
 export default function HealthLibrary() {
@@ -7,31 +8,37 @@ export default function HealthLibrary() {
     {
       number: "01",
       title: "Diseases & Conditions",
+      slug: "diseases",
       description: "From everyday ailments to complex chronic conditions.",
     },
     {
       number: "02",
       title: "Treatments & Procedures",
+      slug: "treatments",
       description: "What to expect, step by step, before and after.",
     },
     {
       number: "03",
       title: "Symptoms Guide",
+      slug: "symptoms",
       description: "Understand what your symptoms could mean.",
     },
     {
       number: "04",
       title: "Health Technology",
+      slug: "technology",
       description: "How modern diagnostics and devices work.",
     },
     {
       number: "05",
       title: "Medicines",
+      slug: "medicines",
       description: "Uses, dosage, side effects and precautions.",
     },
     {
       number: "06",
       title: "Diagnostics & Tests",
+      slug: "tests",
       description: "What each test measures and how to prepare",
     },
   ];
@@ -87,17 +94,21 @@ export default function HealthLibrary() {
                 </p>
               </div>
 
-              <a href="#" className="hl-view-all">
+              <Link to="/health-library/browse" className="hl-view-all">
                 <span>View all</span>
                 <ArrowRight size={25} strokeWidth={1.6} />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
         <section className="hc-section">
           <div className="hc-grid">
             {categories.map((category, index) => (
-              <div className="hc-card" key={category.number}>
+              <Link
+                className="hc-card"
+                key={category.number}
+                to={`/health-library/browse?type=${category.slug}`}
+              >
                 <div className="hc-number">{category.number}</div>
 
                 <div className="hc-card-content">
@@ -105,7 +116,7 @@ export default function HealthLibrary() {
 
                   <p className="hc-description">{category.description}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </section>

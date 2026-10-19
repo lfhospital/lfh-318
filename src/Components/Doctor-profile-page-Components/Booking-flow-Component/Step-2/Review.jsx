@@ -5,6 +5,9 @@ import Navbar from "../../Navbar/Navbar";
 import dock from "../../../../asserts/doctor.png";
 import "./Review.css";
 import { Check, ChevronLeft } from "lucide-react";
+import { OFFERS, applyOffer } from "../bookingOffers";
+import { getPatientSession } from "../../../../utils/patientSession";
+import { HOSPITAL_ADDRESS } from "../../../../hospital";
 
 function calculateAge(isoDob) {
   if (!isoDob) return null;
@@ -41,7 +44,6 @@ function parseFee(feeString, fallback = 800) {
 // an API.
 const HOSPITAL_ID = "0b2b0216-654d-4762-8c9a-01014f6d5d3c";
 const HOSPITAL_NAME = "Lakshmee foundation hospital";
-const HOSPITAL_ADDRESS = "123 Main St, City, State";
 const HOSPITAL_LOCATION = { latitude: "17.3850", longitude: "78.4867" };
 const HOSPITAL_DURATION = "20";
 
@@ -79,6 +81,9 @@ export default function Review({ onContinue, onBack }) {
   const [patientInfo, setPatientInfo] = useState(null);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const [paymentError, setPaymentError] = useState("");
+  const [couponInput, setCouponInput] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState(null); // { offer, discount }
+  const [couponError, setCouponError] = useState("");
 
   useEffect(() => {
     const storedBooking = localStorage.getItem("bookingDetails");
@@ -116,13 +121,16 @@ export default function Review({ onContinue, onBack }) {
     const appointment = {
       ...bookingDetails,
       patient: patientInfo,
-      coupon: "LFH20",
-      discount: 160,
-      platformFee: 49,
+      coupon: appliedCoupon?.offer.code || null,
+      discount,
+      couponPerk: appliedCoupon?.offer.perk || null,
+      platformFee,
       gstRate: 0.18,
       bookedAt: new Date().toISOString(),
     };
     localStorage.setItem("appointment", JSON.stringify(appointment));
+    // A new booking must not show the previous booking's id
+    localStorage.removeItem("bookingId");
 
     setIsProcessingPayment(true);
 
@@ -229,8 +237,8 @@ export default function Review({ onContinue, onBack }) {
                     hospital_fee: String(consultationFee),
                     actual_amount: String(totalPayable),
                     imageurl: "",
-                    relation: "",
-                    relation_id: "",
+                    relation: patientInfo?.relation || "",
+                    relation_id: patientInfo?.profileId || "",
                     specialist_id: bookingDetails?.specialistId || "",
                     couponApplied: Boolean(appointment?.coupon),
                     appliedCouponCode: appointment?.coupon || "",
@@ -366,9 +374,34 @@ export default function Review({ onContinue, onBack }) {
 
   const consultationFee = parseFee(bookingDetails?.consultationFee, 800);
   const platformFee = 49;
-  const discount = 160;
+  const discount = appliedCoupon?.discount || 0;
   const gst = Math.round((consultationFee + platformFee) * 0.18);
   const totalPayable = consultationFee + platformFee + gst - discount;
+
+  const couponContext = {
+    fee: consultationFee,
+    age: patientAge,
+    specialty: bookingDetails?.specialty,
+    firstConsult: Boolean(getPatientSession()?.newUser),
+  };
+
+  const handleApplyCoupon = (code = couponInput) => {
+    const result = applyOffer(code, couponContext);
+    if (result.error) {
+      setCouponError(result.error);
+      setAppliedCoupon(null);
+      return;
+    }
+    setCouponInput(result.offer.code);
+    setCouponError("");
+    setAppliedCoupon(result);
+  };
+
+  const removeCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponInput("");
+    setCouponError("");
+  };
 
   return (
     <>
@@ -542,75 +575,88 @@ export default function Review({ onContinue, onBack }) {
                 </h3>
 
                 <span>
-                  3 offers available
+                  {OFFERS.length} offers available
                 </span>
 
               </div>
 
 
               {/* ================= COUPON INPUT ================= */}
-              <div className="re-coupon-input-row">
+              <form
+                className="re-coupon-input-row"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleApplyCoupon();
+                }}
+              >
 
                 <input
                   type="text"
-                  value="LFH20"
-                  readOnly
+                  placeholder="Enter coupon code"
+                  aria-label="Coupon code"
+                  value={couponInput}
+                  disabled={Boolean(appliedCoupon)}
+                  onChange={(e) => {
+                    setCouponInput(e.target.value.toUpperCase());
+                    setCouponError("");
+                  }}
                 />
 
-                <button>
-                  Apply
-                </button>
+                {appliedCoupon ? (
+                  <button type="button" onClick={removeCoupon}>
+                    Remove
+                  </button>
+                ) : (
+                  <button type="submit">
+                    Apply
+                  </button>
+                )}
 
-              </div>
+              </form>
+
+              {couponError && (
+                <p className="re-coupon-error" role="alert">{couponError}</p>
+              )}
 
 
               {/* ================= COUPON SUCCESS ================= */}
-              <div className="re-coupon-success">
+              {appliedCoupon && (
+                <div className="re-coupon-success">
 
-                <Check size={16} />
+                  <Check size={16} />
 
-                <h1>
-                  LFH20{" "}
-                  <span>
-                    applied — you saved ₹{discount} on this consultation.
-                  </span>
-                </h1>
+                  <h1>
+                    {appliedCoupon.offer.code}{" "}
+                    <span>
+                      {appliedCoupon.discount > 0
+                        ? `applied — you saved ₹${appliedCoupon.discount} on this consultation.`
+                        : `applied — ${appliedCoupon.offer.perk}.`}
+                    </span>
+                  </h1>
 
-              </div>
+                </div>
+              )}
 
 
               {/* ================= OFFERS ================= */}
               <div className="re-offer-list">
 
-                <button>
-                  <strong>
-                    FIRST10
-                  </strong>
+                {OFFERS.map((offer) => (
+                  <button
+                    type="button"
+                    key={offer.code}
+                    className={appliedCoupon?.offer.code === offer.code ? "active" : ""}
+                    onClick={() => handleApplyCoupon(offer.code)}
+                  >
+                    <strong>
+                      {offer.code}
+                    </strong>
 
-                  <span>
-                    10% Off first consult
-                  </span>
-                </button>
-
-                <button>
-                  <strong>
-                    SENIOR15
-                  </strong>
-
-                  <span>
-                    15% off for age 60+
-                  </span>
-                </button>
-
-                <button>
-                  <strong>
-                    CARDIOFREE
-                  </strong>
-
-                  <span>
-                    Free ECG with consult
-                  </span>
-                </button>
+                    <span>
+                      {offer.description}
+                    </span>
+                  </button>
+                ))}
 
               </div>
 
@@ -751,10 +797,11 @@ export default function Review({ onContinue, onBack }) {
             </div>
 
 
+            {discount > 0 && (
             <div className="re-payment-summary-row re-discount">
 
               <span>
-                Coupon - LFH20
+                Coupon - {appliedCoupon.offer.code}
               </span>
 
               <strong>
@@ -762,6 +809,7 @@ export default function Review({ onContinue, onBack }) {
               </strong>
 
             </div>
+            )}
 
 
             <div className="re-summary-divider"></div>

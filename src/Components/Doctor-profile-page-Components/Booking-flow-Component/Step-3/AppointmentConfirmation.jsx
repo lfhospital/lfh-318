@@ -1,9 +1,166 @@
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./AppointmentConfirmation.css";
 import Navbar from "../../Navbar/Navbar";
 import Footer from "../../Footer/DoctorFooter";
 import dock from "../../../../asserts/doctor.png";
 import { ArrowDownToLine, Calendar, MapPin } from "lucide-react";
+import {
+  HOSPITAL_ADDRESS,
+  HOSPITAL_DIRECTIONS_URL,
+  HOSPITAL_NAME,
+} from "../../../../hospital";
+
+const VISIT_MINUTES = 20;
+
+// selectedDate "YYYY-MM-DD" + selectedTime "HH:MM" (or "h:mm AM") → local Date
+function visitStart(appointment) {
+  const date = appointment?.selectedDate;
+  const time = appointment?.selectedTime;
+  if (!date || !time) return null;
+  const match = String(time).trim().match(/^(\d{1,2}):(\d{2})\s*([AaPp][Mm])?$/);
+  if (!match) return null;
+  let hours = Number(match[1]);
+  const meridiem = match[3]?.toUpperCase();
+  if (meridiem === "PM" && hours < 12) hours += 12;
+  if (meridiem === "AM" && hours === 12) hours = 0;
+  const start = new Date(`${String(date).slice(0, 10)}T00:00:00`);
+  if (Number.isNaN(start.getTime())) return null;
+  start.setHours(hours, Number(match[2]), 0, 0);
+  return start;
+}
+
+// 20260419T103000Z
+const toCalendarStamp = (date) =>
+  date.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+
+const escapeIcs = (text) => String(text).replace(/([,;\\])/g, "\\$1").replace(/\n/g, "\\n");
+
+function calendarEvent(appointment, bookingId) {
+  const start = visitStart(appointment);
+  if (!start) return null;
+  const end = new Date(start.getTime() + VISIT_MINUTES * 60000);
+  const virtual = appointment.selectedMode === "virtual";
+  return {
+    start,
+    end,
+    title: `Consultation with ${appointment.doctorName || "your doctor"}`,
+    location: virtual ? "Video consultation" : `${HOSPITAL_NAME}, ${HOSPITAL_ADDRESS}`,
+    details: `Booking ID: ${bookingId}\n${virtual ? "Video consultation" : "Please arrive 15 minutes early."}`,
+  };
+}
+
+function googleCalendarUrl(event) {
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: event.title,
+    dates: `${toCalendarStamp(event.start)}/${toCalendarStamp(event.end)}`,
+    details: event.details,
+    location: event.location,
+  });
+  return `https://calendar.google.com/calendar/render?${params}`;
+}
+
+// .ics file for Apple Calendar / Outlook, with a 1-hour reminder
+function downloadIcs(event, bookingId) {
+  const ics = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Lakshmee Foundation Hospital//Booking//EN",
+    "BEGIN:VEVENT",
+    `UID:${bookingId}@lakshmeefoundation`,
+    `DTSTAMP:${toCalendarStamp(new Date())}`,
+    `DTSTART:${toCalendarStamp(event.start)}`,
+    `DTEND:${toCalendarStamp(event.end)}`,
+    `SUMMARY:${escapeIcs(event.title)}`,
+    `LOCATION:${escapeIcs(event.location)}`,
+    `DESCRIPTION:${escapeIcs(event.details)}`,
+    "BEGIN:VALARM",
+    "TRIGGER:-PT1H",
+    "ACTION:DISPLAY",
+    "DESCRIPTION:Appointment reminder",
+    "END:VALARM",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\r\n");
+  const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `Appointment-${bookingId}.ics`;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+const escapeHtml = (text) =>
+  String(text ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+
+const rupees = (value) => `₹${Number(value || 0).toLocaleString("en-IN")}`;
+
+// Same breakdown as the review step
+function feeBreakdown(appointment) {
+  const fee = Number(String(appointment?.consultationFee ?? "").replace(/[^\d.]/g, "")) || 0;
+  const platformFee = Number(appointment?.platformFee) || 0;
+  const discount = Number(appointment?.discount) || 0;
+  const gst = Math.round((fee + platformFee) * (Number(appointment?.gstRate) || 0));
+  const paid = appointment?.payment?.amount
+    ? appointment.payment.amount / 100 // Razorpay amounts are in paise
+    : fee + platformFee + gst - discount;
+  return { fee, platformFee, discount, gst, paid };
+}
+
+// Prints a receipt from a hidden frame (no pop-up needed); the print
+// dialog's "Save as PDF" gives the patient a PDF copy
+function printReceipt(appointment, details) {
+  const { fee, platformFee, discount, gst, paid } = feeBreakdown(appointment);
+  const rows = [
+    ["Booking ID", details.bookingId],
+    ["Patient", details.patientName],
+    ["Mobile", details.patientPhone],
+    ["Doctor", details.doctorName],
+    ["Speciality", details.doctorSpecialty],
+    ["Visit", `${details.formattedVisitDate} · ${details.visitTime}`],
+    ["Visit type", details.visitMode],
+    ["Payment ID", appointment?.payment?.paymentId || "—"],
+  ];
+  const charges = [
+    ["Consultation fee", rupees(fee)],
+    ["Booking platform fee", rupees(platformFee)],
+    [`GST (${Math.round((Number(appointment?.gstRate) || 0) * 100)}%)`, rupees(gst)],
+    ...(discount > 0 ? [[`Coupon ${appointment.coupon || ""}`.trim(), `−${rupees(discount)}`]] : []),
+  ];
+  const tableRows = (list) =>
+    list.map(([label, value]) => `<tr><th>${escapeHtml(label)}</th><td>${escapeHtml(value)}</td></tr>`).join("");
+
+  document.getElementById("ac-receipt-frame")?.remove();
+  const frame = document.createElement("iframe");
+  frame.id = "ac-receipt-frame";
+  frame.title = "Receipt";
+  frame.style.cssText = "position:fixed;width:0;height:0;border:0;visibility:hidden";
+  document.body.appendChild(frame);
+  const doc = frame.contentDocument;
+  doc.open();
+  doc.write(`<!doctype html><html><head><meta charset="utf-8">
+<title>Receipt ${escapeHtml(details.bookingId)}</title>
+<style>
+  body { font-family: Inter, Arial, sans-serif; color: #26384a; max-width: 40rem; margin: 2rem auto; padding: 0 1rem; }
+  h1 { font-size: 1.3rem; margin: 0 0 .2rem; }
+  p { margin: 0 0 1.5rem; color: #666; font-size: .85rem; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: .9rem; }
+  th, td { padding: .5rem 0; border-bottom: 1px solid #e5e5e5; text-align: left; }
+  td { text-align: right; }
+  .total th, .total td { font-weight: 700; border-bottom: 2px solid #26384a; }
+</style></head><body>
+<h1>${escapeHtml(HOSPITAL_NAME)}</h1>
+<p>${escapeHtml(HOSPITAL_ADDRESS)}</p>
+<h2 style="font-size:1rem">Appointment receipt</h2>
+<table>${tableRows(rows)}</table>
+<table>${tableRows(charges)}<tr class="total"><th>Total paid</th><td>${escapeHtml(rupees(paid))}</td></tr></table>
+<p>Issued ${escapeHtml(new Date().toLocaleString("en-IN"))}</p>
+</body></html>`);
+  doc.close();
+  frame.contentWindow.focus();
+  frame.contentWindow.print();
+}
 
 function calculateAge(isoDob) {
   if (!isoDob) return null;
@@ -32,6 +189,7 @@ function parseDobToIso(ddmmyyyy) {
 // payment id is available we derive the id from it so it stays stable
 // across refreshes; otherwise we generate one once and cache it.
 function getBookingId(appointment) {
+  if (appointment?.bookingId) return appointment.bookingId;
   const cached = localStorage.getItem("bookingId");
   if (cached) return cached;
 
@@ -50,7 +208,9 @@ function getBookingId(appointment) {
 }
 
 export default function AppointmentConfirmation({ onReschedule, onCancel }) {
+  const navigate = useNavigate();
   const [appointment, setAppointment] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem("appointment");
@@ -61,12 +221,12 @@ export default function AppointmentConfirmation({ onReschedule, onCancel }) {
         console.error("Failed to parse appointment from localStorage", e);
       }
     }
+    setLoaded(true);
   }, []);
 
   // ---------- Derived display values ----------
-  const doctorName = appointment?.doctorName || "Dr. Ananya Menon";
-  const doctorSpecialty =
-    appointment?.specialty || "Cardiologist · Interventional";
+  const doctorName = appointment?.doctorName || "Your doctor";
+  const doctorSpecialty = appointment?.specialty || "";
   const doctorImage = appointment?.doctorImage || dock;
 
   const visitMode =
@@ -76,7 +236,7 @@ export default function AppointmentConfirmation({ onReschedule, onCancel }) {
   const patientName = patient?.fullName || "—";
   const patientPhone = patient?.mobileNumber || "";
 
-  const bookingId = getBookingId(appointment);
+  const bookingId = appointment ? getBookingId(appointment) : "";
 
   const selectedDateObj = appointment?.selectedDate
     ? new Date(appointment.selectedDate)
@@ -107,6 +267,37 @@ export default function AppointmentConfirmation({ onReschedule, onCancel }) {
     : "";
 
   const visitTime = appointment?.selectedTime || "";
+  const event = appointment ? calendarEvent(appointment, bookingId) : null;
+
+  const handleReschedule = onReschedule || (() => navigate("/reschedule-slot"));
+  const handleCancel = onCancel || (() => navigate("/cancel-appointment"));
+
+  const handleReceipt = () => {
+    printReceipt(appointment, {
+      bookingId,
+      patientName,
+      patientPhone,
+      doctorName,
+      doctorSpecialty,
+      formattedVisitDate,
+      visitTime,
+      visitMode,
+    });
+  };
+
+  if (loaded && !appointment) {
+    return (
+      <>
+        <Navbar />
+        <section className="ac-appointment-confirmation ac-empty">
+          <h1>No recent booking found</h1>
+          <p>Book an appointment with one of our doctors to see its confirmation here.</p>
+          <Link to="/doctors" className="ac-visit-action">Find a doctor</Link>
+        </section>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
@@ -240,7 +431,7 @@ export default function AppointmentConfirmation({ onReschedule, onCancel }) {
               <span>Visit type</span>
 
               <div>
-                <strong>First consultation</strong>
+                <strong>Consultation</strong>
 
                 <small>{visitMode}</small>
               </div>
@@ -272,13 +463,17 @@ export default function AppointmentConfirmation({ onReschedule, onCancel }) {
 
             <div className="ac-visit-time">{visitTime}</div>
 
-            <p className="ac-arrive-text">Arrive 15 minutes early</p>
+            <p className="ac-arrive-text">
+              {visitMode === "Virtual"
+                ? "Join a few minutes before your slot"
+                : "Arrive 15 minutes early"}
+            </p>
 
             <span className="ac-quick-actions-label">QUICK ACTIONS</span>
 
-            <button className="ac-visit-action" onClick={onReschedule}>Reschedule Appointment</button>
+            <button className="ac-visit-action" onClick={handleReschedule}>Reschedule Appointment</button>
 
-            <button className="ac-visit-action" onClick={onCancel}>Cancel Appointment</button>
+            <button className="ac-visit-action" onClick={handleCancel}>Cancel Appointment</button>
           </div>
         </div>
 
@@ -294,10 +489,22 @@ export default function AppointmentConfirmation({ onReschedule, onCancel }) {
 
             <h3>Add to calendar</h3>
 
-            <p>Apple · Google · Outlook, with reminders set.</p>
+            {event ? (
+              <p className="ac-action-links">
+                <a href={googleCalendarUrl(event)} target="_blank" rel="noopener noreferrer">
+                  Google
+                </a>
+                {" · "}
+                <button type="button" onClick={() => downloadIcs(event, bookingId)}>
+                  Apple / Outlook (.ics)
+                </button>
+              </p>
+            ) : (
+              <p>Visit time not available.</p>
+            )}
           </div>
 
-          <div className="ac-action-card">
+          <button type="button" className="ac-action-card" onClick={handleReceipt}>
             <div className="ac-action-icon">
               <ArrowDownToLine size={16} />
             </div>
@@ -305,21 +512,22 @@ export default function AppointmentConfirmation({ onReschedule, onCancel }) {
             <h3>Download receipt</h3>
 
             <p>PDF receipt & appointment slip for insurance.</p>
-          </div>
+          </button>
 
-          <div className="ac-action-card">
+          <a
+            className="ac-action-card"
+            href={HOSPITAL_DIRECTIONS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <div className="ac-action-icon">
               <MapPin size={16} />
             </div>
 
             <h3>Get Directions</h3>
 
-            <p>
-              Get directions details on Lakshmee Foundation
-              <br />
-              Hospital
-            </p>
-          </div>
+            <p>Open directions to {HOSPITAL_NAME} in Google Maps.</p>
+          </a>
         </div>
       </section>
 

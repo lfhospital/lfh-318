@@ -4,7 +4,7 @@ import Footer from "../../Footer/DoctorFooter";
 import Navbar from "../../Navbar/Navbar";
 import dock from "../../../../asserts/doctor.png";
 import "./PatientInfo.css";
-import { ChevronLeft, Upload, FileText, X } from "lucide-react";
+import { ChevronLeft, Upload, FileText, X, Plus, Check } from "lucide-react";
 import { getPatientSession } from "../../../../utils/patientSession";
 
 // Base URL reports are served from once uploaded — mirrors the pattern
@@ -46,15 +46,80 @@ function generateObjectId() {
 
 // Converts a DD/MM/YYYY string (as typed in the Date of birth field) into
 // an ISO YYYY-MM-DD string the backend expects. Returns null if the input
-// isn't a complete/valid date.
+// isn't a real calendar date (e.g. 31/02/2020).
 function toIsoDate(ddmmyyyy) {
   if (!ddmmyyyy) return null;
   const match = ddmmyyyy.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
   if (!match) return null;
   const [, dd, mm, yyyy] = match;
-  const day = dd.padStart(2, "0");
-  const month = mm.padStart(2, "0");
-  return `${yyyy}-${month}-${day}`;
+  const date = new Date(Number(yyyy), Number(mm) - 1, Number(dd));
+  if (
+    date.getFullYear() !== Number(yyyy) ||
+    date.getMonth() !== Number(mm) - 1 ||
+    date.getDate() !== Number(dd)
+  ) {
+    return null;
+  }
+  return `${yyyy}-${mm.padStart(2, "0")}-${dd.padStart(2, "0")}`;
+}
+
+// ISO (or ISO datetime) → DD/MM/YYYY for the form
+function toDisplayDate(iso) {
+  const match = String(iso || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return match ? `${match[3]}/${match[2]}/${match[1]}` : "";
+}
+
+// Inserts the slashes as the user types: "01021990" → "01/02/1990"
+function formatDobInput(value) {
+  const digits = value.replace(/\D/g, "").slice(0, 8);
+  return [digits.slice(0, 2), digits.slice(2, 4), digits.slice(4)]
+    .filter(Boolean)
+    .join("/");
+}
+
+// Indian mobile numbers: 10 digits starting 6–9, optionally prefixed +91 / 0
+function normalizeMobile(value) {
+  const digits = value.replace(/[\s-]/g, "").replace(/^(\+91|91|0)(?=\d{10}$)/, "");
+  return /^[6-9]\d{9}$/.test(digits) ? digits : null;
+}
+
+function validateDob(dob) {
+  if (!dob.trim()) return "Date of birth is required";
+  const iso = toIsoDate(dob);
+  if (!iso) return "Enter a valid date as DD/MM/YYYY";
+  if (new Date(`${iso}T00:00:00`) > new Date()) return "Date of birth can't be in the future";
+  if (calculateAge(iso) > 120) return "Enter a valid date of birth";
+  return null;
+}
+
+const PROFILES_API = "https://ishah.in/api/lfhospital/patients/profiles";
+const NEW_PROFILE = "new";
+
+const capitalize = (text) =>
+  text ? text.charAt(0).toUpperCase() + text.slice(1).toLowerCase() : "";
+
+// The account holder and their family members from the backend
+async function fetchProfiles(phno) {
+  const response = await fetch(`${PROFILES_API}?phno=${encodeURIComponent(phno)}`);
+  const result = await response.json();
+  if (!response.ok || !result?.success) {
+    throw new Error(result?.message || "Failed to load profiles");
+  }
+  const toProfile = (raw, self) => ({
+    id: raw.id || raw._id,
+    name: raw.name || "",
+    relation: self ? "Myself" : capitalize(raw.relation) || "Family",
+    isSelf: self,
+    gender: capitalize(raw.gender),
+    dob: toDisplayDate(raw.dob),
+    age: raw.age || calculateAge(raw.dob),
+    email: raw.email || "",
+  });
+  const { selfData, familymembers = [] } = result.data || {};
+  return [
+    ...(selfData ? [toProfile(selfData, true)] : []),
+    ...familymembers.filter((m) => !m.archived).map((m) => toProfile(m, false)),
+  ];
 }
 
 function calculateAge(isoDob) {
@@ -75,6 +140,10 @@ export default function PatientInfo({ onContinue, onBack }) {
 
   const [bookingDetails, setBookingDetails] = useState(null);
   const [patientType, setPatientType] = useState("self");
+  const [profiles, setProfiles] = useState([]);
+  const [profilesStatus, setProfilesStatus] = useState("loading"); // loading | done | error
+  // Selected profile id, or NEW_PROFILE when adding someone new
+  const [profileId, setProfileId] = useState(null);
   const [gender, setGender] = useState("");
   // Holds { name, url, type } for the uploaded report once the file has
   // finished uploading to S3 via the awsupload endpoint.
@@ -127,6 +196,7 @@ export default function PatientInfo({ onContinue, onBack }) {
         });
         setGender(parsed.gender || "");
         setPatientType(parsed.patientType || "self");
+        setProfileId(parsed.profileId || (parsed.patientType === "other" ? NEW_PROFILE : null));
         setConsentChecked(parsed.consentChecked || false);
         setUploadedFile(parsed.uploadedFile || null);
       } catch (e) {
@@ -146,8 +216,73 @@ export default function PatientInfo({ onContinue, onBack }) {
     }
   }, []);
 
+  // Load the patient's saved profiles so returning users can pick one
+  useEffect(() => {
+    const phno = getPatientSession()?.phno;
+    if (!phno) return;
+    let cancelled = false;
+    fetchProfiles(phno)
+      .then((list) => {
+        if (cancelled) return;
+        setProfiles(list);
+        setProfilesStatus("done");
+        // First visit: preselect the account holder
+        setProfileId((current) => {
+          if (current) return current;
+          const self = list.find((p) => p.isSelf);
+          if (self) fillFromProfile(self);
+          return self ? self.id : NEW_PROFILE;
+        });
+      })
+      .catch((err) => {
+        console.error("Error loading patient profiles:", err);
+        if (!cancelled) {
+          setProfilesStatus("error");
+          setProfileId((current) => current || NEW_PROFILE);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const fillFromProfile = (profile) => {
+    const session = getPatientSession();
+    setFormData((prev) => ({
+      ...prev,
+      fullName: profile.name || (profile.isSelf ? session?.name || "" : ""),
+      mobileNumber: session?.phno || prev.mobileNumber,
+      email: profile.email || session?.email || prev.email,
+      dob: profile.dob,
+    }));
+    setGender(profile.gender);
+    setPatientType(profile.isSelf ? "self" : "other");
+    setErrors({});
+  };
+
+  const selectProfile = (profile) => {
+    setProfileId(profile.id);
+    fillFromProfile(profile);
+  };
+
+  const selectNewProfile = () => {
+    const session = getPatientSession();
+    setProfileId(NEW_PROFILE);
+    setFormData((prev) => ({
+      ...prev,
+      fullName: "",
+      mobileNumber: session?.phno || "",
+      email: session?.email || "",
+      dob: "",
+    }));
+    setGender("");
+    setPatientType("other");
+    setErrors({});
+  };
+
   const handleChange = (field) => (e) => {
-    setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+    const value = field === "dob" ? formatDobInput(e.target.value) : e.target.value;
+    setFormData((prev) => ({ ...prev, [field]: value }));
     setErrors((prev) => ({ ...prev, [field]: undefined }));
   };
 
@@ -189,8 +324,13 @@ export default function PatientInfo({ onContinue, onBack }) {
 
     if (!formData.mobileNumber.trim()) {
       newErrors.mobileNumber = "Mobile number is required";
-    } else if (!/^[0-9+\s-]{7,15}$/.test(formData.mobileNumber.trim())) {
-      newErrors.mobileNumber = "Enter a valid mobile number";
+    } else if (!normalizeMobile(formData.mobileNumber)) {
+      newErrors.mobileNumber = "Enter a valid 10-digit mobile number";
+    }
+
+    const dobError = validateDob(formData.dob);
+    if (dobError) {
+      newErrors.dob = dobError;
     }
 
     if (!formData.email.trim()) {
@@ -216,15 +356,31 @@ export default function PatientInfo({ onContinue, onBack }) {
       return;
     }
 
+    const selectedProfile = profiles.find((p) => p.id === profileId);
     const patientInfo = {
       ...formData,
+      mobileNumber: normalizeMobile(formData.mobileNumber),
       gender,
       patientType,
+      // Family member bookings go on the account holder with this relation
+      profileId: selectedProfile && !selectedProfile.isSelf ? selectedProfile.id : null,
+      relation: patientType === "self" ? "" : selectedProfile?.relation || "Other",
       consentChecked,
       uploadedFile,
     };
 
     localStorage.setItem("patientInfo", JSON.stringify(patientInfo));
+
+    // createaccount saves the account holder's own details. Booking for a
+    // family member or someone new must not overwrite them.
+    if (patientType !== "self") {
+      if (onContinue) {
+        onContinue();
+      } else {
+        navigate("/review");
+      }
+      return;
+    }
 
     // Build the payload for the "create patient account" API call. A fresh
     // client-side id is generated (and reused if we already created one for
@@ -242,7 +398,7 @@ export default function PatientInfo({ onContinue, onBack }) {
       gender: gender.toLowerCase(),
       dob: isoDob,
       age: age,
-      phoneNumber: formData.mobileNumber.trim(),
+      phoneNumber: patientInfo.mobileNumber,
       height: 0,
       weight: 0,
       imageurl: "",
@@ -378,22 +534,57 @@ export default function PatientInfo({ onContinue, onBack }) {
               We use this to prepare the consult and pre-fill your records. Five
               fields, no more.
             </p>
-            {/* Patient type */}
-            <div className="patient-type">
-              <button
-                type="button"
-                className={patientType === "self" ? "active" : ""}
-                onClick={() => setPatientType("self")}
-              >
-                For myself
-              </button>
-              <button
-                type="button"
-                className={patientType === "other" ? "active" : ""}
-                onClick={() => setPatientType("other")}
-              >
-                For someone else
-              </button>
+            {/* Who the appointment is for */}
+            <h5 className="bsection-title">Who is this appointment for?</h5>
+            <div className="profile-list" role="radiogroup" aria-label="Patient profile">
+              {profilesStatus === "loading" && (
+                <p className="profile-status">Loading your profiles…</p>
+              )}
+              {profilesStatus === "error" && (
+                <p className="profile-status">
+                  We couldn't load your saved profiles. Enter the patient's details below.
+                </p>
+              )}
+              {profiles.map((profile) => (
+                <button
+                  type="button"
+                  key={profile.id}
+                  role="radio"
+                  aria-checked={profileId === profile.id}
+                  className={`profile-card ${profileId === profile.id ? "active" : ""}`}
+                  onClick={() => selectProfile(profile)}
+                >
+                  <span className="profile-avatar">
+                    {(profile.name || "?").charAt(0).toUpperCase()}
+                  </span>
+                  <span className="profile-text">
+                    <strong>{profile.name || "Your profile"}</strong>
+                    <small>
+                      {[profile.relation, profile.age ? `${profile.age} yrs` : null]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </small>
+                  </span>
+                  {profileId === profile.id && <Check size={16} className="profile-check" />}
+                </button>
+              ))}
+              {profilesStatus !== "loading" && (
+                <button
+                  type="button"
+                  role="radio"
+                  aria-checked={profileId === NEW_PROFILE}
+                  className={`profile-card profile-add ${profileId === NEW_PROFILE ? "active" : ""}`}
+                  onClick={selectNewProfile}
+                >
+                  <span className="profile-avatar">
+                    <Plus size={16} />
+                  </span>
+                  <span className="profile-text">
+                    <strong>Add new profile</strong>
+                    <small>Book for someone else</small>
+                  </span>
+                </button>
+              )}
             </div>
 
             <h5 className="bsection-title">Patient Information</h5>
@@ -419,7 +610,9 @@ export default function PatientInfo({ onContinue, onBack }) {
                   MOBILE NUMBER <span>*</span>
                 </label>
                 <input
-                  type="text"
+                  type="tel"
+                  inputMode="numeric"
+                  maxLength={15}
                   placeholder="+91 00000 00000"
                   value={formData.mobileNumber}
                   onChange={handleChange("mobileNumber")}
@@ -443,13 +636,20 @@ export default function PatientInfo({ onContinue, onBack }) {
                 )}
               </div>
               <div className="field dob-field">
-                <label>DATE OF BIRTH</label>
+                <label>
+                  DATE OF BIRTH <span>*</span>
+                </label>
                 <input
                   type="text"
+                  inputMode="numeric"
+                  maxLength={10}
                   placeholder="DD/MM/YYYY"
                   value={formData.dob}
                   onChange={handleChange("dob")}
                 />
+                {errors.dob && (
+                  <small style={{ color: "#c0392b" }}>{errors.dob}</small>
+                )}
               </div>
               <div className="field gender">
                 <label>

@@ -641,3 +641,20 @@ body {
     width: 100%;
   }
 }
+.re-coupon-input-row input:disabled {
+  background: #f7f5f0;
+  color: #5f7f52;
+  font-weight: 600;
+}
+
+.re-coupon-error {
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+  color: #c0392b;
+}
+
+.re-offer-list button.active {
+  border-style: solid;
+  border-color: #5f7f52;
+  background: #eff8f0;
+}

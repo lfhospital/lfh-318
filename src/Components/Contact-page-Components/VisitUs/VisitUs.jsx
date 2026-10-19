@@ -2,12 +2,10 @@ import React from "react";
 import "./VisitUs.css";
 import mapImage from "../../../asserts/contact/hospital-map.png";
 
-const ADDRESS =
-  "First Floor, GM57+PR, Ring Rd, opposite Novotel Hotel, Venkateswara Nagar, Veterinary Colony, Vijayawada, Andhra Pradesh 520008";
-
-const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-  `Lakshmee Foundation Hospital, ${ADDRESS}`
-)}`;
+import {
+  HOSPITAL_ADDRESS as ADDRESS,
+  HOSPITAL_MAPS_URL as MAPS_URL,
+} from "../../../hospital";
 
 export default function VisitUs() {
   return (

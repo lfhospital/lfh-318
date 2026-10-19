@@ -699,3 +699,52 @@
         font-size: 0.875rem;
     }
 }
+/* Action cards are links/buttons now */
+button.ac-action-card,
+a.ac-action-card {
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button.ac-action-card:hover,
+a.ac-action-card:hover {
+  border-color: #26384a;
+}
+
+.ac-action-links a,
+.ac-action-links button {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: #26384a;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.ac-empty {
+  text-align: center;
+  padding-top: 10rem;
+  padding-bottom: 6rem;
+}
+
+.ac-empty h1 {
+  font-size: 1.6rem;
+  color: #26384a;
+  margin-bottom: 0.6rem;
+}
+
+.ac-empty p {
+  color: #666;
+  margin-bottom: 1.4rem;
+}
+
+.ac-empty .ac-visit-action {
+  display: inline-flex;
+  width: auto;
+  padding: 0.7rem 1.4rem;
+  text-decoration: none;
+}

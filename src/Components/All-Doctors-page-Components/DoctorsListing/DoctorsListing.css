@@ -538,3 +538,23 @@
     flex-wrap: wrap;
   }
 }
+
+.pagination button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.pagination .doctor-page-number {
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  color: #616161;
+}
+
+.book-btn.book-btn-unavailable,
+.doctor-card:hover .book-btn.book-btn-unavailable {
+  background: #ececec;
+  color: #8a8a8a;
+  cursor: not-allowed;
+}

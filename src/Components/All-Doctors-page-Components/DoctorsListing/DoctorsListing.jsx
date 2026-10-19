@@ -6,15 +6,20 @@ import {
   ArrowLeft,
   ChevronRight,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import doctor from "../../../asserts/doctors.jpg";
+import { getPageItems } from "../../../utils/pagination";
 
 const API_BASE = 'https://ishah.in/api/lfhospital';
 const PRIMARY_LANGUAGES = ['Hindi', 'English', 'Telugu'];
 const EXPERIENCE_OPTIONS = [5, 10, 15];
 const AVAILABILITY_DAYS = 7;
+const PAGE_SIZE = 6;
+
+const fullNameOf = (doc) =>
+  `${doc.firstName || ''} ${doc.lastName || ''}`.replace(/\s+/g, ' ').trim();
 
 const getDoctorKey = (doc) => doc.doctorId || doc._id;
 
@@ -46,7 +51,7 @@ const formatConsults = (types) => {
   return labels.join(' · ');
 };
 
-export default function DoctorsListing({ onDoctorsLoaded, searchQuery = "" }) {
+export default function DoctorsListing({ onDoctorsLoaded, searchQuery = "", sortBy = "recommended" }) {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const departmentParam = searchParams.get('department');
@@ -75,6 +80,8 @@ export default function DoctorsListing({ onDoctorsLoaded, searchQuery = "" }) {
   // Filter coming from the URL (home page specialty cards / search):
   // { label, specialties: normalized labels, or null to match everyone }
   const [urlFilter, setUrlFilter] = useState(null);
+  const [page, setPage] = useState(1);
+  const listTopRef = useRef(null);
 
   useEffect(() => {
     if (specialtyParam) {
@@ -217,7 +224,9 @@ export default function DoctorsListing({ onDoctorsLoaded, searchQuery = "" }) {
   }, [doctors]);
 
   const needsSchedule =
-    selectedAvailability.length > 0 || selectedConsultTypes.length > 0;
+    selectedAvailability.length > 0 ||
+    selectedConsultTypes.length > 0 ||
+    sortBy === 'available';
 
   // Fetch timeslots for the next 7 days in the background once doctors load.
   // Drives the card's consultation modes and the Availability / Consultation Type filters.
@@ -275,6 +284,7 @@ export default function DoctorsListing({ onDoctorsLoaded, searchQuery = "" }) {
           return [getDoctorKey(doc), {
             today: openByDay[0],
             week: openByDay.some(Boolean),
+            firstOpenDay: openByDay.indexOf(true), // -1: nothing open this week
             consultTypes: Array.from(types),
           }];
         })
@@ -345,6 +355,7 @@ export default function DoctorsListing({ onDoctorsLoaded, searchQuery = "" }) {
     });
 
     setFilteredDoctors(filtered);
+    setPage(1);
   }, [
     selectedSpecialties,
     urlFilter,
@@ -358,6 +369,43 @@ export default function DoctorsListing({ onDoctorsLoaded, searchQuery = "" }) {
     selectedAvailability,
     selectedConsultTypes,
   ]);
+
+  // Recommended keeps the API's order; unknown values sort last
+  const sortedDoctors = useMemo(() => {
+    if (sortBy === 'recommended') return filteredDoctors;
+    const rank = (doc) => {
+      const key = getDoctorKey(doc);
+      if (sortBy === 'experience') {
+        const years = doctorDetails[key]?.experience;
+        return years == null ? Infinity : -years;
+      }
+      if (sortBy === 'available') {
+        const day = doctorSchedules[key]?.firstOpenDay;
+        return day == null || day < 0 ? Infinity : day;
+      }
+      return 0;
+    };
+    return [...filteredDoctors].sort((a, b) =>
+      sortBy === 'name'
+        ? fullNameOf(a).localeCompare(fullNameOf(b))
+        : rank(a) - rank(b) || 0
+    );
+  }, [filteredDoctors, sortBy, doctorDetails, doctorSchedules]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [sortBy]);
+
+  const totalPages = Math.max(1, Math.ceil(sortedDoctors.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const pageStart = (currentPage - 1) * PAGE_SIZE;
+  const pageDoctors = sortedDoctors.slice(pageStart, pageStart + PAGE_SIZE);
+
+  const goToPage = (target) => {
+    if (target < 1 || target > totalPages || target === currentPage) return;
+    setPage(target);
+    listTopRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   // Helper function to get image URL
   const getImageUrl = (photo) => {
@@ -424,7 +472,7 @@ export default function DoctorsListing({ onDoctorsLoaded, searchQuery = "" }) {
   const waitingForUrlFilter = !!departmentParam && !urlFilter;
 
   return (
-    <section className="doctors-listing-section">
+    <section className="doctors-listing-section" ref={listTopRef}>
       <div className="listing-container">
         {/* FILTERS */}
         <div className="filters-panel">
@@ -635,9 +683,11 @@ export default function DoctorsListing({ onDoctorsLoaded, searchQuery = "" }) {
             </div>
           )}
 
-          {!loading && !error && !waitingForUrlFilter && !waitingForSchedule && filteredDoctors.length > 0 && filteredDoctors.map((doc) => {
+          {!loading && !error && !waitingForUrlFilter && !waitingForSchedule && pageDoctors.length > 0 && pageDoctors.map((doc) => {
             const details = doctorDetails[getDoctorKey(doc)];
             const schedule = doctorSchedules[getDoctorKey(doc)];
+            // Known once the 7-day schedule loads; until then Book stays enabled
+            const unavailable = !!schedule && !schedule.week;
             const languages = details?.languages || [];
             const education = details?.education || [];
 
@@ -720,13 +770,15 @@ export default function DoctorsListing({ onDoctorsLoaded, searchQuery = "" }) {
               </div>
 
               <button
-                className="book-btn"
+                className={`book-btn ${unavailable ? 'book-btn-unavailable' : ''}`}
+                disabled={unavailable}
+                title={unavailable ? `No open slots in the next ${AVAILABILITY_DAYS} days` : undefined}
                 onClick={() => {
                   const docId = doc.doctorId || doc._id;
                   navigate(`/doctor-profile/${docId}`);
                 }}
               >
-                Book <ArrowRight size={24} />
+                {unavailable ? 'Unavailable' : <>Book <ArrowRight size={24} /></>}
               </button>
             </div>
             );
@@ -734,26 +786,42 @@ export default function DoctorsListing({ onDoctorsLoaded, searchQuery = "" }) {
 
         </div>
       </div>
+          {!loading && !error && sortedDoctors.length > 0 && (
           <div className="bottom-bar">
-            <p>Showing 1–{filteredDoctors.length} of {doctors.length} doctors</p>
+            <p>
+              Showing {pageStart + 1}–{pageStart + pageDoctors.length} of {sortedDoctors.length} doctors
+            </p>
 
+            {totalPages > 1 && (
             <div className="pagination">
-              <button>
+              <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1}>
                 <ArrowLeft size={18} />
                 Previous
               </button>
 
-              <span className="active-page">1</span>
-              <span>2</span>
-              <span>3</span>
-              <span>...</span>
+              {getPageItems(currentPage, totalPages).map(item =>
+                typeof item === 'number' ? (
+                  <button
+                    key={item}
+                    className={`doctor-page-number ${item === currentPage ? 'active-page' : ''}`}
+                    aria-current={item === currentPage ? 'page' : undefined}
+                    onClick={() => goToPage(item)}
+                  >
+                    {item}
+                  </button>
+                ) : (
+                  <span key={item}>...</span>
+                )
+              )}
 
-              <button>
+              <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages}>
                 Next
                 <ChevronRight size={18} />
               </button>
             </div>
+            )}
           </div>
+          )}
 
       {/* COMMON ASSISTANCE SECTION */}
       <div className="assistance-section">

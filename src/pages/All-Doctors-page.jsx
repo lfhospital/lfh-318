@@ -7,6 +7,7 @@ import Navbar from "../Components/Home-page-Components/Navbar/Navbar";
 export default function All_Doctors() {
     const [doctorCount, setDoctorCount] = useState(0);
     const [searchQuery, setSearchQuery] = useState("");
+    const [sortBy, setSortBy] = useState("recommended");
 
     return (
         <>
@@ -15,10 +16,13 @@ export default function All_Doctors() {
                 doctorCount={doctorCount}
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
+                sortBy={sortBy}
+                onSortChange={setSortBy}
             />
             <DoctorsListing
                 onDoctorsLoaded={setDoctorCount}
                 searchQuery={searchQuery}
+                sortBy={sortBy}
             />
             <Footer />
         </>

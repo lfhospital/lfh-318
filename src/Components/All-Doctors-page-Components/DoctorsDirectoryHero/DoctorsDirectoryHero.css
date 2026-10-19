@@ -183,3 +183,46 @@
     font-size: 0.75rem;
   }
 }
+
+.doctor-sort {
+  position: relative;
+}
+
+.doctor-sort-menu {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  right: 0;
+  z-index: 20;
+  min-width: 100%;
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+  background: #fff;
+  border: 0.05rem solid #e2e2e2;
+  border-radius: 0.625rem;
+  box-shadow: 0 0.6rem 1.6rem rgba(38, 56, 74, 0.15);
+}
+
+.doctor-sort-menu li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 0.4rem;
+  font-size: 0.8rem;
+  color: #404040;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.doctor-sort-menu li:hover,
+.doctor-sort-menu li:focus-visible {
+  background: #f3f1ec;
+  outline: none;
+}
+
+.doctor-sort-menu li[aria-selected="true"] {
+  font-weight: 600;
+  color: #24384b;
+}
